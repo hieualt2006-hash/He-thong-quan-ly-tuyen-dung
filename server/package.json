@@ -1,0 +1,36 @@
+{
+  "name": "recruitment-ats-server",
+  "version": "1.0.0",
+  "description": "Backend server for AI-integrated Recruitment Management System (ATS)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "prisma generate && prisma db push",
+    "dev": "nodemon src/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "keywords": [
+    "express",
+    "prisma",
+    "sqlite",
+    "ats",
+    "recruitment"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@prisma/client": "^6.4.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "multer": "^2.2.0",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "prisma": "^6.4.0"
+  }
+}
