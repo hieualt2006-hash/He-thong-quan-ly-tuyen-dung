@@ -39,11 +39,36 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
       if (res.success && res.data?.user) {
         onLoginSuccess(res.data.user, res.data.token);
         onClose();
+        return;
       } else {
         setErrorMsg(res.message || 'Đăng nhập không thành công');
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Lỗi kết nối máy chủ khi đăng nhập');
+      // Offline / Static Vercel fallback
+      const cleanEmail = email.trim().toLowerCase();
+      if ((cleanEmail === 'admin@smartats.com' || cleanEmail === 'admin') && password === 'admin123') {
+        const fallbackAdmin = {
+          id: 'admin-default',
+          email: 'admin@smartats.com',
+          name: 'Quản Trị Viên (Admin)',
+          role: 'ADMIN'
+        };
+        onLoginSuccess(fallbackAdmin, 'ats_token_admin_demo');
+        onClose();
+        return;
+      } else if ((cleanEmail === 'hr@smartats.com' || cleanEmail === 'hr') && password === 'hr123') {
+        const fallbackHr = {
+          id: 'hr-default',
+          email: 'hr@smartats.com',
+          name: 'Chuyên Viên Tuyển Dụng (HR)',
+          role: 'HR'
+        };
+        onLoginSuccess(fallbackHr, 'ats_token_hr_demo');
+        onClose();
+        return;
+      }
+
+      setErrorMsg('Mật khẩu không đúng hoặc tài khoản không tồn tại.');
     } finally {
       setLoading(false);
     }

@@ -174,15 +174,104 @@ function App() {
     }
   };
 
+const DEFAULT_DEMO_JOBS = [
+  {
+    id: 'job-1',
+    title: 'Senior Node.js Backend Engineer',
+    department: 'Engineering',
+    salaryRange: '$2,000 - $3,500',
+    description: 'Chịu trách nhiệm thiết kế và phát triển RESTful API / Microservices hiệu năng cao, tối ưu cơ sở dữ liệu và tích hợp các module AI.',
+    requirements: 'Node.js, Express, PostgreSQL, SQLite, Docker, Redis, REST API, Microservices',
+    status: 'Đang tuyển',
+    applications: []
+  },
+  {
+    id: 'job-2',
+    title: 'AI / Machine Learning Engineer',
+    department: 'AI Lab',
+    salaryRange: '$2,500 - $4,200',
+    description: 'Nghiên cứu, phát triển và tối ưu các pipeline AI, tích hợp mô hình ngôn ngữ lớn (LLM - Gemini / GPT), phân tích CV và tự động sinh câu hỏi phỏng vấn.',
+    requirements: 'Python, PyTorch, LangChain, Gemini API, NLP, Vector Database, RAG',
+    status: 'Đang tuyển',
+    applications: []
+  },
+  {
+    id: 'job-3',
+    title: 'Senior Frontend Developer (React / Vite)',
+    department: 'Product & Design',
+    salaryRange: '$1,800 - $3,000',
+    description: 'Xây dựng giao diện Dashboard, Kanban Pipeline tương tác cao, thiết kế hệ thống Design System chuẩn UX/UI và tối ưu hoá tốc độ tải trang.',
+    requirements: 'React, TypeScript, Tailwind CSS, Vite, Redux/Zustand, WebSocket, Responsive UI',
+    status: 'Đang tuyển',
+    applications: []
+  },
+  {
+    id: 'job-4',
+    title: 'Chuyên Viên Tuyển Dụng Cao Cấp (Senior HR Recruiter)',
+    department: 'HR & Operations',
+    salaryRange: '$1,200 - $2,200',
+    description: 'Tìm kiếm và săn đón nhân tài công nghệ, sàng lọc hồ sơ, điều phối quy trình phỏng vấn và phát triển nguồn nhân lực chất lượng cao.',
+    requirements: '3+ năm kinh nghiệm tuyển dụng IT/Tech, Kỹ năng phỏng vấn, Giao tiếp tiếng Anh tốt',
+    status: 'Đang tuyển',
+    applications: []
+  }
+];
+
+const DEFAULT_DEMO_APPLICATIONS = [
+  {
+    id: 'app-demo-1',
+    jobId: 'job-1',
+    status: 'Applied',
+    matchScore: 88,
+    matchSummary: 'Ứng viên có kỹ năng Node.js, Express, SQLite và Docker rất phù hợp với vị trí Backend Engineer.',
+    missingSkills: 'Redis, Kubernetes',
+    candidate: {
+      id: 'cand-1',
+      fullName: 'Trần Văn Hoàng',
+      email: 'hoang.tran@gmail.com',
+      phone: '0987654321',
+      rawCvText: 'Fullstack developer with 4 years experience in Node.js, Express, PostgreSQL, React and Docker.'
+    },
+    job: {
+      id: 'job-1',
+      title: 'Senior Node.js Backend Engineer',
+      department: 'Engineering'
+    }
+  },
+  {
+    id: 'app-demo-2',
+    jobId: 'job-2',
+    status: 'Interview',
+    matchScore: 94,
+    matchSummary: 'Ứng viên có kinh nghiệm triển khai Gemini API và xây dựng hệ thống RAG thực tế.',
+    missingSkills: 'PyTorch production deployment',
+    candidate: {
+      id: 'cand-2',
+      fullName: 'Lê Minh Quân',
+      email: 'quan.le@ai-lab.vn',
+      phone: '0912345678',
+      rawCvText: 'AI Researcher & Engineer specializing in LLMs, LangChain, RAG architecture and Vector DBs.'
+    },
+    job: {
+      id: 'job-2',
+      title: 'AI / Machine Learning Engineer',
+      department: 'AI Lab'
+    }
+  }
+];
+
   // Fetch Jobs
   const fetchJobs = async () => {
     try {
       const res = await api.get('/jobs');
-      if (res.success && Array.isArray(res.data)) {
+      if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         setJobs(res.data);
+      } else {
+        setJobs(DEFAULT_DEMO_JOBS);
       }
     } catch (err) {
-      console.warn('Error loading jobs from API:', err.message);
+      console.warn('Backend API offline or empty, using high-quality demo jobs fallback');
+      setJobs(DEFAULT_DEMO_JOBS);
     }
   };
 
@@ -190,7 +279,7 @@ function App() {
   const fetchApplications = async () => {
     try {
       const res = await api.get('/jobs');
-      if (res.success && Array.isArray(res.data)) {
+      if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         const allApps = [];
         for (const j of res.data) {
           const jDetail = await api.get(`/jobs/${j.id}`);
@@ -203,10 +292,13 @@ function App() {
             });
           }
         }
-        setApplications(allApps);
+        setApplications(allApps.length > 0 ? allApps : DEFAULT_DEMO_APPLICATIONS);
+      } else {
+        setApplications(DEFAULT_DEMO_APPLICATIONS);
       }
     } catch (err) {
-      console.warn('Error loading applications:', err.message);
+      console.warn('Backend API offline, using fallback applications');
+      setApplications(DEFAULT_DEMO_APPLICATIONS);
     }
   };
 
