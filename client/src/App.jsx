@@ -710,7 +710,7 @@ const DEFAULT_DEMO_APPLICATIONS = [
         }`}>
           <p>Hệ thống Quản lý Tuyển dụng Tích hợp AI (Smart ATS Pro)</p>
           <p className="mt-1 font-mono text-[11px] text-slate-500">
-            Node.js Express + Prisma ORM + SQLite + Google Gemini AI | React Vite + Tailwind CSS
+            Node.js Express + Prisma ORM + PostgreSQL (Neon Cloud) + Google Gemini AI | React Vite + Tailwind CSS
           </p>
         </footer>
       </div>

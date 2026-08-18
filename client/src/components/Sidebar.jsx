@@ -244,7 +244,7 @@ function Sidebar({
         }`}>
           <span className="font-semibold flex items-center gap-1.5 text-[10px]">
             <Server className="w-3 h-3 text-emerald-500" />
-            Express + SQLite
+            Express + PostgreSQL (Neon)
           </span>
           <span className={`flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full ${
             serverStatus === 'online' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-500 border border-amber-500/30'
