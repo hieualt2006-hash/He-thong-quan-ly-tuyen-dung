@@ -9,7 +9,10 @@ import {
   CheckCircle,
   X,
   FileText,
-  UserPlus
+  UserPlus,
+  Sparkles,
+  Layers,
+  Tag
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -41,7 +44,7 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
     try {
       setIsSubmitting(true);
       await api.post('/jobs', formData);
-      alert('Tạo tin tuyển dụng thành công!');
+      alert('🎉 Tạo tin tuyển dụng thành công!');
       setIsModalOpen(false);
       setFormData({
         title: '',
@@ -60,16 +63,16 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Header & Search Bar */}
+      {/* Header & Action Button */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Tin Tuyển Dụng (Job Postings)</h2>
+          <h2 className="text-2xl font-extrabold text-white tracking-tight">Tin Tuyển Dụng (Job Postings)</h2>
           <p className="text-sm text-slate-400">Danh sách các vị trí công việc đang đăng tuyển trên hệ thống Express & SQLite</p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/30 shrink-0"
+          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-4.5 py-2.5 rounded-2xl text-sm transition-all shadow-lg shadow-orange-500/25 shrink-0 active:scale-95"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Tạo Tin Tuyển Dụng Mới</span>
@@ -81,16 +84,16 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
         <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
         <input
           type="text"
-          placeholder="Tìm kiếm công việc theo tên, phòng ban hoặc kỹ năng yêu cầu..."
+          placeholder="Tìm kiếm công việc theo tên, phòng ban hoặc kỹ năng yêu cầu (ví dụ: React, Node.js, AI...)..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-slate-900/80 border border-slate-800 rounded-2xl pl-12 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors shadow-inner"
+          className="w-full bg-slate-900/90 border border-slate-800 rounded-2xl pl-12 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 transition-colors shadow-inner"
         />
       </div>
 
       {/* Job Cards Grid */}
       {filteredJobs.length === 0 ? (
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-12 text-center text-slate-400">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-12 text-center text-slate-400">
           Không tìm thấy bài tuyển dụng nào phù hợp. Vui lòng bấm nút "Tạo Tin Tuyển Dụng Mới"!
         </div>
       ) : (
@@ -98,19 +101,20 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
           {filteredJobs.map((job) => (
             <div 
               key={job.id} 
-              className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 hover:border-indigo-500/40 transition-all flex flex-col justify-between gap-5 group shadow-lg"
+              className="zoho-card bg-slate-900/80 border border-slate-800/90 rounded-2xl p-6 hover:border-orange-500/40 transition-all flex flex-col justify-between gap-5 group shadow-lg"
             >
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <span className="text-xs font-semibold px-3 py-1 rounded-md bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                  <span className="text-xs font-bold px-3 py-1 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 flex items-center gap-1.5">
+                    <Building2 className="w-3.5 h-3.5" />
                     {job.department}
                   </span>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wider">
                     {job.status || 'Open'}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors mb-2">
+                <h3 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors mb-2">
                   {job.title}
                 </h3>
                 
@@ -118,26 +122,29 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
                   {job.description}
                 </p>
 
-                <div className="text-xs text-slate-300 bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/60 mb-2">
-                  <strong className="text-indigo-400">Requirements: </strong>{job.requirements}
+                <div className="text-xs text-slate-300 bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 mb-2">
+                  <strong className="text-orange-400 font-semibold flex items-center gap-1 mb-1">
+                    <Tag className="w-3 h-3" /> Yêu cầu kỹ năng:
+                  </strong>
+                  <span>{job.requirements}</span>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center justify-between border-t border-slate-800/80 pt-4 gap-3">
-                <span className="text-sm font-bold text-emerald-400 font-mono">
-                  {job.salaryRange}
+                <span className="text-sm font-extrabold text-emerald-400 font-mono bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20">
+                  💰 {job.salaryRange}
                 </span>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => onSelectJob(job)}
-                    className="text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition-colors"
+                    className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl border border-slate-700 transition-colors"
                   >
-                    Xem Chi Tiết JD
+                    Xem JD
                   </button>
                   <button
                     onClick={() => onOpenApplyModal(job)}
-                    className="text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 px-3.5 py-1.5 rounded-lg transition-all shadow-md shadow-indigo-600/20 flex items-center gap-1"
+                    className="text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 px-4 py-2 rounded-xl transition-all shadow-md shadow-orange-500/20 flex items-center gap-1.5"
                   >
                     <UserPlus className="w-3.5 h-3.5" />
                     <span>Nộp Hồ Sơ</span>
@@ -152,15 +159,15 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
       {/* Modal Create Job */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-xl p-6 shadow-2xl flex flex-col gap-5">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-xl p-6 sm:p-7 shadow-2xl flex flex-col gap-5">
             <div className="flex justify-between items-center border-b border-slate-800 pb-4">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <PlusCircle className="w-5 h-5 text-indigo-400" />
-                Tạo Tin Tuyển Dụng Mới
+                <Sparkles className="w-5 h-5 text-orange-400" />
+                Tạo Tin Tuyển Dụng Mới (Zoho Style)
               </h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                className="text-slate-400 hover:text-white p-1 rounded-xl hover:bg-slate-800"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -168,24 +175,24 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Tên Tiêu Đề Công Việc *</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Tên Tiêu Đề Công Việc *</label>
                 <input
                   type="text"
                   required
                   placeholder="Ví dụ: Senior Fullstack Developer (Node.js & React)"
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Phòng Ban</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">Phòng Ban</label>
                   <select
                     value={formData.department}
                     onChange={(e) => setFormData({...formData, department: e.target.value})}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                   >
                     <option value="Engineering">Engineering</option>
                     <option value="AI Lab">AI Lab</option>
@@ -196,38 +203,38 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Mức Lương (Salary Range)</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">Mức Lương (Salary Range)</label>
                   <input
                     type="text"
                     placeholder="Ví dụ: $1,500 - $2,500"
                     value={formData.salaryRange}
                     onChange={(e) => setFormData({...formData, salaryRange: e.target.value})}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Mô Tả Công Việc (Job Description) *</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Mô Tả Công Việc (Job Description) *</label>
                 <textarea
                   rows={3}
                   required
                   placeholder="Mô tả các nhiệm vụ và trách nhiệm công việc..."
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Yêu Cầu Kỹ Năng & Kinh Nghiệm *</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Yêu Cầu Kỹ Năng & Kinh Nghiệm *</label>
                 <textarea
                   rows={3}
                   required
                   placeholder="Liệt kê các kỹ năng cần thiết (Node.js, React, SQL, AI API, Docker...)"
                   value={formData.requirements}
                   onChange={(e) => setFormData({...formData, requirements: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                 />
               </div>
 
@@ -242,7 +249,7 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/30 disabled:opacity-50"
+                  className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-orange-500/25 disabled:opacity-50"
                 >
                   {isSubmitting ? 'Đang tạo...' : 'Xác Nhận Tạo Job'}
                 </button>
@@ -256,3 +263,4 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
 }
 
 export default JobListView;
+

@@ -9,7 +9,9 @@ import {
   CheckCircle2, 
   FileText, 
   X,
-  Sparkles
+  Sparkles,
+  Check,
+  FileCheck
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -60,7 +62,7 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
         }
       });
 
-      alert('🎉 Nộp hồ sơ ứng tuyển thành công! AI đã tự động phân tích CV của bạn.');
+      alert('🎉 Nộp hồ sơ ứng tuyển thành công! Google Gemini AI đã tự động bóc tách & phân tích CV của bạn.');
       setIsApplyModalOpen(false);
       setFormData({ fullName: '', email: '', phone: '' });
       setCvFile(null);
@@ -81,26 +83,29 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
       {/* Back Button */}
       <button
         onClick={onBack}
-        className="self-start flex items-center gap-2 text-slate-400 hover:text-white text-sm font-medium transition-colors"
+        className="self-start flex items-center gap-2 text-slate-400 hover:text-white text-sm font-semibold transition-colors bg-slate-900/60 px-3.5 py-2 rounded-xl border border-slate-800"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4 text-orange-400" />
         <span>Quay lại Danh sách Jobs</span>
       </button>
 
       {/* Main Job Card */}
-      <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-8 shadow-2xl flex flex-col gap-6 backdrop-blur-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col gap-6 backdrop-blur-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
           <div>
-            <span className="text-xs font-semibold px-3 py-1 rounded-md bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 mb-2 inline-block">
+            <span className="text-xs font-bold px-3 py-1 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 mb-3 inline-flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5" />
               {job.department}
             </span>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{job.title}</h1>
-            <p className="text-sm font-bold text-emerald-400 mt-1">{job.salaryRange}</p>
+            <p className="text-sm font-extrabold text-emerald-400 mt-2 font-mono bg-emerald-500/10 inline-block px-3 py-1 rounded-lg border border-emerald-500/20">
+              💰 Mức lương: {job.salaryRange}
+            </p>
           </div>
 
           <button
             onClick={() => setIsApplyModalOpen(true)}
-            className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold px-6 py-3 rounded-2xl text-sm transition-all shadow-xl shadow-indigo-600/30 shrink-0"
+            className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-3 rounded-2xl text-sm transition-all shadow-xl shadow-orange-500/25 shrink-0 active:scale-95"
           >
             <Send className="w-4 h-4" />
             <span>Nộp Hồ Sơ Ngay</span>
@@ -108,17 +113,23 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
         </div>
 
         {/* Description Section */}
-        <div className="flex flex-col gap-4">
-          <h3 className="text-base font-bold text-white uppercase tracking-wider text-indigo-400">Mô Tả Công Việc</h3>
-          <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line bg-slate-950/60 p-5 rounded-2xl border border-slate-800/60">
+        <div className="flex flex-col gap-3">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-orange-400 flex items-center gap-2">
+            <Briefcase className="w-4 h-4 text-orange-400" />
+            Mô Tả Công Việc (Job Description)
+          </h3>
+          <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line bg-slate-950/70 p-5 rounded-2xl border border-slate-800/80">
             {job.description}
           </p>
         </div>
 
         {/* Requirements Section */}
-        <div className="flex flex-col gap-4">
-          <h3 className="text-base font-bold text-white uppercase tracking-wider text-indigo-400">Yêu Cầu Ứng Viên</h3>
-          <div className="text-sm text-slate-300 leading-relaxed bg-slate-950/60 p-5 rounded-2xl border border-slate-800/60 whitespace-pre-line">
+        <div className="flex flex-col gap-3">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-orange-400 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-orange-400" />
+            Yêu Cầu Kỹ Năng & Kinh Nghiệm
+          </h3>
+          <div className="text-sm text-slate-300 leading-relaxed bg-slate-950/70 p-5 rounded-2xl border border-slate-800/80 whitespace-pre-line">
             {job.requirements}
           </div>
         </div>
@@ -127,18 +138,18 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
       {/* Apply Modal Form */}
       {isApplyModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg p-6 shadow-2xl flex flex-col gap-5">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg p-6 sm:p-7 shadow-2xl flex flex-col gap-5">
             <div className="flex justify-between items-center border-b border-slate-800 pb-4">
               <div>
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-indigo-400" />
+                  <Sparkles className="w-5 h-5 text-orange-400" />
                   Nộp Hồ Sơ Ứng Tuyển
                 </h3>
                 <p className="text-xs text-slate-400 truncate max-w-xs">{job.title}</p>
               </div>
               <button 
                 onClick={() => setIsApplyModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                className="text-slate-400 hover:text-white p-1 rounded-xl hover:bg-slate-800"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -146,45 +157,45 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
 
             <form onSubmit={handleApplySubmit} className="flex flex-col gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Họ và Tên *</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Họ và Tên *</label>
                 <input
                   type="text"
                   required
                   placeholder="Ví dụ: Nguyễn Văn An"
                   value={formData.fullName}
                   onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Địa chỉ Email *</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">Địa chỉ Email *</label>
                   <input
                     type="email"
                     required
                     placeholder="an.nguyen@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Số Điện Thoại</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">Số Điện Thoại</label>
                   <input
                     type="text"
                     placeholder="0901234567"
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                   />
                 </div>
               </div>
 
               {/* PDF File Upload Zone */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Tải Lên File CV (Định dạng PDF)</label>
-                <div className="relative border-2 border-dashed border-slate-700 hover:border-indigo-500 bg-slate-950/60 rounded-2xl p-5 text-center transition-colors">
+                <label className="block text-xs font-bold text-slate-300 mb-1">Tải Lên File CV (Định dạng PDF)</label>
+                <div className="relative border-2 border-dashed border-slate-700 hover:border-orange-500 bg-slate-950/70 rounded-2xl p-5 text-center transition-colors">
                   <input
                     type="file"
                     accept=".pdf,application/pdf"
@@ -192,16 +203,16 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                   />
                   <div className="flex flex-col items-center gap-2">
-                    <UploadCloud className="w-8 h-8 text-indigo-400" />
+                    <UploadCloud className="w-8 h-8 text-orange-400" />
                     {cvFile ? (
-                      <div className="flex items-center gap-2 text-xs font-medium text-emerald-400">
-                        <FileText className="w-4 h-4" />
+                      <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
+                        <FileCheck className="w-4 h-4 text-emerald-400" />
                         <span>{cvFile.name} ({(cvFile.size / 1024).toFixed(1)} KB)</span>
                       </div>
                     ) : (
                       <>
-                        <p className="text-xs font-medium text-slate-300">Kéo thả hoặc click để chọn file PDF CV</p>
-                        <span className="text-[11px] text-slate-500">Hỗ trợ định dạng .pdf (Tối đa 10MB)</span>
+                        <p className="text-xs font-semibold text-slate-300">Kéo thả hoặc click để chọn file PDF CV</p>
+                        <span className="text-[11px] text-slate-500">Bắt buộc định dạng .pdf (Gemini AI tự động đọc)</span>
                       </>
                     )}
                   </div>
@@ -219,7 +230,7 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/30 disabled:opacity-50 flex items-center gap-2"
+                  className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-orange-500/25 disabled:opacity-50 flex items-center gap-2"
                 >
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? 'Đang Tải Up & AI Phân Tích...' : 'Gửi Đơn Ứng Tuyển'}</span>
@@ -234,3 +245,4 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
 }
 
 export default PublicJobDetailView;
+

@@ -108,6 +108,119 @@ Hãy phân tích và trả về DUY NHẤT một chuỗi JSON chuẩn (JSON Mode
   }
 }
 
+/**
+ * Handles Candidate Chatbot queries with strict guardrails
+ */
+async function chatWithCandidateAI(message = '', history = [], jobsContext = [], cvText = '') {
+  // Common off-topic detection
+  const lowerMsg = message.toLowerCase().trim();
+  const recruitmentKeywords = [
+    'việc', 'job', 'vị trí', 'lương', 'salary', 'thu nhập', 'thời gian', 'giờ làm', 'remote', 
+    'hybrid', 'on-site', 'đãi ngộ', 'phúc lợi', 'thưởng', 'bảo hiểm', 'benefit', 'phỏng vấn', 
+    'interview', 'cv', 'hồ sơ', 'kỹ năng', 'skill', 'kinh nghiệm', 'yêu cầu', 'tuyển', 'ứng tuyển',
+    'apply', 'công ty', 'smartats', 'bảo mật', 'react', 'node', 'fullstack', 'frontend', 'backend',
+    'developer', 'lập trình', 'onboard', 'thử việc', 'chế độ', 'phù hợp'
+  ];
+
+  const hasRecruitmentTopic = recruitmentKeywords.some(k => lowerMsg.includes(k)) || lowerMsg.length < 5;
+
+  const standardOffTopicResponse = 'Xin lỗi, tôi chỉ hỗ trợ giải đáp các câu hỏi liên quan đến công việc, vị trí tuyển dụng, mức lương, thời gian làm việc, đãi ngộ và đánh giá hồ sơ.';
+
+  if (!isApiKeyValid) {
+    // Fallback response generator based on keywords
+    if (!hasRecruitmentTopic) {
+      return { text: standardOffTopicResponse, isOffTopic: true };
+    }
+
+    if (lowerMsg.includes('lương') || lowerMsg.includes('salary') || lowerMsg.includes('thu nhập')) {
+      return { 
+        text: 'Mức lương cho các vị trí tại công ty dao động từ $1,000 - $3,500/tháng tùy theo năng lực và cấp bậc (Junior/Senior/Lead), kèm thưởng dự án và review lương định kỳ 2 lần/năm.',
+        isOffTopic: false 
+      };
+    }
+    if (lowerMsg.includes('thời gian') || lowerMsg.includes('giờ làm') || lowerMsg.includes('remote') || lowerMsg.includes('hybrid')) {
+      return { 
+        text: 'Thời gian làm việc từ Thứ 2 đến Thứ 6 (8:30 - 17:30). Công ty áp dụng mô hình Hybrid linh hoạt (cho phép làm việc từ xa 2 ngày/tuần).',
+        isOffTopic: false 
+      };
+    }
+    if (lowerMsg.includes('đãi ngộ') || lowerMsg.includes('phúc lợi') || lowerMsg.includes('bảo hiểm') || lowerMsg.includes('thưởng')) {
+      return { 
+        text: 'Chế độ đãi ngộ bao gồm: Bảo hiểm sức khỏe cao cấp (PVI), thưởng tháng 13 + thưởng hiệu suất KPI, cấp MacBook Pro M-series, phụ cấp ăn trưa và du lịch thường niên.',
+        isOffTopic: false 
+      };
+    }
+    if (lowerMsg.includes('vị trí') || lowerMsg.includes('job') || lowerMsg.includes('công việc') || lowerMsg.includes('tuyển')) {
+      const jobListStr = jobsContext.map(j => `• ${j.title} (${j.department || 'IT'}) - Lương: ${j.salaryRange || 'Thỏa thuận'}`).join('\n');
+      return { 
+        text: `Hiện công ty đang mở các vị trí sau:\n${jobListStr || '• Senior Fullstack Developer\n• AI / Machine Learning Engineer\n• Frontend Developer'}\nBạn có thể nộp CV trực tiếp tại trang Tin Tuyển Dụng!`,
+        isOffTopic: false 
+      };
+    }
+    if (lowerMsg.includes('phù hợp') || lowerMsg.includes('cv') || lowerMsg.includes('kỹ năng')) {
+      return { 
+        text: 'Để đánh giá mức độ phù hợp, bạn có thể tải file PDF CV trực tiếp vào form ứng tuyển của vị trí mong muốn. Hệ thống AI sẽ tự động phân tích và chấm điểm tương thích (Match Score) ngay lập tức!',
+        isOffTopic: false 
+      };
+    }
+
+    return { 
+      text: 'Chào bạn! Tôi là trợ lý AI tuyển dụng của Smart ATS. Bạn có câu hỏi nào về các vị trí đang tuyển, mức lương, thời gian làm việc hoặc đãi ngộ không?',
+      isOffTopic: false 
+    };
+  }
+
+  try {
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    
+    const contextPrompt = `
+Bạn là Trợ lý Tuyển Dụng AI (HR Assistant) thông minh của hệ thống Smart ATS.
+Nhiệm vụ của bạn là giải đáp cho ứng viên về:
+- Các vị trí công việc đang tuyển dụng
+- Mức lương, thu nhập
+- Thời gian làm việc, hình thức Remote / Hybrid
+- Chế độ đãi ngộ, phúc lợi, bảo hiểm, thưởng
+- Mức độ phù hợp của ứng viên dựa trên kỹ năng hoặc CV
+
+DỮ LIỆU CÔNG VIỆC HIỆN CÓ CỦA CÔNG TY:
+${JSON.stringify(jobsContext.map(j => ({ title: j.title, department: j.department, salary: j.salaryRange, requirements: j.requirements, description: j.description })), null, 2)}
+
+${cvText ? `CV CỦA ỨNG VIÊN HIỆN TẠI:\n${cvText}` : ''}
+
+QUY TẮC BẮT BUỘC VỀ CHỦ ĐỀ (STRICT GUARDRAIL):
+- Nếu người dùng hỏi bất kỳ chủ đề nào KHÔNG LIÊN QUAN đến công việc, tuyển dụng, công ty, JD, lương, đãi ngộ, thời gian làm việc hoặc CV (ví dụ: hỏi về thời tiết, công thức nấu ăn, viết code ngoài lề, chuyện trò phiếm, chính trị...):
+Bạn BẮT BUỘC CHỈ ĐƯỢC TRẢ LỜI ĐÚNG MỘT CÂU DUY NHẤT SAU ĐÂY VÀ KHÔNG ĐƯỢC THÊM BẤT KỲ TỪ NÀO KHÁC:
+"Xin lỗi, tôi chỉ hỗ trợ giải đáp các câu hỏi liên quan đến công việc, vị trí tuyển dụng, mức lương, thời gian làm việc, đãi ngộ và đánh giá hồ sơ."
+
+- Nếu câu hỏi liên quan đến tuyển dụng, hãy trả lời thân thiện, súc tích, chuyên nghiệp bằng tiếng Việt.
+`;
+
+    const chat = model.startChat({
+      history: [
+        { role: 'user', parts: [{ text: contextPrompt }] },
+        { role: 'model', parts: [{ text: 'Đã hiểu rõ nhiệm vụ. Tôi sẽ chỉ giải đáp các thắc mắc liên quan đến tuyển dụng và công việc của Smart ATS.' }] }
+      ]
+    });
+
+    const result = await chat.sendMessage(message);
+    const responseText = result.response.text().trim();
+    const isOffTopic = responseText.includes('Xin lỗi, tôi chỉ hỗ trợ giải đáp các câu hỏi liên quan');
+
+    return {
+      text: responseText,
+      isOffTopic: isOffTopic
+    };
+  } catch (error) {
+    console.error('Lỗi Gemini Chatbot:', error.message);
+    return {
+      text: 'Chào bạn! Hệ thống tuyển dụng Smart ATS đang có các vị trí kỹ thuật và AI mở tuyển với đãi ngộ hấp dẫn. Bạn muốn tìm hiểu chi tiết về vị trí nào?',
+      isOffTopic: false
+    };
+  }
+}
+
 module.exports = {
-  analyzeCvMatch
+  analyzeCvMatch,
+  chatWithCandidateAI
 };
+

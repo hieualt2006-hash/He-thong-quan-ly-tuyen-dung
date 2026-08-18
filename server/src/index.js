@@ -29,6 +29,8 @@ app.use('/uploads', express.static(uploadsPath));
 // Import Routes
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Health Check API
 app.get('/api/health', async (req, res) => {
@@ -46,6 +48,8 @@ app.get('/api/health', async (req, res) => {
 // API Endpoints
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/auth', authRoutes);
 
 // Serve Frontend Client Production Build (React SPA Fallback)
 const clientDistPath = path.join(__dirname, '../../client/dist');

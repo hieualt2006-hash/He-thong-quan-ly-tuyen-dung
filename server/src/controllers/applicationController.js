@@ -173,7 +173,7 @@ async function updateApplicationStatus(req, res) {
     const { id } = req.params;
     const { status } = req.body;
 
-    const validStatuses = ['Applied', 'Interview', 'Hired', 'Rejected'];
+    const validStatuses = ['Applied', 'Interview', 'Offered', 'Hired', 'Rejected'];
     if (!status || !validStatuses.includes(status)) {
       return res.status(400).json({
         success: false,
