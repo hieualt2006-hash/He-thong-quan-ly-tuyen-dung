@@ -46,6 +46,25 @@ Phúc lợi bao gồm:
 Ứng viên có Match Score từ 70% trở lên sẽ được ưu tiên chuyển thẳng vào danh sách phỏng vấn trực tiếp.`
   },
   {
+    id: 'kb-leadership',
+    title: 'Ban Lãnh Đạo & Cơ Cấu Tổ Chức Smart ATS',
+    category: 'Cơ cấu & Lãnh đạo',
+    content: `Ban Giám Đốc và Lãnh đạo tại Smart ATS gồm:
+• Tổng Giám Đốc điều hành (CEO): Định hướng chiến lược phát triển sản phẩm công nghệ và chiến lược nhân tài toàn cầu.
+• Giám Đốc Công Nghệ (CTO): Trực tiếp quản lý đội ngũ Kỹ thuật, Kiến trúc AI và Hệ thống RAG Thông minh.
+• Trưởng phòng Nhân sự (HR Manager): Phụ trách tiếp nhận ứng viên, điều phối phỏng vấn và đãi ngộ nhân tài.
+Môi trường công ty theo mô hình phẳng (Flat Hierarchy), cởi mở và khuyến khích trao đổi trực tiếp với ban lãnh đạo.`
+  },
+  {
+    id: 'kb-probation-onboarding',
+    title: 'Quy chế Thử việc & Tiếp nhận Nhân viên (Onboarding)',
+    category: 'Quy chế làm việc',
+    content: `Thời gian thử việc tiêu chuẩn là 2 tháng:
+• Ứng viên nhận từ 85% - 100% lương chính thức theo thỏa thuận.
+• Được chỉ định một Mentor 1-1 hỗ trợ hòa nhập công việc và tech stack.
+• Được tham gia đầy đủ các hoạt động văn hóa, teambuilding của công ty.`
+  },
+  {
     id: 'kb-tech-culture',
     title: 'Môi trường làm việc & Công nghệ tại Smart ATS',
     category: 'Văn hóa & Công nghệ',
@@ -54,6 +73,7 @@ Tech stack cốt lõi bao gồm: React.js, TailwindCSS, Node.js, Express, Postgr
 Môi trường làm việc cởi mở, không khoảng cách cấp bậc, khuyến khích sáng tạo và thử nghiệm công nghệ mới.`
   }
 ];
+
 
 // In-memory Vector Store Cache: { id, title, category, content, embedding: number[] }
 let vectorStore = [];
