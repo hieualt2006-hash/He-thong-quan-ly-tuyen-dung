@@ -267,34 +267,6 @@ function AIChatBot({ theme = 'dark' }) {
                   }`}
                 >
                   <p className="whitespace-pre-wrap">{msg.text}</p>
-
-                  {/* RAG Knowledge Retrieval Sources Display */}
-                  {msg.sender === 'ai' && msg.sources && msg.sources.length > 0 && (
-                    <div className="mt-2.5 pt-2 border-t border-slate-200/40 dark:border-slate-700/50">
-                      <div className="flex items-center gap-1 text-[10px] font-bold text-orange-500 mb-1">
-                        <BookOpen className="w-3 h-3" />
-                        <span>Nguồn tri thức RAG tham chiếu:</span>
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {msg.sources.map((src, sIdx) => (
-                          <div 
-                            key={sIdx}
-                            className={`text-[9.5px] px-2 py-0.5 rounded-lg border flex items-center gap-1 ${
-                              isLight 
-                                ? 'bg-white/80 border-orange-200 text-slate-700' 
-                                : 'bg-slate-900/80 border-orange-500/30 text-slate-300'
-                            }`}
-                          >
-                            <span className="w-1 h-1 rounded-full bg-orange-400" />
-                            <span className="truncate max-w-[170px]">{src.title}</span>
-                            <span className="text-emerald-500 font-semibold font-mono text-[9px]">
-                              {src.similarityScore}%
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
                 <span className="text-[9px] text-slate-400 mt-1 px-1 font-mono">{msg.time}</span>
               </div>
