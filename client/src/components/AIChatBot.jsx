@@ -39,7 +39,7 @@ function AIChatBot({ theme = 'dark' }) {
     {
       id: 'welcome',
       sender: 'ai',
-      text: 'Xin chào! Tôi là Trợ Lý Tuyển Dụng AI (tích hợp công nghệ RAG & Gemini text-embedding-004). Tôi có thể hỗ trợ bạn tra cứu mọi thông tin tuyển dụng, chính sách lương thưởng, hình thức làm việc và đánh giá hồ sơ.',
+      text: 'Xin chào! Tôi là Trợ Lý Tuyển Dụng AI. Tôi có thể hỗ trợ bạn tra cứu mọi thông tin tuyển dụng, chính sách lương thưởng, hình thức làm việc và đánh giá hồ sơ.',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
