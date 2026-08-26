@@ -19,6 +19,8 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import api from '../services/api';
+import { generateClientRAGResponse } from '../services/clientRagService';
+
 
 const QUICK_SUGGESTIONS = [
   { label: '💼 Vị trí đang tuyển dụng?', text: 'Hiện công ty đang tuyển những vị trí công việc nào và yêu cầu ra sao?' },
@@ -104,7 +106,7 @@ function AIChatBot({ theme = 'dark' }) {
 
       setIsTyping(false);
 
-      if (response.success && response.data?.reply) {
+      if (response && response.success && response.data?.reply) {
         if (response.data.isOffTopic) {
           const newOffCount = offTopicCount + 1;
           setOffTopicCount(newOffCount);
@@ -120,28 +122,44 @@ function AIChatBot({ theme = 'dark' }) {
         };
         setMessages(prev => [...prev, aiMsg]);
       } else {
-        const fallbackMsg = {
+        // Handle Vercel static rewrites or non-JSON responses via Client-Side RAG
+        const clientRagResult = generateClientRAGResponse(text);
+        if (clientRagResult.isOffTopic) {
+          const newOffCount = offTopicCount + 1;
+          setOffTopicCount(newOffCount);
+          if (newOffCount > 3) return;
+        }
+
+        const aiMsg = {
           id: (Date.now() + 1).toString(),
           sender: 'ai',
-          text: 'Chào bạn! Hệ thống tuyển dụng Smart ATS đang có nhiều vị trí hấp dẫn. Bạn có thể tra cứu thông tin chi tiết các vị trí ở danh mục Tin Tuyển Dụng hoặc hỏi thêm về đãi ngộ, lương thưởng nhé!',
-          sources: [{ title: 'Cơ sở dữ liệu Smart ATS', category: 'Tuyển dụng', similarityScore: 85 }],
+          text: clientRagResult.reply,
+          sources: clientRagResult.sources || [],
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
-        setMessages(prev => [...prev, fallbackMsg]);
+        setMessages(prev => [...prev, aiMsg]);
       }
     } catch (err) {
       setIsTyping(false);
-      console.error('Chat error:', err);
-      const fallbackMsg = {
+      // Fallback seamlessly to Client-Side RAG Engine
+      const clientRagResult = generateClientRAGResponse(text);
+      if (clientRagResult.isOffTopic) {
+        const newOffCount = offTopicCount + 1;
+        setOffTopicCount(newOffCount);
+        if (newOffCount > 3) return;
+      }
+
+      const aiMsg = {
         id: (Date.now() + 1).toString(),
         sender: 'ai',
-        text: 'Smart ATS áp dụng chế độ đãi ngộ hấp dẫn với lương từ $1,000 - $3,500/tháng, làm việc từ Thứ 2 - Thứ 6 và hỗ trợ làm việc từ xa linh hoạt (Hybrid 2 ngày/tuần).',
-        sources: [{ title: 'Chính sách Đãi ngộ & Phúc lợi', category: 'Chính sách', similarityScore: 90 }],
+        text: clientRagResult.reply,
+        sources: clientRagResult.sources || [],
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
-      setMessages(prev => [...prev, fallbackMsg]);
+      setMessages(prev => [...prev, aiMsg]);
     }
   };
+
 
 
   const handleResetChat = () => {
