@@ -16,11 +16,12 @@ import {
   BookOpen,
   Layers,
   Database,
-  CheckCircle2
+  CheckCircle2,
+  Key
 } from 'lucide-react';
 import api from '../services/api';
 import { generateClientRAGResponse } from '../services/clientRagService';
-
+import { callGeminiDirectAPI } from '../services/geminiService';
 
 const QUICK_SUGGESTIONS = [
   { label: '💼 Vị trí đang tuyển dụng?', text: 'Hiện công ty đang tuyển những vị trí công việc nào và yêu cầu ra sao?' },
@@ -39,15 +40,13 @@ function AIChatBot({ theme = 'dark' }) {
       id: 'welcome',
       sender: 'ai',
       text: 'Xin chào! Tôi là Trợ Lý Tuyển Dụng AI (tích hợp công nghệ RAG & Gemini text-embedding-004). Tôi có thể hỗ trợ bạn tra cứu mọi thông tin tuyển dụng, chính sách lương thưởng, hình thức làm việc và đánh giá hồ sơ.',
-      sources: [
-        { title: 'Cơ sở tri thức Smart ATS', category: 'Hệ thống', similarityScore: 100 }
-      ],
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [inputText, setInputText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const [offTopicCount, setOffTopicCount] = useState(0);
+  const [showKeyInput, setShowKeyInput] = useState(false);
+  const [apiKeyVal, setApiKeyVal] = useState(() => localStorage.getItem('GEMINI_API_KEY') || '');
 
   const messagesEndRef = useRef(null);
   const isLight = theme === 'light';
@@ -57,20 +56,6 @@ function AIChatBot({ theme = 'dark' }) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, isOpen]);
-
-  // Check if user question is related to job/recruitment
-  const checkIsOffTopic = (text) => {
-    const lower = text.toLowerCase().trim();
-    const allowedKeywords = [
-      'việc', 'job', 'vị trí', 'lương', 'salary', 'thu nhập', 'thời gian', 'giờ làm', 'remote', 
-      'hybrid', 'on-site', 'đãi ngộ', 'phúc lợi', 'thưởng', 'bảo hiểm', 'benefit', 'phỏng vấn', 
-      'interview', 'cv', 'hồ sơ', 'kỹ năng', 'skill', 'kinh nghiệm', 'yêu cầu', 'tuyển', 'ứng tuyển',
-      'apply', 'công ty', 'smartats', 'bảo mật', 'react', 'node', 'fullstack', 'frontend', 'backend',
-      'developer', 'lập trình', 'onboard', 'thử việc', 'chế độ', 'phù hợp', 'chào', 'hello', 'hi',
-      'cảm ơn', 'thanks', 'địa chỉ', 'văn phòng', 'jd', 'quy trình', 'thực tập', 'intern'
-    ];
-    return !allowedKeywords.some(k => lower.includes(k));
-  };
 
   // Typewriter streaming animation: reveals text progressively without loading dots
   const streamBotMessage = (fullText, isOff = false) => {
@@ -129,14 +114,32 @@ function AIChatBot({ theme = 'dark' }) {
       return;
     }
 
-    // Call API backend or Client-side RAG for intelligent answer
+    const convHistory = messages.slice(-6).map(m => ({
+      role: m.sender === 'user' ? 'user' : 'model',
+      text: m.text
+    }));
+
+    // 1. Try Direct Google Gemini 1.5 Flash LLM API (High Intelligence)
+    try {
+      const geminiDirectResult = await callGeminiDirectAPI(text, convHistory, apiKeyVal);
+      if (geminiDirectResult && geminiDirectResult.reply) {
+        if (geminiDirectResult.isOffTopic) {
+          const newOffCount = offTopicCount + 1;
+          setOffTopicCount(newOffCount);
+          if (newOffCount > 3) return;
+        }
+        streamBotMessage(geminiDirectResult.reply, geminiDirectResult.isOffTopic);
+        return;
+      }
+    } catch (e) {
+      console.warn('Direct Gemini call skipped, trying backend/local RAG...', e);
+    }
+
+    // 2. Try Backend Server API
     try {
       const response = await api.post('/chat', {
         message: text,
-        history: messages.slice(-6).map(m => ({
-          role: m.sender === 'user' ? 'user' : 'model',
-          text: m.text
-        }))
+        history: convHistory
       });
 
       if (response && response.success && response.data?.reply) {
@@ -146,26 +149,26 @@ function AIChatBot({ theme = 'dark' }) {
           if (newOffCount > 3) return; // Silent stop
         }
         streamBotMessage(response.data.reply, response.data.isOffTopic);
-      } else {
-        // Handle Vercel static rewrites or non-JSON responses via Client-Side RAG
-        const clientRagResult = generateClientRAGResponse(text);
-        if (clientRagResult.isOffTopic) {
-          const newOffCount = offTopicCount + 1;
-          setOffTopicCount(newOffCount);
-          if (newOffCount > 3) return;
-        }
-        streamBotMessage(clientRagResult.reply, clientRagResult.isOffTopic);
+        return;
       }
     } catch (err) {
-      // Fallback seamlessly to Client-Side RAG Engine
-      const clientRagResult = generateClientRAGResponse(text);
-      if (clientRagResult.isOffTopic) {
-        const newOffCount = offTopicCount + 1;
-        setOffTopicCount(newOffCount);
-        if (newOffCount > 3) return;
-      }
-      streamBotMessage(clientRagResult.reply, clientRagResult.isOffTopic);
+      // Backend not available or returned non-JSON
     }
+
+    // 3. Fallback to Deep Semantic Client RAG Engine
+    const clientRagResult = generateClientRAGResponse(text);
+    if (clientRagResult.isOffTopic) {
+      const newOffCount = offTopicCount + 1;
+      setOffTopicCount(newOffCount);
+      if (newOffCount > 3) return;
+    }
+    streamBotMessage(clientRagResult.reply, clientRagResult.isOffTopic);
+  };
+
+  const handleSaveApiKey = (key) => {
+    setApiKeyVal(key.trim());
+    localStorage.setItem('GEMINI_API_KEY', key.trim());
+    setShowKeyInput(false);
   };
 
   const handleResetChat = () => {
@@ -213,6 +216,13 @@ function AIChatBot({ theme = 'dark' }) {
 
             <div className="flex items-center gap-1">
               <button 
+                onClick={() => setShowKeyInput(!showKeyInput)}
+                className={`p-1.5 rounded-xl transition-colors ${apiKeyVal ? 'bg-white/30 text-amber-200' : 'hover:bg-white/20 text-white/90'}`}
+                title="Cấu hình Gemini API Key trực tiếp"
+              >
+                <Key className="w-3.5 h-3.5" />
+              </button>
+              <button 
                 onClick={handleResetChat}
                 className="p-1.5 rounded-xl hover:bg-white/20 text-white/90 hover:text-white transition-colors"
                 title="Làm mới đoạn chat"
@@ -235,6 +245,26 @@ function AIChatBot({ theme = 'dark' }) {
               </button>
             </div>
           </div>
+
+          {/* Optional API Key Input Drawer */}
+          {showKeyInput && (
+            <div className="p-2.5 bg-slate-800 border-b border-slate-700 text-xs flex items-center gap-2 animate-fade-in">
+              <input 
+                type="password"
+                placeholder="Dán Gemini API Key (tùy chọn)..."
+                value={apiKeyVal}
+                onChange={(e) => setApiKeyVal(e.target.value)}
+                className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-white text-[11px] focus:outline-none focus:border-orange-500"
+              />
+              <button
+                onClick={() => handleSaveApiKey(apiKeyVal)}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold"
+              >
+                Lưu
+              </button>
+            </div>
+          )}
+
 
           {/* Quick Action Suggestion Chips */}
           <div className={`p-2 border-b overflow-x-auto flex gap-1.5 no-scrollbar ${
