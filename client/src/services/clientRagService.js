@@ -1,6 +1,6 @@
 /**
- * Enhanced Client-Side RAG Engine & Semantic Knowledge Base
- * Deep reasoning & context-aware semantic retrieval for recruitment
+ * Enhanced Client-Side RAG Engine & Strict Guardrails System
+ * Ensures accurate recruitment responses and STRICTLY BLOCKS all off-topic questions.
  */
 
 export const CLIENT_KNOWLEDGE_BASE = [
@@ -8,7 +8,7 @@ export const CLIENT_KNOWLEDGE_BASE = [
     id: 'kb-leadership',
     title: 'Ban Lãnh Đạo & Cơ Cấu Tổ Chức Smart ATS',
     category: 'Cơ cấu & Lãnh đạo',
-    keywords: ['sếp', 'lãnh đạo', 'giám đốc', 'ceo', 'cto', 'sếp tổng', 'ban giám đốc', 'ai đứng đầu', 'quản lý', 'người sáng lập', 'founder'],
+    keywords: ['sếp', 'lãnh đạo', 'giám đốc', 'ceo', 'cto', 'sếp tổng', 'ban giám đốc', 'ai đứng đầu', 'quản lý', 'người sáng lập', 'founder', 'trưởng phòng'],
     content: `Ban Giám Đốc và Lãnh đạo tại Smart ATS gồm:
 • Tổng Giám Đốc điều hành (CEO): Phụ trách chiến lược phát triển sản phẩm công nghệ và định hướng nhân sự toàn cầu.
 • Giám Đốc Công Nghệ (CTO): Trực tiếp dẫn dắt đội ngũ Kỹ thuật, Kiến trúc AI và Hệ thống RAG Thông minh.
@@ -19,7 +19,7 @@ Môi trường công ty theo mô hình phẳng (Flat Hierarchy), cởi mở và 
     id: 'kb-policy-wfh',
     title: 'Chính sách Thời gian làm việc & Remote / Hybrid',
     category: 'Chính sách công ty',
-    keywords: ['thời gian', 'giờ làm', 'remote', 'hybrid', 'wfh', 'từ xa', 'nghỉ', 'thứ 2', 'thứ 6', 'giờ giấc', 'làm thêm', 'ot'],
+    keywords: ['thời gian', 'giờ làm', 'remote', 'hybrid', 'wfh', 'từ xa', 'nghỉ', 'thứ 2', 'thứ 6', 'giờ giấc', 'làm thêm', 'ot', 'nghỉ phép', 'nghỉ trưa'],
     content: `Thời gian làm việc tiêu chuẩn từ Thứ 2 đến Thứ 6 (8:30 - 17:30, nghỉ trưa từ 12:00 - 13:30), được nghỉ Thứ 7 và Chủ nhật.
 Công ty áp dụng chính sách Hybrid linh hoạt: Nhân viên chính thức được phép làm việc từ xa (Work from Home) tối đa 2 ngày/tuần. Công ty tôn trọng cân bằng cuộc sống và công việc (Work-Life Balance), hạn chế làm thêm giờ (OT).`
   },
@@ -27,7 +27,7 @@ Công ty áp dụng chính sách Hybrid linh hoạt: Nhân viên chính thức �
     id: 'kb-compensation-benefits',
     title: 'Chính sách Đãi ngộ, Lương thưởng & Phúc lợi',
     category: 'Đãi ngộ & Phúc lợi',
-    keywords: ['lương', 'salary', 'thu nhập', 'đãi ngộ', 'phúc lợi', 'thưởng', 'bảo hiểm', 'benefit', 'pvi', 'macbook', 'ăn trưa', 'du lịch', 'tăng lương', 'review lương'],
+    keywords: ['lương', 'salary', 'thu nhập', 'đãi ngộ', 'phúc lợi', 'thưởng', 'bảo hiểm', 'benefit', 'pvi', 'macbook', 'ăn trưa', 'du lịch', 'tăng lương', 'review lương', 'tháng 13'],
     content: `Chế độ Đãi ngộ & Lương thưởng tại Smart ATS:
 • Mức lương cạnh tranh: Từ $1,000 - $3,500/tháng theo năng lực và cấp bậc (Junior / Middle / Senior / Tech Lead).
 • Thưởng định kỳ: Đảm bảo Lương tháng 13 + Thưởng hiệu suất dự án theo quý (lên đến 2-3 tháng lương/năm).
@@ -40,7 +40,7 @@ Công ty áp dụng chính sách Hybrid linh hoạt: Nhân viên chính thức �
     id: 'kb-interview-process',
     title: 'Quy trình Tuyển dụng & Phỏng vấn tại Smart ATS',
     category: 'Quy trình tuyển dụng',
-    keywords: ['phỏng vấn', 'quy trình', 'vòng phỏng vấn', 'interview', 'hr screening', 'test', 'kỹ thuật', 'technical', 'offer', 'bao lâu', 'thời gian tuyển', 'mấy vòng'],
+    keywords: ['phỏng vấn', 'quy trình', 'vòng phỏng vấn', 'interview', 'hr screening', 'test', 'kỹ thuật', 'technical', 'offer', 'bao lâu', 'thời gian tuyển', 'mấy vòng', 'thư mời'],
     content: `Quy trình Tuyển dụng gồm 3 bước nhanh gọn trong vòng 7 - 10 ngày làm việc:
 1. Vòng 1 (Sàng lọc hồ sơ & HR Screening): Đánh giá độ phù hợp CV qua hệ thống Smart ATS RAG, trao đổi sơ bộ 15 phút với HR.
 2. Vòng 2 (Phỏng vấn Kỹ thuật / Technical Interview): Đánh giá chuyên môn, kiến trúc hệ thống và khả năng giải quyết vấn đề (60 phút).
@@ -50,7 +50,7 @@ Công ty áp dụng chính sách Hybrid linh hoạt: Nhân viên chính thức �
     id: 'kb-cv-evaluation',
     title: 'Tiêu chuẩn Đánh giá Độ phù hợp CV & Match Score',
     category: 'Đánh giá hồ sơ',
-    keywords: ['cv', 'hồ sơ', 'phù hợp', 'đánh giá cv', 'match score', 'điểm phù hợp', 'kỹ năng', 'kinh nghiệm', 'nộp cv', 'apply', 'ứng tuyển', 'bản pdf'],
+    keywords: ['cv', 'hồ sơ', 'phù hợp', 'đánh giá cv', 'match score', 'điểm phù hợp', 'kỹ năng', 'kinh nghiệm', 'nộp cv', 'apply', 'ứng tuyển', 'bản pdf', 'nộp hồ sơ'],
     content: `Hệ thống Smart ATS tích hợp AI phân tích CV tự động trích xuất:
 • Kỹ năng cốt lõi (Core Skills) & Công nghệ chuyên sâu.
 • Số năm kinh nghiệm & Dự án thực tế.
@@ -61,7 +61,7 @@ Công ty áp dụng chính sách Hybrid linh hoạt: Nhân viên chính thức �
     id: 'kb-jobs-list',
     title: 'Danh sách Vị trí Tuyển dụng đang mở',
     category: 'Tin tuyển dụng',
-    keywords: ['vị trí', 'job', 'công việc', 'đang tuyển', 'fullstack', 'frontend', 'backend', 'kỹ sư ai', 'lập trình viên', 'developer', 'react', 'node', 'python', 'tuyển dụng vị trí'],
+    keywords: ['vị trí', 'job', 'công việc', 'đang tuyển', 'fullstack', 'frontend', 'backend', 'kỹ sư ai', 'lập trình viên', 'developer', 'react', 'node', 'python', 'tuyển dụng vị trí', 'tuyển'],
     content: `Hiện tại Smart ATS đang mở tuyển các vị trí chủ lực:
 • Senior Fullstack Developer (React, Node.js, PostgreSQL) - Lương: $1,800 - $3,200
 • AI / Machine Learning Engineer (Python, RAG, LLMs, LangChain) - Lương: $2,000 - $3,500
@@ -72,24 +72,21 @@ Bạn có thể nộp hồ sơ trực tiếp tại danh mục Tin Tuyển Dụng
     id: 'kb-probation-onboarding',
     title: 'Quy chế Thử việc & Tiếp nhận Nhân viên (Onboarding)',
     category: 'Quy chế làm việc',
-    keywords: ['thử việc', 'onboard', 'tiếp nhận', 'thời gian thử việc', 'lương thử việc', 'hợp đồng', 'chính thức'],
-    content: `Thời gian thử việc tiêu chuẩn là 2 tháng. Trong thời gian thử việc:
-• Ứng viên nhận 85% - 100% lương chính thức tùy theo cấp bậc và thỏa thuận lúc phỏng vấn.
-• Được chỉ định một Mentor (Người hướng dẫn) 1-1 hỗ trợ hòa nhập công việc và tech stack.
+    keywords: ['thử việc', 'onboard', 'tiếp nhận', 'thời gian thử việc', 'lương thử việc', 'hợp đồng', 'chính thức', 'mentor', 'hướng dẫn'],
+    content: `Thời gian thử việc tiêu chuẩn là 2 tháng:
+• Ứng viên nhận từ 85% - 100% lương chính thức theo thỏa thuận.
+• Được chỉ định một Mentor 1-1 hỗ trợ hòa nhập công việc và tech stack.
 • Được tham gia đầy đủ các hoạt động văn hóa, teambuilding của công ty.`
   },
   {
     id: 'kb-tech-culture',
     title: 'Văn hóa Công ty & Môi trường Làm việc',
     category: 'Văn hóa & Công nghệ',
-    keywords: ['văn hóa', 'môi trường', 'công ty', 'smartats', 'tech stack', 'công nghệ', 'sáng tạo', 'teambuilding', 'phát triển'],
+    keywords: ['văn hóa', 'môi trường', 'công ty', 'smartats', 'tech stack', 'công nghệ', 'sáng tạo', 'teambuilding', 'phát triển', 'địa chỉ', 'văn phòng', 'trụ sở'],
     content: `Smart ATS xây dựng văn hóa Agile linh hoạt, cởi mở, không khoảng cách cấp bậc, khuyến khích sáng tạo và thử nghiệm công nghệ AI mới. Công nghệ chính gồm: React, Node.js, PostgreSQL NeonDB, Prisma ORM, Vector Embeddings và Google Gemini AI.`
   }
 ];
 
-/**
- * Normalizes Vietnamese text by removing accents for flexible comparison
- */
 function removeVietnameseTones(str) {
   return str.normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -97,70 +94,41 @@ function removeVietnameseTones(str) {
     .toLowerCase();
 }
 
+const STRICT_OFF_TOPIC_REPLY = 'Xin lỗi, tôi chỉ hỗ trợ giải đáp các câu hỏi liên quan đến công việc, vị trí tuyển dụng, mức lương, thời gian làm việc, đãi ngộ và đánh giá hồ sơ.';
+
 /**
- * Searches Knowledge Base with contextual semantic weighting
+ * Validates whether a question is strictly related to recruitment / employment
  */
-export function searchClientKnowledge(query) {
+function isRecruitmentTopic(query) {
   const qClean = query.toLowerCase().trim();
   const qNoTone = removeVietnameseTones(qClean);
-  const qTokens = qClean.match(/[\w\d\u00C0-\u1EF9]+/g) || [];
 
-  const scored = CLIENT_KNOWLEDGE_BASE.map(doc => {
-    let score = 0;
+  const allowedKeywords = [
+    'việc', 'job', 'vị trí', 'lương', 'salary', 'thu nhập', 'thời gian', 'giờ làm', 'remote', 
+    'hybrid', 'on-site', 'đãi ngộ', 'phúc lợi', 'thưởng', 'bảo hiểm', 'benefit', 'phỏng vấn', 
+    'interview', 'cv', 'hồ sơ', 'kỹ năng', 'skill', 'kinh nghiệm', 'yêu cầu', 'tuyển', 'ứng tuyển', 
+    'apply', 'công ty', 'smartats', 'react', 'node', 'fullstack', 'frontend', 'backend', 
+    'developer', 'lập trình', 'onboard', 'thử việc', 'chế độ', 'phù hợp', 'chào', 'hello', 'hi', 
+    'cảm ơn', 'thanks', 'địa chỉ', 'văn phòng', 'jd', 'quy trình', 'thực tập', 'intern', 'sếp', 
+    'giám đốc', 'ceo', 'cto', 'lãnh đạo', 'quản lý', 'pvi', 'macbook', 'vòng', 'hợp đồng', 'trợ lý'
+  ];
 
-    // Check specific keywords with boundary awareness
-    doc.keywords.forEach(kw => {
-      const kwNoTone = removeVietnameseTones(kw);
-      if (qClean.includes(kw) || qNoTone.includes(kwNoTone)) {
-        // Boost multi-word keyword matches
-        const weight = kw.includes(' ') ? 40 : 25;
-        score += weight;
-      }
-    });
-
-    // Check token overlap
-    const docText = `${doc.title} ${doc.category} ${doc.content}`.toLowerCase();
-    const docTextNoTone = removeVietnameseTones(docText);
-
-    let matchCount = 0;
-    qTokens.forEach(t => {
-      const tNoTone = removeVietnameseTones(t);
-      if (t.length > 1 && (docText.includes(t) || docTextNoTone.includes(tNoTone))) {
-        matchCount++;
-      }
-    });
-
-    const tokenRatio = qTokens.length > 0 ? (matchCount / qTokens.length) * 35 : 0;
-    score += tokenRatio;
-
-    return {
-      ...doc,
-      similarityScore: Math.min(99, Math.max(10, Math.round(score)))
-    };
+  return allowedKeywords.some(kw => {
+    const kwNoTone = removeVietnameseTones(kw);
+    return qClean.includes(kw) || qNoTone.includes(kwNoTone);
   });
-
-  scored.sort((a, b) => b.similarityScore - a.similarityScore);
-  return scored;
 }
 
 /**
- * Generates Intelligent, Context-Aware RAG Response
+ * Generates Intelligent, Context-Aware RAG Response with Strict Guardrail
  */
 export function generateClientRAGResponse(query) {
   const qClean = query.toLowerCase().trim();
-  const rankedDocs = searchClientKnowledge(query);
-  const bestMatch = rankedDocs[0];
-  const topSources = rankedDocs.slice(0, 2).map(d => ({
-    title: d.title,
-    category: d.category,
-    similarityScore: d.similarityScore
-  }));
 
-  // General off-topic check
-  const offTopicKeywords = ['thời tiết', 'nấu ăn', 'chính trị', 'bóng đá', 'ca nhạc', 'phim', 'tình yêu', 'game'];
-  if (offTopicKeywords.some(w => qClean.includes(w))) {
+  // STRICT GUARDRAIL: If query is NOT about recruitment / work / company policies, strictly refuse
+  if (!isRecruitmentTopic(query)) {
     return {
-      reply: 'Xin lỗi, tôi là Trợ lý Tuyển Dụng AI của Smart ATS. Tôi chỉ hỗ trợ giải đáp các câu hỏi liên quan đến công việc, vị trí tuyển dụng, chính sách lương thưởng, đãi ngộ, quy trình phỏng vấn và đánh giá hồ sơ ứng viên.',
+      reply: STRICT_OFF_TOPIC_REPLY,
       isOffTopic: true,
       sources: []
     };
@@ -203,7 +171,7 @@ export function generateClientRAGResponse(query) {
   }
 
   // 5. Job Openings / Positions
-  if (qClean.includes('vị trí') || qClean.includes('job') || qClean.includes('công việc') || (qClean.includes('tuyển') && !qClean.includes('quy trình')) || qClean.includes('fullstack') || qClean.includes('frontend') || qClean.includes('kỹ sư ai')) {
+  if (qClean.includes('vị trí') || qClean.includes('job') || qClean.includes('công việc') || (qClean.includes('tuyển') && !qClean.includes('quy trình')) || qClean.includes('fullstack') || qClean.includes('frontend') || qClean.includes('kỹ sư ai') || qClean.includes('developer')) {
     return {
       reply: `Hiện tại Smart ATS đang mở tuyển các vị trí chủ lực:\n• Senior Fullstack Developer (React, Node.js, PostgreSQL) - Mức lương: $1,800 - $3,200/tháng.\n• AI / Machine Learning Engineer (Python, RAG, LLMs, LangChain) - Mức lương: $2,000 - $3,500/tháng.\n• Frontend Developer (React, TailwindCSS, TypeScript) - Mức lương: $1,000 - $2,200/tháng.\nBạn có thể nhấn vào mục "Tin Tuyển Dụng" trên menu để xem chi tiết yêu cầu công việc và nộp CV trực tiếp!`,
       isOffTopic: false,
@@ -229,10 +197,19 @@ export function generateClientRAGResponse(query) {
     };
   }
 
-  // Default smart fallback using best matching document
+  // Greetings or general company queries
+  if (qClean.includes('chào') || qClean.includes('hello') || qClean.includes('hi') || qClean.includes('công ty') || qClean.includes('smartats')) {
+    return {
+      reply: `Chào bạn! Tôi là Trợ Lý Tuyển Dụng AI của Smart ATS. Tôi có thể hỗ trợ bạn tìm hiểu về các vị trí đang tuyển, mức lương, thời gian làm việc, đãi ngộ hoặc đánh giá độ phù hợp CV. Bạn có thắc mắc nào cần tôi giải đáp không?`,
+      isOffTopic: false,
+      sources: [{ title: 'Văn hóa Công ty & Môi trường Làm việc', category: 'Văn hóa & Công nghệ', similarityScore: 85 }]
+    };
+  }
+
+  // Fallback refusal for any unclassified non-work questions
   return {
-    reply: `${bestMatch.content}\n\nBạn có muốn tìm hiểu thêm thông tin chi tiết về các vị trí đang tuyển, chế độ đãi ngộ hoặc quy trình phỏng vấn không?`,
-    isOffTopic: false,
-    sources: topSources
+    reply: STRICT_OFF_TOPIC_REPLY,
+    isOffTopic: true,
+    sources: []
   };
 }
