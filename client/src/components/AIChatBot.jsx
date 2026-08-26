@@ -72,6 +72,43 @@ function AIChatBot({ theme = 'dark' }) {
     return !allowedKeywords.some(k => lower.includes(k));
   };
 
+  // Typewriter streaming animation: reveals text progressively without loading dots
+  const streamBotMessage = (fullText, isOff = false) => {
+    const msgId = Date.now().toString();
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Insert new AI message placeholder
+    setMessages(prev => [
+      ...prev,
+      {
+        id: msgId,
+        sender: 'ai',
+        text: '',
+        time: timeStr
+      }
+    ]);
+
+    let currentIndex = 0;
+    // Chunk size 3-5 chars for smooth, natural typing speed
+    const stepLength = Math.max(3, Math.floor(fullText.length / 40));
+    const stepInterval = 16; // ~16ms per frame -> ultra smooth 60fps streaming
+
+    const intervalTimer = setInterval(() => {
+      currentIndex += stepLength;
+      if (currentIndex >= fullText.length) {
+        clearInterval(intervalTimer);
+        setMessages(prev =>
+          prev.map(m => (m.id === msgId ? { ...m, text: fullText } : m))
+        );
+      } else {
+        const partialText = fullText.slice(0, currentIndex);
+        setMessages(prev =>
+          prev.map(m => (m.id === msgId ? { ...m, text: partialText } : m))
+        );
+      }
+    }, stepInterval);
+  };
+
   const handleSendMessage = async (textToSend = inputText) => {
     const text = (typeof textToSend === 'string' ? textToSend : inputText).trim();
     if (!text) return;
@@ -92,9 +129,7 @@ function AIChatBot({ theme = 'dark' }) {
       return;
     }
 
-    setIsTyping(true);
-
-    // Call API backend for intelligent answer with RAG
+    // Call API backend or Client-side RAG for intelligent answer
     try {
       const response = await api.post('/chat', {
         message: text,
@@ -104,23 +139,13 @@ function AIChatBot({ theme = 'dark' }) {
         }))
       });
 
-      setIsTyping(false);
-
       if (response && response.success && response.data?.reply) {
         if (response.data.isOffTopic) {
           const newOffCount = offTopicCount + 1;
           setOffTopicCount(newOffCount);
           if (newOffCount > 3) return; // Silent stop
         }
-
-        const aiMsg = {
-          id: (Date.now() + 1).toString(),
-          sender: 'ai',
-          text: response.data.reply,
-          sources: response.data.sources || [],
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-        setMessages(prev => [...prev, aiMsg]);
+        streamBotMessage(response.data.reply, response.data.isOffTopic);
       } else {
         // Handle Vercel static rewrites or non-JSON responses via Client-Side RAG
         const clientRagResult = generateClientRAGResponse(text);
@@ -129,18 +154,9 @@ function AIChatBot({ theme = 'dark' }) {
           setOffTopicCount(newOffCount);
           if (newOffCount > 3) return;
         }
-
-        const aiMsg = {
-          id: (Date.now() + 1).toString(),
-          sender: 'ai',
-          text: clientRagResult.reply,
-          sources: clientRagResult.sources || [],
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-        setMessages(prev => [...prev, aiMsg]);
+        streamBotMessage(clientRagResult.reply, clientRagResult.isOffTopic);
       }
     } catch (err) {
-      setIsTyping(false);
       // Fallback seamlessly to Client-Side RAG Engine
       const clientRagResult = generateClientRAGResponse(text);
       if (clientRagResult.isOffTopic) {
@@ -148,19 +164,9 @@ function AIChatBot({ theme = 'dark' }) {
         setOffTopicCount(newOffCount);
         if (newOffCount > 3) return;
       }
-
-      const aiMsg = {
-        id: (Date.now() + 1).toString(),
-        sender: 'ai',
-        text: clientRagResult.reply,
-        sources: clientRagResult.sources || [],
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      setMessages(prev => [...prev, aiMsg]);
+      streamBotMessage(clientRagResult.reply, clientRagResult.isOffTopic);
     }
   };
-
-
 
   const handleResetChat = () => {
     setMessages([
@@ -168,7 +174,6 @@ function AIChatBot({ theme = 'dark' }) {
         id: 'welcome',
         sender: 'ai',
         text: 'Cuộc trò chuyện đã được làm mới. Tôi sẵn sàng hỗ trợ bạn tìm hiểu về cơ hội nghề nghiệp tại Smart ATS!',
-        sources: [{ title: 'Cơ sở tri thức Smart ATS', category: 'Hệ thống', similarityScore: 100 }],
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
@@ -272,15 +277,9 @@ function AIChatBot({ theme = 'dark' }) {
               </div>
             ))}
 
-            {isTyping && (
-              <div className="flex items-center gap-1.5 bg-slate-800/60 px-3 py-2 rounded-2xl w-fit border border-slate-700/40">
-                <span className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-bounce" />
-                <span className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                <span className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-bounce [animation-delay:0.4s]" />
-              </div>
-            )}
             <div ref={messagesEndRef} />
           </div>
+
 
           {/* Input Box */}
           <form 
