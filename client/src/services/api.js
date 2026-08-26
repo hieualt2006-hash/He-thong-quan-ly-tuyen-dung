@@ -16,9 +16,12 @@ export const api = axios.create({
   baseURL: getBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
+    'Bypass-Tunnel-Reminder': 'true',
+    'ngrok-skip-browser-warning': 'true',
   },
-  timeout: 15000,
+  timeout: 20000,
 });
+
 
 // Response Interceptor for Error Handling
 api.interceptors.response.use(

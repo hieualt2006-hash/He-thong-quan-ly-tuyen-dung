@@ -51,17 +51,29 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/auth', authRoutes);
 
-// Serve Frontend Client Production Build (React SPA Fallback)
+// Serve Frontend Client Production Build (React SPA Fallback with Anti-Cache headers)
 const clientDistPath = path.join(__dirname, '../../client/dist');
 if (fs.existsSync(clientDistPath)) {
-  app.use(express.static(clientDistPath));
+  app.use(express.static(clientDistPath, {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('index.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      }
+    }
+  }));
   app.use((req, res, next) => {
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
       return res.status(404).json({ success: false, message: 'Endpoint không tồn tại' });
     }
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     res.sendFile(path.join(clientDistPath, 'index.html'));
   });
 }
+
 
 // Start Server
 app.listen(PORT, () => {
