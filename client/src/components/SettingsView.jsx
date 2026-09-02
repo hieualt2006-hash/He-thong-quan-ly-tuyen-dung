@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { 
   Sliders, 
   Sparkles, 
@@ -28,10 +28,10 @@ function SettingsView({ serverStatus }) {
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto">
       {/* Header */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex justify-between items-center">
+      <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-6 shadow-xl flex justify-between items-center">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-extrabold text-white tracking-tight">Cài Đặt Hệ Thống & Trọng Số AI</h2>
+            <h2 className="text-2xl font-extrabold text-slate-100 tracking-tight">Cài Đặt Hệ Thống & Trọng Số AI</h2>
             <span className="bg-orange-500/10 text-orange-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-orange-500/20">
               Settings & Config
             </span>
@@ -48,9 +48,9 @@ function SettingsView({ serverStatus }) {
 
       <form onSubmit={handleSaveSettings} className="flex flex-col gap-6">
         {/* Card 1: AI Scoring & Screening Parameters */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
-          <div className="border-b border-slate-800/80 pb-3 flex items-center justify-between">
-            <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+        <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
+          <div className="border-b border-slate-700/60/80 pb-3 flex items-center justify-between">
+            <h3 className="text-base font-extrabold text-slate-100 flex items-center gap-2">
               <Bot className="w-5 h-5 text-orange-400" />
               Cấu Hình Trọng Số Đánh Giá AI (Gemini ATS Scoring)
             </h3>
@@ -87,7 +87,7 @@ function SettingsView({ serverStatus }) {
                 <select
                   value={aiModel}
                   onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-orange-500"
                 >
                   <option value="gemini-1.5-flash">Google Gemini 1.5 Flash (Tốc độ siêu nhanh & Chuẩn xác)</option>
                   <option value="gemini-1.5-pro">Google Gemini 1.5 Pro (Phân tích chuyên sâu)</option>
@@ -101,7 +101,7 @@ function SettingsView({ serverStatus }) {
                   type="text"
                   disabled
                   value="PDF-Parse (Local Engine Fast Buffer)"
-                  className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-400 font-mono cursor-not-allowed"
+                  className="w-full bg-[#0d1117]/60 border border-slate-700/60 rounded-xl px-3 py-2 text-xs text-slate-400 font-mono cursor-not-allowed"
                 />
               </div>
             </div>
@@ -109,9 +109,9 @@ function SettingsView({ serverStatus }) {
         </div>
 
         {/* Card 2: Email Automation Templates */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
-          <div className="border-b border-slate-800/80 pb-3 flex items-center justify-between">
-            <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+        <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
+          <div className="border-b border-slate-700/60/80 pb-3 flex items-center justify-between">
+            <h3 className="text-base font-extrabold text-slate-100 flex items-center gap-2">
               <Mail className="w-5 h-5 text-orange-400" />
               Mẫu Email Tự Động Phản Hồi Ứng Viên (Email Automation)
             </h3>
@@ -138,13 +138,13 @@ function SettingsView({ serverStatus }) {
                 type="text"
                 value={emailSubject}
                 onChange={(e) => setEmailSubject(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-orange-500"
+                className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-orange-500"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-300 mb-1">Nội dung mẫu thư mời (Template Preview)</label>
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 font-mono leading-relaxed">
+              <div className="bg-[#0d1117] p-4 rounded-xl border border-slate-700/60 text-xs text-slate-300 font-mono leading-relaxed">
                 Chào {'{Candidate_Name}'},<br/><br/>
                 Chúc mừng bạn! Hồ sơ ứng tuyển vị trí <strong>{'{Job_Title}'}</strong> của bạn đã đạt điểm tương thích cao qua vòng sơ loại AI ({'{Match_Score}'}%).<br/>
                 Bộ phận Tuyển dụng trân trọng mời bạn tham dự buổi phỏng vấn kỹ thuật trực tuyến.<br/><br/>
@@ -156,22 +156,22 @@ function SettingsView({ serverStatus }) {
         </div>
 
         {/* Card 3: Backend & Database Health */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
-          <h3 className="text-base font-extrabold text-white flex items-center gap-2 border-b border-slate-800/80 pb-3">
+        <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
+          <h3 className="text-base font-extrabold text-slate-100 flex items-center gap-2 border-b border-slate-700/60/80 pb-3">
             <Server className="w-5 h-5 text-orange-400" />
             Thông Tin Máy Chủ & Kết Nối Hệ Thống
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex flex-col gap-1">
+            <div className="bg-[#0d1117] p-3 rounded-xl border border-slate-700/60 flex flex-col gap-1">
               <span className="text-slate-500 text-[10px] uppercase font-bold">Node.js Express API</span>
               <span className="font-mono text-emerald-400 font-bold">http://localhost:5000</span>
             </div>
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex flex-col gap-1">
+            <div className="bg-[#0d1117] p-3 rounded-xl border border-slate-700/60 flex flex-col gap-1">
               <span className="text-slate-500 text-[10px] uppercase font-bold">Cơ sở dữ liệu ORM</span>
               <span className="font-mono text-orange-300 font-bold">SQLite + Prisma ORM</span>
             </div>
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex flex-col gap-1">
+            <div className="bg-[#0d1117] p-3 rounded-xl border border-slate-700/60 flex flex-col gap-1">
               <span className="text-slate-500 text-[10px] uppercase font-bold">Trạng Thái Kết Nối</span>
               <span className={`font-bold flex items-center gap-1 ${serverStatus === 'online' ? 'text-emerald-400' : 'text-amber-400'}`}>
                 <span className={`w-2 h-2 rounded-full ${serverStatus === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
@@ -185,7 +185,7 @@ function SettingsView({ serverStatus }) {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-3 rounded-2xl text-xs transition-all shadow-xl shadow-orange-500/25 active:scale-95"
+            className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-slate-100 font-bold px-6 py-3 rounded-2xl text-xs transition-all shadow-xl shadow-orange-500/25 active:scale-95"
           >
             <Save className="w-4 h-4" />
             <span>Lưu Cấu Hình Hệ Thống</span>

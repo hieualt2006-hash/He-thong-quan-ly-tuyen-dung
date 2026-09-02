@@ -30,7 +30,6 @@ function CandidatePortalView({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDept, setSelectedDept] = useState('All');
 
-  // Distinct departments
   const departments = ['All', ...new Set(jobs.map(j => j.department).filter(Boolean))];
 
   const filteredJobs = jobs.filter(job => {
@@ -38,78 +37,86 @@ function CandidatePortalView({
       job.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       job.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       job.requirements?.toLowerCase().includes(searchTerm.toLowerCase());
-    
     const matchesDept = selectedDept === 'All' || job.department === selectedDept;
-
     return matchesSearch && matchesDept;
   });
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen flex flex-col font-sans" style={{ background: 'var(--bg-app)', color: 'var(--text-main)' }}>
       {/* Top Public Navigation Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-slate-950/85 border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <header className="sticky top-0 z-40 backdrop-blur-xl border-b" style={{ background: 'var(--bg-header)', borderColor: 'var(--border-main)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-amber-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25 text-white font-black">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-md text-white font-black"
+              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706, #6366f1)' }}>
+              <Sparkles className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-black text-lg tracking-tight text-white">Smart<span className="text-orange-500">ATS</span></span>
-                <span className="bg-orange-500/10 text-orange-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-orange-500/20">CAREERS</span>
+                <span className="font-black text-base tracking-tight" style={{ color: 'var(--text-heading)' }}>
+                  Smart<span style={{ color: 'var(--accent)' }}>ATS</span>
+                </span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded border"
+                  style={{ background: 'var(--accent-soft)', color: 'var(--accent)', borderColor: 'var(--accent-border)' }}>
+                  CAREERS
+                </span>
               </div>
-              <span className="text-[10px] text-slate-400 font-medium">Cổng Tuyển Dụng & Hướng Nghiệp AI</span>
+              <span className="text-[10px] font-medium" style={{ color: 'var(--text-faint)' }}>Cổng Tuyển Dụng & Hướng Nghiệp AI</span>
             </div>
           </div>
 
-          {/* Navigation Links & Action Button */}
-          <div className="flex items-center gap-4">
-            {/* Prominent Login button for HR/Admin at top right */}
-            <button
-              onClick={onOpenLogin}
-              className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-2xl text-xs sm:text-sm shadow-xl shadow-orange-500/25 border border-orange-400/30 active:scale-95 transition-all group"
-            >
-              <Lock className="w-4 h-4 text-white group-hover:rotate-12 transition-transform" />
-              <span>Đăng nhập với vai trò HR/Admin</span>
-            </button>
-          </div>
+          {/* Login Button */}
+          <button
+            onClick={onOpenLogin}
+            className="flex items-center gap-2 text-white font-bold px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm active:scale-95 transition-all"
+            style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 12px -2px rgba(245,158,11,0.35)' }}
+          >
+            <Lock className="w-3.5 h-3.5 text-white" />
+            <span className="hidden sm:inline">Đăng nhập HR/Admin</span>
+            <span className="sm:hidden">HR Login</span>
+          </button>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24 border-b border-slate-850 bg-gradient-to-b from-slate-900/60 via-slate-950 to-slate-950">
-        {/* Glow circles */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/3 right-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
+        {/* Subtle glow orbs */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 65%)' }} />
+        <div className="absolute top-1/3 right-10 w-72 h-72 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 65%)' }} />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold mb-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 border"
+            style={{ background: 'var(--accent-soft)', color: 'var(--accent)', borderColor: 'var(--accent-border)' }}>
             <Sparkles className="w-3.5 h-3.5" />
             <span>Hệ Thống Tuyển Dụng & Sàng Lọc Hồ Sơ Thông Minh</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight" style={{ color: 'var(--text-heading)' }}>
             Khám Phá Cơ Hội Nghề Nghiệp <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-indigo-400">
+            <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #f59e0b, #fbbf24, #818cf8)' }}>
               Cùng Công Nghệ Đột Phá
             </span>
           </h1>
 
-          <p className="mt-5 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-5 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed" style={{ color: 'var(--text-muted)' }}>
             Ứng tuyển nhanh chóng chỉ bằng 1 thao tác tải CV. Trí tuệ nhân tạo sẽ tự động phân tích điểm tương thích và gợi ý định hướng phỏng vấn phù hợp nhất.
           </p>
 
           {/* Search Box in Hero */}
-          <div className="mt-8 max-w-3xl mx-auto bg-slate-900/90 border border-slate-800 p-2 sm:p-3 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col sm:flex-row items-center gap-2">
+          <div className="mt-8 max-w-3xl mx-auto p-2 sm:p-3 rounded-2xl sm:rounded-3xl shadow-xl flex flex-col sm:flex-row items-center gap-2 border"
+            style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)' }}>
             <div className="relative flex-1 w-full">
-              <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-faint)' }} />
               <input
                 type="text"
                 placeholder="Tìm kiếm vị trí tuyển dụng, kỹ năng (React, Node, Java...)"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-transparent border-0 pl-12 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none"
+                className="w-full bg-transparent border-0 pl-11 pr-4 py-3 text-sm focus:outline-none"
+                style={{ color: 'var(--text-heading)', caretColor: 'var(--accent)' }}
               />
             </div>
 
@@ -117,7 +124,8 @@ function CandidatePortalView({
               <select
                 value={selectedDept}
                 onChange={(e) => setSelectedDept(e.target.value)}
-                className="bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-300 rounded-xl px-3.5 py-3 focus:outline-none focus:border-orange-500 w-full sm:w-auto"
+                className="text-xs font-semibold rounded-xl px-3.5 py-3 focus:outline-none w-full sm:w-auto border"
+                style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }}
               >
                 {departments.map((dept, i) => (
                   <option key={i} value={dept}>
@@ -135,12 +143,12 @@ function CandidatePortalView({
         {/* Filter bar & stats */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              <Briefcase className="w-6 h-6 text-orange-400" />
+            <h2 className="text-2xl font-black tracking-tight flex items-center gap-2" style={{ color: 'var(--text-heading)' }}>
+              <Briefcase className="w-6 h-6" style={{ color: 'var(--accent)' }} />
               <span>Vị Trí Đang Tuyển Dụng</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
-              Hiển thị <span className="text-orange-400 font-bold">{filteredJobs.length}</span> vị trí tuyển dụng phù hợp
+            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+              Hiển thị <span className="font-bold" style={{ color: 'var(--accent)' }}>{filteredJobs.length}</span> vị trí tuyển dụng phù hợp
             </p>
           </div>
 
@@ -150,11 +158,11 @@ function CandidatePortalView({
               <button
                 key={i}
                 onClick={() => setSelectedDept(dept)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  selectedDept === dept
-                    ? 'bg-orange-500 text-white shadow-md shadow-orange-500/25'
-                    : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white'
-                }`}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap border"
+                style={selectedDept === dept
+                  ? { background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.30)' }
+                  : { background: 'var(--bg-card)', borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }
+                }
               >
                 {dept === 'All' ? 'Tất cả' : dept}
               </button>
@@ -167,42 +175,49 @@ function CandidatePortalView({
           {filteredJobs.map((job) => (
             <div 
               key={job.id}
-              className="bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-orange-500/50 rounded-3xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 flex flex-col justify-between group"
+              className="border rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between group ats-card"
+              style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subtle)' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-border)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; }}
             >
               <div>
                 <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500/10 to-amber-500/10 border border-orange-500/20 rounded-2xl flex items-center justify-center text-orange-400 font-bold shrink-0">
-                    <Briefcase className="w-6 h-6" />
+                  <div className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
+                    style={{ background: 'var(--accent-soft)', borderColor: 'var(--accent-border)', color: 'var(--accent)' }}>
+                    <Briefcase className="w-5 h-5" />
                   </div>
-                  <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-bold px-2.5 py-1 rounded-full">
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full border"
+                    style={{ background: 'rgba(52,211,153,0.10)', color: '#34d399', borderColor: 'rgba(52,211,153,0.22)' }}>
                     {job.status || 'Đang tuyển'}
                   </span>
                 </div>
 
-                <h3 className="font-extrabold text-lg text-white group-hover:text-orange-400 transition-colors line-clamp-1 mb-2">
+                <h3 className="font-extrabold text-base line-clamp-1 mb-2 transition-colors group-hover:underline decoration-dotted"
+                  style={{ color: 'var(--text-heading)' }}>
                   {job.title}
                 </h3>
 
-                <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mb-4">
+                <div className="flex flex-wrap items-center gap-3 text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
                   <span className="flex items-center gap-1">
-                    <Building2 className="w-3.5 h-3.5 text-slate-500" />
+                    <Building2 className="w-3.5 h-3.5" style={{ color: 'var(--text-faint)' }} />
                     {job.department}
                   </span>
-                  <span className="flex items-center gap-1 font-semibold text-amber-400">
+                  <span className="flex items-center gap-1 font-semibold" style={{ color: '#fbbf24' }}>
                     <DollarSign className="w-3.5 h-3.5" />
                     {job.salaryRange || 'Thỏa thuận'}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-400 line-clamp-3 mb-5 leading-relaxed">
+                <p className="text-xs line-clamp-3 mb-5 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                   {job.description}
                 </p>
 
                 {/* Requirement Tags */}
                 {job.requirements && (
-                  <div className="mb-6 flex flex-wrap gap-1.5">
+                  <div className="mb-5 flex flex-wrap gap-1.5">
                     {job.requirements.split(',').slice(0, 3).map((req, rIdx) => (
-                      <span key={rIdx} className="bg-slate-950 border border-slate-800 text-[10px] text-slate-300 px-2 py-0.5 rounded-lg">
+                      <span key={rIdx} className="text-[10px] px-2 py-0.5 rounded-lg border"
+                        style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }}>
                         {req.trim()}
                       </span>
                     ))}
@@ -211,16 +226,20 @@ function CandidatePortalView({
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-2 pt-4 border-t border-slate-800/80">
+              <div className="flex items-center gap-2 pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                 <button
                   onClick={() => onSelectJob(job)}
-                  className="flex-1 py-2.5 bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 rounded-xl text-xs font-bold transition-colors"
+                  className="flex-1 py-2.5 rounded-xl text-xs font-bold transition-colors border"
+                  style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-heading)'; e.currentTarget.style.borderColor = 'var(--border-main)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--border-subtle)'; }}
                 >
                   Xem Chi Tiết
                 </button>
                 <button
                   onClick={() => onOpenApplyModal(job)}
-                  className="flex-1 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 transition-all flex items-center justify-center gap-1.5"
+                  className="flex-1 py-2.5 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 active:scale-95"
+                  style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 10px -2px rgba(245,158,11,0.30)' }}
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Ứng Tuyển</span>
@@ -231,25 +250,29 @@ function CandidatePortalView({
         </div>
 
         {filteredJobs.length === 0 && (
-          <div className="text-center py-16 bg-slate-900/40 border border-slate-800/80 rounded-3xl">
-            <Briefcase className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-            <h4 className="text-base font-bold text-white">Không tìm thấy vị trí phù hợp</h4>
-            <p className="text-xs text-slate-400 mt-1">Hãy thử tìm kiếm với từ khóa hoặc phòng ban khác</p>
+          <div className="text-center py-16 rounded-3xl border"
+            style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subtle)' }}>
+            <Briefcase className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--text-faint)', opacity: 0.5 }} />
+            <h4 className="text-base font-bold" style={{ color: 'var(--text-heading)' }}>Không tìm thấy vị trí phù hợp</h4>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Hãy thử tìm kiếm với từ khóa hoặc phòng ban khác</p>
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950/90 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <footer className="border-t py-8" style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: 'var(--text-faint)' }}>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-400">SmartATS Recruitment Platform</span>
+            <span className="font-bold" style={{ color: 'var(--text-muted)' }}>SmartATS Recruitment Platform</span>
             <span>•</span>
             <span>Trí tuệ nhân tạo tích hợp ATS</span>
           </div>
 
           <div className="flex items-center gap-4">
-            <button onClick={onOpenLogin} className="hover:text-orange-400 transition-colors flex items-center gap-1 font-semibold text-slate-400">
+            <button onClick={onOpenLogin} className="transition-colors flex items-center gap-1 font-semibold"
+              style={{ color: 'var(--text-faint)' }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-faint)'; }}>
               <Lock className="w-3.5 h-3.5" />
               <span>HR/Admin Portal</span>
             </button>

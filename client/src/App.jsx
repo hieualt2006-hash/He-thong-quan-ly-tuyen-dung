@@ -370,7 +370,7 @@ const DEFAULT_DEMO_APPLICATIONS = [
   // --- CANDIDATE PUBLIC VIEW (When not logged in or in candidate-portal mode) ---
   if (!currentUser || currentView === 'candidate-portal') {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500 selection:text-white">
+      <div className="min-h-screen" style={{ background: 'var(--c-bg)', color: 'var(--c-text)' }}>
         {currentView === 'job-detail' && selectedJob ? (
           <div className="max-w-5xl mx-auto p-4 sm:p-8">
             <PublicJobDetailView 
@@ -404,7 +404,7 @@ const DEFAULT_DEMO_APPLICATIONS = [
         />
 
         {/* AI Chatbot for Candidates */}
-        <AIChatBot theme="dark" />
+        <AIChatBot theme={theme} />
       </div>
     );
   }
@@ -413,9 +413,8 @@ const DEFAULT_DEMO_APPLICATIONS = [
   const isAdmin = currentUser?.role === 'ADMIN';
 
   return (
-    <div className={`min-h-screen flex font-sans antialiased selection:bg-orange-500 selection:text-white transition-colors duration-300 ${
-      theme === 'light' ? 'light bg-slate-100 text-slate-800' : 'dark bg-slate-950 text-slate-100'
-    }`}>
+    <div className={`min-h-screen flex font-sans antialiased transition-colors duration-300 ${theme === 'light' ? 'light' : ''}`}
+      style={{ background: 'var(--c-bg)', color: 'var(--c-text)' }}>
       {/* Sidebar Navigation */}
       <Sidebar 
         currentView={currentView} 
@@ -432,15 +431,12 @@ const DEFAULT_DEMO_APPLICATIONS = [
       {/* Main Content Viewport */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Navigation Header Bar */}
-        <header className={`sticky top-0 z-30 border-b backdrop-blur-xl px-6 py-3.5 flex items-center justify-between gap-4 transition-colors duration-300 ${
-          theme === 'light' ? 'bg-white/90 border-slate-200 shadow-sm' : 'bg-slate-900/90 border-slate-800/80'
-        }`}>
+        <header className="sticky top-0 z-30 border-b glass px-6 py-3.5 flex items-center justify-between gap-4 transition-colors duration-300"
+          style={{ background: 'var(--c-header)', borderColor: 'var(--c-border)' }}>
           <div className="flex items-center gap-3">
-            <span className={`text-xs font-medium hidden md:inline ${theme === 'light' ? 'text-slate-500' : 'text-slate-400'}`}>Smart ATS</span>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400 hidden md:inline" />
-            <h2 className={`font-bold text-sm md:text-base tracking-tight truncate max-w-xs md:max-w-md ${
-              theme === 'light' ? 'text-slate-900' : 'text-slate-100'
-            }`}>
+            <span className="text-xs font-medium hidden md:inline" style={{ color: 'var(--c-text-lo)' }}>Smart ATS</span>
+            <ChevronRight className="w-3.5 h-3.5 hidden md:inline" style={{ color: 'var(--c-text-faint)' }} />
+            <h2 className="font-bold text-sm md:text-base tracking-tight truncate max-w-xs md:max-w-md" style={{ color: 'var(--c-text-hi)' }}>
               {getViewTitle()}
             </h2>
           </div>
@@ -450,16 +446,16 @@ const DEFAULT_DEMO_APPLICATIONS = [
             <button
               onClick={() => navigateTo('candidate-portal')}
               title="Xem giao diện công khai của Ứng viên"
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 transition-all"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ui-btn-ghost"
             >
-              <Globe className="w-3.5 h-3.5 text-orange-400" />
+              <Globe className="w-3.5 h-3.5" style={{ color: 'var(--c-accent)' }} />
               <span>Trang Tuyển Dụng</span>
             </button>
 
             {/* Quick Action: New Job */}
             <button
               onClick={() => navigateTo('jobs')}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-all shadow-md shadow-orange-500/20 active:scale-95 hover:shadow-orange-500/30"
+              className="flex items-center gap-1.5 text-white font-bold px-3 py-1.5 rounded-xl text-xs ui-btn-accent"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Đăng Job</span>
@@ -469,16 +465,12 @@ const DEFAULT_DEMO_APPLICATIONS = [
             <button
               onClick={toggleTheme}
               title={theme === 'dark' ? 'Chuyển sang Giao diện Sáng' : 'Chuyển sang Giao diện Tối'}
-              className={`p-2 rounded-xl transition-all duration-300 border flex items-center justify-center hover:scale-105 active:scale-95 ${
-                theme === 'light'
-                  ? 'bg-amber-100/80 border-amber-300/80 text-amber-700 hover:bg-amber-200'
-                  : 'bg-slate-800/80 border-slate-700 text-amber-400 hover:bg-slate-800 hover:text-amber-300'
-              }`}
+              className="p-2 rounded-xl transition-all duration-300 border flex items-center justify-center hover:scale-105 active:scale-95 ui-btn-ghost"
             >
               {theme === 'dark' ? (
-                <Sun className="w-4 h-4 transition-transform hover:rotate-45" />
+                <Sun className="w-4 h-4" style={{ color: 'var(--c-accent)' }} />
               ) : (
-                <Moon className="w-4 h-4 transition-transform hover:-rotate-12" />
+                <Moon className="w-4 h-4" style={{ color: 'var(--c-accent)' }} />
               )}
             </button>
 
@@ -486,18 +478,14 @@ const DEFAULT_DEMO_APPLICATIONS = [
             <div className="relative">
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
-                className={`relative p-2 rounded-xl transition-all duration-200 border flex items-center justify-center hover:scale-105 active:scale-95 ${
-                  theme === 'light'
-                    ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'
-                    : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700/60'
-                }`}
+                className="relative p-2 rounded-xl transition-all duration-200 border flex items-center justify-center hover:scale-105 active:scale-95 ui-btn-ghost"
                 title="Xem thông báo tuyển dụng"
               >
                 <Bell className="w-4 h-4" />
                 {unreadCount > 0 && (
                   <>
-                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-orange-500 animate-ping" />
-                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-orange-500" />
+                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full animate-ping" style={{ background: 'var(--c-accent)' }} />
+                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full" style={{ background: 'var(--c-accent)' }} />
                   </>
                 )}
               </button>
@@ -505,20 +493,17 @@ const DEFAULT_DEMO_APPLICATIONS = [
               {/* Notification Dropdown Menu */}
               {showNotifications && (
                 <div 
-                  className={`absolute right-0 mt-2.5 w-80 sm:w-96 rounded-2xl border shadow-2xl z-50 overflow-hidden animate-fade-in ${
-                    theme === 'light'
-                      ? 'bg-white border-slate-200 text-slate-800'
-                      : 'bg-slate-900 border-slate-800 text-slate-100'
-                  }`}
+                  className="absolute right-0 mt-2.5 w-80 sm:w-96 rounded-2xl border shadow-2xl z-50 overflow-hidden animate-fade-in-scale"
+                  style={{ background: 'var(--c-card)', borderColor: 'var(--c-border-md)', boxShadow: 'var(--shadow-lg)' }}
                 >
-                  <div className={`p-3.5 border-b flex items-center justify-between ${
-                    theme === 'light' ? 'bg-slate-50 border-slate-200' : 'bg-slate-950/80 border-slate-800'
-                  }`}>
+                  <div className="p-3.5 border-b flex items-center justify-between"
+                    style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)' }}>
                     <div className="flex items-center gap-2">
-                      <Bell className="w-4 h-4 text-orange-500" />
-                      <span className="font-bold text-xs">Thông Báo Hệ Thống</span>
+                      <Bell className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+                      <span className="font-bold text-xs" style={{ color: 'var(--text-heading)' }}>Thông Báo Hệ Thống</span>
                       {unreadCount > 0 && (
-                        <span className="bg-orange-500/15 text-orange-500 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-orange-500/20">
+                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full border"
+                          style={{ background: 'var(--accent-soft)', color: 'var(--accent)', borderColor: 'var(--accent-border)' }}>
                           {unreadCount} mới
                         </span>
                       )}
@@ -527,14 +512,15 @@ const DEFAULT_DEMO_APPLICATIONS = [
                     {unreadCount > 0 && (
                       <button
                         onClick={() => setUnreadCount(0)}
-                        className="text-[11px] font-semibold text-orange-500 hover:underline"
+                        className="text-[11px] font-semibold hover:underline"
+                        style={{ color: 'var(--accent)' }}
                       >
                         Đánh dấu đã đọc
                       </button>
                     )}
                   </div>
 
-                  <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/40 text-xs">
+                  <div className="max-h-80 overflow-y-auto text-xs" style={{ divide: 'var(--border-subtle)' }}>
                     {notificationList.map((item) => (
                       <div 
                         key={item.id} 
@@ -542,30 +528,31 @@ const DEFAULT_DEMO_APPLICATIONS = [
                           setShowNotifications(false);
                           if (item.view) navigateTo(item.view);
                         }}
-                        className={`p-3.5 flex items-start gap-3 hover:bg-orange-500/10 cursor-pointer transition-colors ${
-                          item.unread && unreadCount > 0 
-                            ? theme === 'light' ? 'bg-orange-50/50' : 'bg-slate-800/40' 
-                            : ''
-                        }`}
+                        className="p-3.5 flex items-start gap-3 cursor-pointer transition-colors border-b last:border-b-0"
+                        style={{ borderColor: 'var(--border-subtle)' }}
+                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = ''; }}
                       >
-                        <div className="w-2 h-2 rounded-full bg-orange-500 mt-1.5 shrink-0" />
+                        <div className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: 'var(--accent)' }} />
                         <div className="flex-1">
-                          <p className="font-bold text-xs leading-snug">{item.title}</p>
-                          <p className={`text-[11px] mt-0.5 leading-relaxed ${theme === 'light' ? 'text-slate-500' : 'text-slate-400'}`}>
+                          <p className="font-bold text-xs leading-snug" style={{ color: 'var(--text-heading)' }}>{item.title}</p>
+                          <p className="text-[11px] mt-0.5 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                             {item.desc}
                           </p>
-                          <span className="text-[10px] text-slate-500 mt-1.5 block font-mono">{item.time}</span>
+                          <span className="text-[10px] mt-1.5 block font-mono" style={{ color: 'var(--text-faint)' }}>{item.time}</span>
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className={`p-2.5 text-center border-t text-[11px] ${
-                    theme === 'light' ? 'bg-slate-50 border-slate-200' : 'bg-slate-950 border-slate-800'
-                  }`}>
+                  <div className="p-2.5 text-center border-t text-[11px]"
+                    style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)' }}>
                     <button 
                       onClick={() => setShowNotifications(false)}
-                      className="text-slate-400 hover:text-orange-500 font-bold"
+                      className="font-bold transition-colors"
+                      style={{ color: 'var(--text-faint)' }}
+                      onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-faint)'; }}
                     >
                       Đóng thông báo
                     </button>
@@ -575,25 +562,23 @@ const DEFAULT_DEMO_APPLICATIONS = [
             </div>
 
             {/* User Profile Avatar with dropdown or role badge */}
-            <div className={`flex items-center gap-2.5 pl-2 border-l ${
-              theme === 'light' ? 'border-slate-300' : 'border-slate-800'
-            }`}>
+            <div className="flex items-center gap-2.5 pl-2 border-l" style={{ borderColor: 'var(--c-border-md)' }}>
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-md ${
                 isAdmin 
-                  ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-indigo-500/20' 
-                  : 'bg-gradient-to-tr from-orange-500 to-amber-500 shadow-orange-500/20'
+                  ? 'bg-gradient-to-tr from-indigo-500 to-violet-600' 
+                  : 'bg-gradient-to-tr from-amber-500 to-orange-500'
               }`}>
                 {currentUser.name?.charAt(0) || 'U'}
               </div>
               <div className="hidden sm:block text-left">
-                <p className={`text-xs font-bold leading-tight ${theme === 'light' ? 'text-slate-900' : 'text-white'}`}>
+                <p className="text-xs font-bold leading-tight" style={{ color: 'var(--c-text-hi)' }}>
                   {currentUser.name}
                 </p>
                 <div className="flex items-center gap-1">
-                  <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${
+                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${
                     isAdmin 
-                      ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30' 
-                      : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
+                      ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/25' 
+                      : 'bg-amber-500/10 text-amber-500 border-amber-500/25'
                   }`}>
                     {isAdmin ? 'SYSTEM ADMIN' : 'HR RECRUITER'}
                   </span>
@@ -603,7 +588,7 @@ const DEFAULT_DEMO_APPLICATIONS = [
           </div>
         </header>
 
-        <main className="flex-1 max-w-7xl w-full mx-auto p-6 sm:p-8 animate-fade-in">
+        <main className="flex-1 max-w-7xl w-full mx-auto p-6 sm:p-8 animate-fade-up">
           {currentView === 'dashboard' && (
             <DashboardView 
               jobs={jobs} 
@@ -703,14 +688,11 @@ const DEFAULT_DEMO_APPLICATIONS = [
         </main>
 
         {/* Footer */}
-        <footer className={`border-t py-5 text-center text-xs transition-colors duration-300 ${
-          theme === 'light'
-            ? 'bg-slate-50 border-slate-200 text-slate-500'
-            : 'bg-slate-950 border-slate-900 text-slate-500'
-        }`}>
-          <p>Hệ thống Quản lý Tuyển dụng Tích hợp AI (Smart ATS Pro)</p>
-          <p className="mt-1 font-mono text-[11px] text-slate-500">
-            Node.js Express + Prisma ORM + PostgreSQL (Neon Cloud) + Google Gemini AI | React Vite + Tailwind CSS
+        <footer className="border-t py-5 text-center text-xs"
+          style={{ background: 'var(--c-surface)', borderColor: 'var(--c-border)', color: 'var(--c-text-faint)' }}>
+          <p style={{ color: 'var(--c-text-lo)' }}>Hệ thống Quản lý Tuyển dụng Tích hợp AI (Smart ATS Pro)</p>
+          <p className="mt-1 font-mono text-[11px]">
+            Node.js Express + Prisma ORM + SQLite + Google Gemini AI | React Vite + Tailwind CSS v4
           </p>
         </footer>
       </div>

@@ -1,182 +1,149 @@
 import React from 'react';
-import { 
-  LayoutDashboard, 
-  Briefcase, 
-  Users, 
-  Sparkles, 
-  Server,
-  Building2, 
-  Calendar, 
-  BarChart3, 
-  Sliders, 
-  Kanban, 
-  Layers, 
-  ChevronRight,
-  ShieldCheck,
-  UserCheck,
-  Key,
-  LogOut,
-  Globe,
-  ExternalLink
+import {
+  LayoutDashboard, Briefcase, Users, Sparkles, Server,
+  Building2, Calendar, BarChart3, Sliders, Kanban,
+  ShieldCheck, Key, LogOut, Globe, ExternalLink, ChevronRight
 } from 'lucide-react';
 
-function Sidebar({ 
-  currentView, 
-  setCurrentView, 
-  serverStatus, 
-  counts = {}, 
-  theme = 'dark',
-  currentUser,
-  onOpenChangePassword,
-  onLogout,
-  onViewPublicPortal
+function Sidebar({
+  currentView, setCurrentView, serverStatus, counts = {}, theme = 'dark',
+  currentUser, onOpenChangePassword, onLogout, onViewPublicPortal
 }) {
-  const isLight = theme === 'light';
   const isAdmin = currentUser?.role === 'ADMIN';
 
-  // Base Organization items
-  const orgItems = [
-    { id: 'departments', label: 'Cơ Cấu Phòng Ban', icon: Building2, badge: '5 Depts' },
-    { id: 'settings', label: 'Cài Đặt & Trọng Số', icon: Sliders, badge: null },
-  ];
-
-  // If Admin, add User Management
-  if (isAdmin) {
-    orgItems.unshift({ 
-      id: 'users', 
-      label: 'Quản Lý Tài Khoản', 
-      icon: ShieldCheck, 
-      badge: 'Admin' 
-    });
-  }
-
-  const menuGroups = [
+  const navGroups = [
     {
-      group: 'Tổng Quan',
+      label: 'Tổng Quan',
       items: [
-        { id: 'dashboard', label: 'Dashboard Overview', icon: LayoutDashboard, badge: null },
-        { id: 'analytics', label: 'Báo Cáo & Analytics', icon: BarChart3, badge: 'Reports' },
+        { id: 'dashboard',  label: 'Dashboard',          icon: LayoutDashboard },
+        { id: 'analytics',  label: 'Báo Cáo & Analytics', icon: BarChart3 },
       ]
     },
     {
-      group: 'Tuyển Dụng & Ứng Viên',
+      label: 'Tuyển Dụng',
       items: [
-        { id: 'jobs', label: 'Tin Tuyển Dụng (Jobs)', icon: Briefcase, badge: counts.jobs ? `${counts.jobs}` : null },
-        { id: 'pipeline', label: 'Bảng Theo Dõi Tuyển Dụng', icon: Kanban, badge: null },
-        { id: 'applications', label: 'Hồ Sơ Ứng Viên', icon: Users, badge: counts.apps ? `${counts.apps}` : null },
-        { id: 'interviews', label: 'Lịch Phỏng Vấn', icon: Calendar, badge: null },
+        { id: 'jobs',         label: 'Tin Tuyển Dụng',      icon: Briefcase,  badge: counts.jobs },
+        { id: 'pipeline',     label: 'Bảng Theo Dõi',       icon: Kanban },
+        { id: 'applications', label: 'Hồ Sơ Ứng Viên',      icon: Users,      badge: counts.apps },
+        { id: 'interviews',   label: 'Lịch Phỏng Vấn',      icon: Calendar },
       ]
     },
     {
-      group: 'Tổ Chức & Cài Đặt',
-      items: orgItems
+      label: 'Tổ Chức',
+      items: [
+        ...(isAdmin ? [{ id: 'users',       label: 'Quản Lý Tài Khoản', icon: ShieldCheck, tag: 'Admin' }] : []),
+        { id: 'departments', label: 'Cơ Cấu Phòng Ban',    icon: Building2 },
+        { id: 'settings',    label: 'Cài Đặt & Trọng Số',  icon: Sliders },
+      ]
     }
   ];
 
+  const isActive = (id) =>
+    currentView === id ||
+    (currentView === 'job-detail' && id === 'jobs') ||
+    (currentView === 'application-detail' && (id === 'applications' || id === 'pipeline'));
+
   return (
-    <aside className={`w-64 border-r flex flex-col justify-between shrink-0 min-h-screen sticky top-0 z-40 backdrop-blur-2xl transition-colors duration-300 ${
-      isLight 
-        ? 'bg-white/95 border-slate-200 shadow-sm' 
-        : 'bg-slate-900/95 border-slate-800/80'
-    }`}>
-      <div className="overflow-y-auto">
-        {/* Brand Logo Header - OrangeHRM + Zoho style */}
-        <div className={`p-5 border-b flex items-center justify-between ${
-          isLight ? 'border-slate-200' : 'border-slate-800/80'
-        }`}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-amber-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20 text-white font-black shrink-0 hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <h1 className={`font-extrabold text-base tracking-tight leading-none ${
-                  isLight ? 'text-slate-900' : 'text-white'
-                }`}>
-                  Smart<span className="text-orange-500">ATS</span>
-                </h1>
-                <span className="bg-orange-500/10 text-orange-500 text-[10px] font-bold px-1.5 py-0.5 rounded border border-orange-500/20 uppercase">
-                  {isAdmin ? 'ADMIN' : 'HR'}
-                </span>
-              </div>
-              <span className={`text-[10px] font-medium block mt-0.5 ${
-                isLight ? 'text-slate-500' : 'text-slate-400'
-              }`}>
-                Hệ Thống Tuyển Dụng
+    <aside
+      className="w-60 shrink-0 min-h-screen sticky top-0 z-40 flex flex-col justify-between glass border-r"
+      style={{
+        background: 'var(--c-surface)',
+        borderColor: 'var(--c-border)',
+      }}
+    >
+      <div className="overflow-y-auto flex flex-col gap-1">
+        {/* ── Brand ── */}
+        <div className="px-4 pt-5 pb-4 border-b flex items-center gap-3" style={{ borderColor: 'var(--c-border)' }}>
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-md"
+            style={{ background: 'linear-gradient(135deg, #f5a623 0%, #e8940f 50%, #7c3aed 100%)' }}
+          >
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <div className="flex items-center gap-1.5">
+              <span className="font-black text-sm tracking-tight" style={{ color: 'var(--c-text-hi)' }}>
+                Smart<span style={{ color: 'var(--c-accent)' }}>ATS</span>
+              </span>
+              <span
+                className="text-[9px] font-black px-1.5 py-0.5 rounded tracking-wider border uppercase"
+                style={{ background: 'var(--c-accent-dim)', color: 'var(--c-accent)', borderColor: 'var(--c-accent-ring)' }}
+              >
+                {isAdmin ? 'ADMIN' : 'HR'}
               </span>
             </div>
+            <span className="text-[10px] block mt-0.5 font-medium" style={{ color: 'var(--c-text-faint)' }}>
+              AI Recruitment System
+            </span>
           </div>
         </div>
 
-        {/* View Public Portal Switch Button */}
+        {/* ── Public Portal Button ── */}
         {onViewPublicPortal && (
-          <div className="px-3 pt-3">
+          <div className="px-3 pt-2">
             <button
               onClick={onViewPublicPortal}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold border transition-all ${
-                isLight
-                  ? 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'
-                  : 'bg-slate-950/70 hover:bg-slate-800/70 border-slate-800 text-slate-300 hover:text-white'
-              }`}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold border transition-all"
+              style={{ background: 'var(--c-card)', borderColor: 'var(--c-border)', color: 'var(--c-text-lo)' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--c-accent-ring)'; e.currentTarget.style.color = 'var(--c-text-hi)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.color = 'var(--c-text-lo)'; }}
             >
-              <div className="flex items-center gap-2">
-                <Globe className="w-3.5 h-3.5 text-orange-400" />
-                <span>Trang Tuyển Dụng (User)</span>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+              <span className="flex items-center gap-2">
+                <Globe className="w-3.5 h-3.5" style={{ color: 'var(--c-accent)' }} />
+                Trang Tuyển Dụng (User)
+              </span>
+              <ExternalLink className="w-3 h-3 opacity-50" />
             </button>
           </div>
         )}
 
-        {/* Navigation Menu Groups */}
-        <div className="px-3 py-3 flex flex-col gap-4">
-          {menuGroups.map((grp, gIdx) => (
-            <div key={gIdx}>
-              <div className={`px-3 pb-1.5 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 ${
-                isLight ? 'text-slate-400' : 'text-slate-400'
-              }`}>
-                <span>{grp.group}</span>
-              </div>
-
+        {/* ── Nav Groups ── */}
+        <nav className="px-3 py-2 flex flex-col gap-4">
+          {navGroups.map((grp, gi) => (
+            <div key={gi}>
+              <p
+                className="px-3 mb-1 text-[10px] font-black uppercase tracking-widest"
+                style={{ color: 'var(--c-text-faint)' }}
+              >
+                {grp.label}
+              </p>
               <div className="flex flex-col gap-0.5">
-                {grp.items.map((item) => {
+                {grp.items.map(item => {
                   const Icon = item.icon;
-                  const isActive = currentView === item.id || 
-                    (currentView === 'job-detail' && item.id === 'jobs') ||
-                    (currentView === 'application-detail' && (item.id === 'applications' || item.id === 'pipeline'));
-
+                  const active = isActive(item.id);
                   return (
                     <button
                       key={item.id}
                       onClick={() => setCurrentView(item.id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-xs transition-all duration-200 group hover:translate-x-1 ${
-                        isActive
-                          ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/25 font-bold'
-                          : isLight 
-                            ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                      }`}
+                      className="nav-item w-full text-left"
+                      style={active ? {
+                        background: 'linear-gradient(135deg, rgba(245,166,35,0.18), rgba(245,166,35,0.06))',
+                        color: 'var(--c-accent)',
+                        borderColor: 'var(--c-accent-ring)',
+                        fontWeight: 700,
+                      } : {}}
                     >
-                      <div className="flex items-center gap-2.5">
-                        <Icon className={`w-4 h-4 transition-colors shrink-0 ${
-                          isActive 
-                            ? 'text-white' 
-                            : isLight 
-                              ? 'text-slate-500 group-hover:text-orange-500' 
-                              : 'text-slate-400 group-hover:text-orange-400'
-                        }`} />
-                        <span className="truncate">{item.label}</span>
-                      </div>
-                      {item.badge && (
-                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
-                          isActive 
-                            ? 'bg-white/20 text-white' 
-                            : item.badge === 'Admin'
-                              ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
-                              : isLight 
-                                ? 'bg-slate-200 text-slate-700 border border-slate-300' 
-                                : 'bg-slate-800 text-slate-400 border border-slate-700/60'
-                        }`}>
+                      <Icon
+                        className="w-4 h-4 shrink-0"
+                        style={{ color: active ? 'var(--c-accent)' : 'var(--c-text-faint)' }}
+                      />
+                      <span className="flex-1 truncate text-[13px]">{item.label}</span>
+                      {item.tag && (
+                        <span
+                          className="text-[9px] font-black px-1.5 py-0.5 rounded border ml-auto"
+                          style={{ background: 'rgba(139,92,246,0.12)', color: '#a78bfa', borderColor: 'rgba(139,92,246,0.25)' }}
+                        >
+                          {item.tag}
+                        </span>
+                      )}
+                      {item.badge != null && (
+                        <span
+                          className="text-[10px] font-black px-1.5 py-0.5 rounded-full ml-auto"
+                          style={active
+                            ? { background: 'rgba(245,166,35,0.25)', color: 'var(--c-accent)' }
+                            : { background: 'var(--c-card)', color: 'var(--c-text-lo)' }
+                          }
+                        >
                           {item.badge}
                         </span>
                       )}
@@ -186,71 +153,80 @@ function Sidebar({
               </div>
             </div>
           ))}
-        </div>
+        </nav>
       </div>
 
-      {/* Footer User Info & Controls */}
-      <div className="p-2.5 flex flex-col gap-2">
-        {/* User Card */}
+      {/* ── Footer ── */}
+      <div className="p-3 flex flex-col gap-2 border-t" style={{ borderColor: 'var(--c-border)' }}>
+        {/* User card */}
         {currentUser && (
-          <div className={`p-3 rounded-2xl border flex flex-col gap-2 ${
-            isLight ? 'bg-slate-100/90 border-slate-200' : 'bg-slate-950/80 border-slate-800'
-          }`}>
-            <div className="flex items-center gap-2.5">
-              <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs shrink-0 text-white ${
-                isAdmin 
-                  ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-md shadow-indigo-500/20' 
-                  : 'bg-gradient-to-tr from-orange-500 to-amber-500 shadow-md shadow-orange-500/20'
-              }`}>
+          <div
+            className="p-3 rounded-2xl border"
+            style={{ background: 'var(--c-card)', borderColor: 'var(--c-border)' }}
+          >
+            <div className="flex items-center gap-2.5 mb-2.5">
+              <div
+                className={`w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-xs shrink-0 ${
+                  isAdmin
+                    ? 'bg-gradient-to-tr from-violet-500 to-indigo-600'
+                    : 'bg-gradient-to-tr from-amber-500 to-orange-500'
+                }`}
+              >
                 {currentUser.name?.charAt(0) || 'U'}
               </div>
-              <div className="overflow-hidden flex-1">
-                <h4 className={`text-xs font-bold truncate leading-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
+              <div className="overflow-hidden flex-1 min-w-0">
+                <p className="text-xs font-bold truncate leading-tight" style={{ color: 'var(--c-text-hi)' }}>
                   {currentUser.name}
-                </h4>
-                <span className="text-[10px] text-slate-400 font-mono truncate block">
+                </p>
+                <p className="text-[10px] truncate font-mono" style={{ color: 'var(--c-text-faint)' }}>
                   {currentUser.email}
-                </span>
+                </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 pt-1 border-t border-slate-800/60">
+            <div className="flex gap-1.5 pt-2 border-t" style={{ borderColor: 'var(--c-border)' }}>
               <button
                 onClick={onOpenChangePassword}
-                title="Đổi mật khẩu"
-                className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 bg-slate-850 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-semibold border border-slate-750 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[10px] font-bold border transition-all ui-btn-ghost"
               >
-                <Key className="w-3 h-3 text-orange-400" />
-                <span>Đổi MK</span>
+                <Key className="w-3 h-3" style={{ color: 'var(--c-accent)' }} />
+                Đổi MK
               </button>
-
               <button
                 onClick={onLogout}
-                title="Đăng xuất"
-                className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 hover:text-rose-200 rounded-lg text-[10px] font-semibold border border-rose-500/30 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[10px] font-bold border transition-all"
+                style={{ background: 'rgba(248,113,113,0.08)', borderColor: 'rgba(248,113,113,0.22)', color: '#f87171' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(248,113,113,0.16)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(248,113,113,0.08)'; }}
               >
                 <LogOut className="w-3 h-3" />
-                <span>Đăng xuất</span>
+                Đăng xuất
               </button>
             </div>
           </div>
         )}
 
-        {/* Server Status */}
-        <div className={`px-3 py-2 rounded-xl border flex items-center justify-between text-xs ${
-          isLight
-            ? 'bg-slate-50 border-slate-200 text-slate-700'
-            : 'bg-slate-950/50 border-slate-800/80 text-slate-400'
-        }`}>
-          <span className="font-semibold flex items-center gap-1.5 text-[10px]">
-            <Server className="w-3 h-3 text-emerald-500" />
-            Express + PostgreSQL (Neon)
+        {/* Server status pill */}
+        <div
+          className="px-3 py-2 rounded-xl border flex items-center justify-between text-[10px] font-semibold"
+          style={{ background: 'var(--c-card)', borderColor: 'var(--c-border)', color: 'var(--c-text-faint)' }}
+        >
+          <span className="flex items-center gap-1.5">
+            <Server className="w-3 h-3" style={{ color: '#34d399' }} />
+            Express + SQLite
           </span>
-          <span className={`flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full ${
-            serverStatus === 'online' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-500 border border-amber-500/30'
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${serverStatus === 'online' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
-            {serverStatus === 'online' ? 'Online' : 'Checking'}
+          <span
+            className="flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-black"
+            style={serverStatus === 'online'
+              ? { background: 'rgba(52,211,153,0.10)', color: '#34d399', borderColor: 'rgba(52,211,153,0.28)' }
+              : { background: 'rgba(251,191,36,0.10)', color: '#fbbf24', borderColor: 'rgba(251,191,36,0.28)' }
+            }
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${serverStatus === 'online' ? 'animate-pulse' : ''}`}
+              style={{ background: serverStatus === 'online' ? '#34d399' : '#fbbf24' }}
+            />
+            {serverStatus === 'online' ? 'Online' : 'Checking…'}
           </span>
         </div>
       </div>
