@@ -75,9 +75,12 @@ if (fs.existsSync(clientDistPath)) {
 }
 
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`🚀 ATS Monorepo Server listening on http://localhost:${PORT}`);
-});
+// Chỉ gọi app.listen() khi chạy trực tiếp (local dev/production)
+// Khi Vercel import file này qua api/index.js thì KHÔNG gọi listen()
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 ATS Monorepo Server listening on http://localhost:${PORT}`);
+  });
+}
 
 module.exports = { app, prisma };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { 
   Building2, 
   Users, 
@@ -47,10 +47,10 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-6 shadow-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-extrabold text-white tracking-tight">Cơ Cấu Phòng Ban (Departments & Org Structure)</h2>
+            <h2 className="text-2xl font-extrabold text-slate-100 tracking-tight">Cơ Cấu Phòng Ban (Departments & Org Structure)</h2>
             <span className="bg-orange-500/10 text-orange-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-orange-500/20">
               Cơ Cấu Tổ Chức
             </span>
@@ -60,7 +60,7 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold px-4.5 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 shrink-0"
+          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-slate-100 font-bold px-4.5 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Thêm Phòng Ban Mới</span>
@@ -73,7 +73,7 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
           // Count active jobs in this department
           const activeJobsCount = jobs.filter(j => j.department?.toLowerCase() === dept.name.toLowerCase()).length;
           return (
-            <div key={dept.id} className="zoho-card bg-slate-900/80 border border-slate-800/90 rounded-3xl p-6 shadow-xl flex flex-col justify-between gap-5">
+            <div key={dept.id} className="zoho-card bg-[#14192a]/80 border border-slate-700/60/90 rounded-3xl p-6 shadow-xl flex flex-col justify-between gap-5">
               <div>
                 <div className="flex justify-between items-start mb-3">
                   <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-500/20 to-amber-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400">
@@ -84,13 +84,13 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
                   </span>
                 </div>
 
-                <h3 className="font-extrabold text-xl text-white">{dept.name}</h3>
+                <h3 className="font-extrabold text-xl text-slate-100">{dept.name}</h3>
                 <p className="text-xs text-slate-400 mt-1">Trưởng bộ phận: <strong className="text-slate-200">{dept.lead}</strong></p>
 
-                <div className="grid grid-cols-2 gap-2 mt-4 bg-slate-950/60 p-3 rounded-2xl border border-slate-800 text-xs">
+                <div className="grid grid-cols-2 gap-2 mt-4 bg-[#0d1117]/60 p-3 rounded-2xl border border-slate-700/60 text-xs">
                   <div>
                     <span className="text-slate-500 text-[10px] block font-bold uppercase">Nhân sự hiện tại</span>
-                    <span className="text-white font-extrabold font-mono text-sm">{dept.headcount} người</span>
+                    <span className="text-slate-100 font-extrabold font-mono text-sm">{dept.headcount} người</span>
                   </div>
                   <div>
                     <span className="text-slate-500 text-[10px] block font-bold uppercase">Tin tuyển đang mở</span>
@@ -100,13 +100,13 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
 
                 <div className="mt-3 text-xs text-slate-400">
                   <span className="text-[11px] font-semibold text-slate-500 block mb-1">Kỹ năng cốt lõi:</span>
-                  <span className="text-slate-300 bg-slate-900 px-2 py-1 rounded-lg border border-slate-800/80 inline-block text-[11px]">
+                  <span className="text-slate-300 bg-[#14192a] px-2 py-1 rounded-lg border border-slate-700/60/80 inline-block text-[11px]">
                     {dept.topSkills}
                   </span>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <div className="pt-3 border-t border-slate-700/60/80 flex items-center justify-between">
                 <span className="text-xs font-mono font-bold text-slate-400">
                   Quỹ lương: {dept.budget}
                 </span>
@@ -124,9 +124,9 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
 
       {/* Modal Add Department */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col gap-4">
-            <h3 className="text-base font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 bg-[#0d1117]/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#14192a] border border-slate-700/60 rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col gap-4">
+            <h3 className="text-base font-bold text-slate-100 flex items-center gap-2 border-b border-slate-700/60 pb-3">
               <Building2 className="w-5 h-5 text-orange-400" />
               Thêm Phòng Ban Mới
             </h3>
@@ -140,7 +140,7 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
                   placeholder="Ví dụ: Security & Cloud Infrastructure"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
@@ -152,7 +152,7 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
                   placeholder="Ví dụ: Nguyễn Văn A (Lead Engineer)"
                   value={formData.lead}
                   onChange={(e) => setFormData({...formData, lead: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
@@ -163,21 +163,21 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
                   placeholder="Ví dụ: Kubernetes, AWS, Go, CyberSecurity"
                   value={formData.topSkills}
                   onChange={(e) => setFormData({...formData, topSkills: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800 mt-2">
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-700/60 mt-2">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-xs text-slate-400 hover:text-white"
+                  className="px-4 py-2 text-xs text-slate-400 hover:text-slate-100"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-4 py-2 rounded-xl text-xs transition-colors"
+                  className="bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-4 py-2 rounded-xl text-xs transition-colors"
                 >
                   Tạo Phòng Ban
                 </button>

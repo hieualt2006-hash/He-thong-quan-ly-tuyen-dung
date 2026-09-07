@@ -1,81 +1,339 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap');
 
+/* ============================================================
+   MIDNIGHT INDIGO — Tailwind v4 Theme Override
+   Thay màu tận gốc: bg-slate-*, text-slate-*, border-slate-*
+   tất cả component sẽ tự động dùng màu mới
+   ============================================================ */
+@theme {
+  /* --- Font --- */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* --- Slate → Midnight Indigo (tím đen ấm, không harsh) --- */
+  --color-slate-50:  #f3f1ff;
+  --color-slate-100: #e5e1ff;
+  --color-slate-200: #cdc7f7;
+  --color-slate-300: #b0a8ec;
+  --color-slate-400: #8880c4;
+  --color-slate-500: #6660a0;
+  --color-slate-600: #4e4a80;
+  --color-slate-700: #363260;
+  --color-slate-800: #221e44;
+  --color-slate-900: #161228;
+  --color-slate-950: #0f0c1e;
+
+  /* --- Orange → Warm Amber (ít chói hơn orange rực) --- */
+  --color-orange-50:  #fffbeb;
+  --color-orange-100: #fef3c7;
+  --color-orange-200: #fde68a;
+  --color-orange-300: #fcd34d;
+  --color-orange-400: #fbbf24;
+  --color-orange-500: #f59e0b;
+  --color-orange-600: #d97706;
+  --color-orange-700: #b45309;
+  --color-orange-800: #92400e;
+  --color-orange-900: #78350f;
+  --color-orange-950: #451a03;
+
+  /* --- Amber (giữ nguyên để dùng trực tiếp) --- */
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+  html.light {
+    color-scheme: light;
+  }
+
   body {
-    @apply font-sans antialiased min-h-screen selection:bg-orange-500 selection:text-white transition-colors duration-300;
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: rgba(245, 158, 11, 0.28);
+    color: inherit;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 }
 
+/* ============================================================
+   DESIGN TOKENS — Dark Mode (Default)
+   ============================================================ */
 :root {
-  --bg-app: #030712;
-  --bg-sidebar: rgba(15, 23, 42, 0.95);
-  --bg-header: rgba(15, 23, 42, 0.9);
-  --bg-card: rgba(15, 23, 42, 0.85);
-  --bg-card-subtle: rgba(2, 6, 23, 0.7);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-main: rgba(51, 65, 85, 0.7);
-  --border-subtle: rgba(51, 65, 85, 0.4);
+  /* Backgrounds */
+  --c-bg:          #0f0c1e;
+  --c-surface:     #161228;
+  --c-card:        #1e1a34;
+  --c-card-hover:  #252040;
+  --c-overlay:     rgba(15, 12, 30, 0.92);
+
+  /* Sidebar & Header */
+  --c-sidebar:     #13102440;
+  --c-header:      rgba(15, 12, 30, 0.88);
+
+  /* Borders */
+  --c-border:      rgba(139, 120, 220, 0.14);
+  --c-border-md:   rgba(139, 120, 220, 0.22);
+  --c-border-lg:   rgba(139, 120, 220, 0.36);
+
+  /* Text */
+  --c-text:        #c8c4e8;
+  --c-text-hi:     #e8e4f8;
+  --c-text-lo:     #7a76a8;
+  --c-text-faint:  #504c78;
+
+  /* Accent — Warm Amber */
+  --c-accent:      #f5a623;
+  --c-accent-dim:  rgba(245, 166, 35, 0.12);
+  --c-accent-ring: rgba(245, 166, 35, 0.28);
+  --c-accent-glow: rgba(245, 166, 35, 0.16);
+
+  /* Status Colors */
+  --c-success:     #34d399;
+  --c-warn:        #fbbf24;
+  --c-danger:      #f87171;
+  --c-info:        #60a5fa;
+
+  /* Shadows */
+  --shadow-sm:   0 1px 3px 0 rgba(0,0,0,0.35), 0 1px 2px -1px rgba(0,0,0,0.35);
+  --shadow-md:   0 4px 16px -2px rgba(0,0,0,0.45), 0 2px 4px -2px rgba(0,0,0,0.45);
+  --shadow-lg:   0 12px 40px -4px rgba(0,0,0,0.55), 0 4px 8px -4px rgba(0,0,0,0.55);
+  --shadow-accent: 0 4px 20px -4px rgba(245,166,35,0.35);
 }
 
+/* ============================================================
+   LIGHT MODE TOKENS
+   ============================================================ */
 .light {
-  --bg-app: #f1f5f9;
-  --bg-sidebar: #ffffff;
-  --bg-header: rgba(255, 255, 255, 0.95);
-  --bg-card: #ffffff;
-  --bg-card-subtle: #f8fafc;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-main: #e2e8f0;
-  --border-subtle: #cbd5e1;
+  /* Backgrounds */
+  --c-bg:          #f5f3ee;
+  --c-surface:     #ffffff;
+  --c-card:        #ffffff;
+  --c-card-hover:  #faf9f6;
+  --c-overlay:     rgba(245, 243, 238, 0.95);
+
+  /* Sidebar & Header */
+  --c-sidebar:     #ffffff;
+  --c-header:      rgba(255, 255, 255, 0.92);
+
+  /* Borders */
+  --c-border:      #e8e3d8;
+  --c-border-md:   #d8d0c4;
+  --c-border-lg:   #c8beae;
+
+  /* Text */
+  --c-text:        #4a4260;
+  --c-text-hi:     #1a1630;
+  --c-text-lo:     #7a7290;
+  --c-text-faint:  #a8a0c0;
+
+  /* Accent */
+  --c-accent:      #d4890a;
+  --c-accent-dim:  rgba(212, 137, 10, 0.10);
+  --c-accent-ring: rgba(212, 137, 10, 0.24);
+  --c-accent-glow: rgba(212, 137, 10, 0.12);
+
+  /* Status Colors */
+  --c-success:     #059669;
+  --c-warn:        #d97706;
+  --c-danger:      #dc2626;
+  --c-info:        #2563eb;
+
+  /* Shadows */
+  --shadow-sm:   0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.06);
+  --shadow-md:   0 4px 16px -2px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.08);
+  --shadow-lg:   0 12px 40px -4px rgba(0,0,0,0.10), 0 4px 8px -4px rgba(0,0,0,0.10);
+  --shadow-accent: 0 4px 20px -4px rgba(212,137,10,0.25);
 }
 
-/* Micro Animations & Transitions */
-button, a {
+/* ============================================================
+   COMPONENT UTILITIES
+   ============================================================ */
+
+/* Card base */
+.ui-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.ui-card-hover:hover {
+  background: var(--c-card-hover);
+  border-color: var(--c-border-md);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
 
-button:active {
+/* Accent button */
+.ui-btn-accent {
+  background: linear-gradient(135deg, #f5a623, #e8940f);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  box-shadow: var(--shadow-accent);
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ui-btn-accent:hover {
+  background: linear-gradient(135deg, #f8b030, #f5a623);
+  box-shadow: 0 6px 24px -4px rgba(245,166,35,0.45);
+  transform: translateY(-1px);
+}
+.ui-btn-accent:active {
   transform: scale(0.97);
 }
 
-.zoho-card {
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+/* Ghost button */
+.ui-btn-ghost {
+  background: transparent;
+  border: 1px solid var(--c-border-md);
+  color: var(--c-text);
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.zoho-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(249, 115, 22, 0.25);
+.ui-btn-ghost:hover {
+  background: var(--c-card-hover);
+  border-color: var(--c-border-lg);
+  color: var(--c-text-hi);
 }
 
-.light .zoho-card:hover {
-  box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(249, 115, 22, 0.25);
+/* Badge */
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  letter-spacing: 0.02em;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+/* Form input */
+.ui-input {
+  width: 100%;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border-md);
+  border-radius: 12px;
+  color: var(--c-text-hi);
+  font-size: 13px;
+  padding: 10px 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
 }
-::-webkit-scrollbar-track {
-  background: var(--bg-card-subtle);
+.ui-input:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px var(--c-accent-ring);
 }
+.ui-input::placeholder {
+  color: var(--c-text-faint);
+}
+
+/* Sidebar nav item */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-text-lo);
+  cursor: pointer;
+  transition: all 0.16s ease;
+  border: 1px solid transparent;
+}
+.nav-item:hover {
+  background: var(--c-card);
+  color: var(--c-text-hi);
+  border-color: var(--c-border);
+}
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(245,166,35,0.18), rgba(245,166,35,0.08));
+  color: var(--c-accent);
+  border-color: var(--c-accent-ring);
+  font-weight: 700;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: var(--c-border-lg);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: var(--c-text-faint);
 }
 
-/* Keyframe animations */
-@keyframes fadeIn {
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
   from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96) translateY(4px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0);   }
+}
+@keyframes pulse-accent {
+  0%, 100% { box-shadow: 0 0 0 0 var(--c-accent-ring); }
+  50%       { box-shadow: 0 0 0 6px transparent; }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.animate-fade-up         { animation: fadeUp    0.24s cubic-bezier(0.4,0,0.2,1) forwards; }
+.animate-fade-in         { animation: fadeIn    0.20s cubic-bezier(0.4,0,0.2,1) forwards; }
+.animate-fade-in-scale   { animation: scaleIn   0.22s cubic-bezier(0.4,0,0.2,1) forwards; }
+.animate-slide-in-right  { animation: slideRight 0.20s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+/* ============================================================
+   MISC GLOBAL OVERRIDES
+   ============================================================ */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Glassmorphism panel */
+.glass {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
+/* Hide number input arrows */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
+/* Legacy class aliases (backward compat) */
+.ats-card { transition: all 0.2s ease; }
+.ats-card:hover { transform: translateY(-1px); }
+.zoho-card { transition: all 0.2s ease; }
+.zoho-card:hover { transform: translateY(-1px); }
+.ats-input { outline: none; }
+.status-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 9999px; border: 1px solid transparent; }

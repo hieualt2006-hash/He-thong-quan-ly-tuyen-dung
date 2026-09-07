@@ -1,0 +1,19 @@
+{
+  "name": "smart-ats-pro",
+  "version": "1.0.0",
+  "description": "Smart ATS Pro — AI-integrated Recruitment Management System (Monorepo)",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names \"SERVER,CLIENT\" --prefix-colors \"green.bold,cyan.bold\" --kill-others-on-fail \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "start": "npm start --prefix server",
+    "build": "npm run build --prefix client",
+    "dev:share": "npm run build --prefix client && concurrently --names \"SERVER,TUNNEL\" --prefix-colors \"green.bold,magenta.bold\" --kill-others-on-fail \"npm start --prefix server\" \"npx localtunnel --port 5000\"",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "prisma:migrate": "npm run prisma:migrate --prefix server",
+    "prisma:studio": "npm run prisma:studio --prefix server",
+    "vercel-build": "npm install --prefix server && npm run prisma:generate --prefix server && npm install --prefix client && npm run build --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

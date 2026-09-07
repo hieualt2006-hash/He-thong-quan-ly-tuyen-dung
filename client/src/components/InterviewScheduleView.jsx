@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { 
   Calendar, 
   Clock, 
@@ -53,10 +53,10 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
   return (
     <div className="flex flex-col gap-6">
       {/* Header & Sub-Tabs Navigation */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-extrabold text-white tracking-tight">Quản Lý Phỏng Vấn & Ngân Hàng Câu Hỏi AI</h2>
+            <h2 className="text-2xl font-extrabold text-slate-100 tracking-tight">Quản Lý Phỏng Vấn & Ngân Hàng Câu Hỏi AI</h2>
             <span className="bg-orange-500/10 text-orange-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-orange-500/20">
               Lịch Phỏng Vấn & AI
             </span>
@@ -65,13 +65,13 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shrink-0">
+        <div className="flex items-center gap-1.5 bg-[#0d1117] p-1.5 rounded-2xl border border-slate-700/60 shrink-0">
           <button
             onClick={() => setActiveTab('schedule')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'schedule'
-                ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-slate-100 shadow-md'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             <Calendar className="w-4 h-4" />
@@ -81,8 +81,8 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
             onClick={() => setActiveTab('bank')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'bank'
-                ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-slate-100 shadow-md'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             <BookOpen className="w-4 h-4" />
@@ -96,7 +96,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column: Candidate Interview List */}
           <div className="lg:col-span-2 flex flex-col gap-4">
-            <div className="flex justify-between items-center bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+            <div className="flex justify-between items-center bg-[#14192a]/60 p-4 rounded-2xl border border-slate-700/60">
               <span className="text-xs font-bold uppercase tracking-wider text-orange-400 flex items-center gap-1.5">
                 <Clock className="w-4 h-4" />
                 Danh Sách Ứng Viên Chờ Phỏng Vấn ({interviewApps.length})
@@ -105,7 +105,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
             </div>
 
             {interviewApps.length === 0 ? (
-              <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-12 text-center text-slate-400 text-sm">
+              <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-12 text-center text-slate-400 text-sm">
                 Hiện chưa có ứng viên nào ở trạng thái "Mời Phỏng Vấn". Vui lòng chọn hồ sơ từ Tab Ứng viên!
               </div>
             ) : (
@@ -113,7 +113,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
                 {interviewApps.map((app, idx) => (
                   <div 
                     key={app.id}
-                    className="zoho-card bg-slate-900/80 border border-slate-800/90 rounded-2xl p-5 shadow-lg flex flex-col justify-between gap-4"
+                    className="zoho-card bg-[#14192a]/80 border border-slate-700/60/90 rounded-2xl p-5 shadow-lg flex flex-col justify-between gap-4"
                   >
                     <div>
                       <div className="flex justify-between items-start mb-2">
@@ -125,10 +125,10 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
                         </span>
                       </div>
 
-                      <h3 className="font-extrabold text-white text-base">{app.candidate?.fullName || 'Ứng viên'}</h3>
+                      <h3 className="font-extrabold text-slate-100 text-base">{app.candidate?.fullName || 'Ứng viên'}</h3>
                       <p className="text-xs text-slate-400">{app.job?.title}</p>
 
-                      <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 mt-3 flex flex-col gap-1.5 text-xs text-slate-300">
+                      <div className="bg-[#0d1117]/60 p-3 rounded-xl border border-slate-700/60/80 mt-3 flex flex-col gap-1.5 text-xs text-slate-300">
                         <div className="flex items-center gap-2">
                           <Calendar className="w-3.5 h-3.5 text-orange-400" />
                           <span>Hôm nay: 14:30 - 15:30 (Online Google Meet)</span>
@@ -140,7 +140,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                    <div className="pt-3 border-t border-slate-700/60/80 flex items-center justify-between">
                       <button
                         onClick={() => onSelectApplication(app)}
                         className="text-xs font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1"
@@ -161,14 +161,14 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
           </div>
 
           {/* Right Column: Quick Interview Tips & AI Tools */}
-          <div className="bg-slate-900/80 border border-slate-800/90 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
+          <div className="bg-[#14192a]/80 border border-slate-700/60/90 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-400">
               <Sparkles className="w-4 h-4 text-orange-400" />
               Công Cụ Đánh Giá Phỏng Vấn AI
             </div>
 
-            <div className="flex flex-col gap-3 text-xs text-slate-300 leading-relaxed bg-slate-950/70 p-4 rounded-2xl border border-slate-800">
-              <p className="font-bold text-white flex items-center gap-1.5">
+            <div className="flex flex-col gap-3 text-xs text-slate-300 leading-relaxed bg-[#0d1117]/70 p-4 rounded-2xl border border-slate-700/60">
+              <p className="font-bold text-slate-100 flex items-center gap-1.5">
                 💡 Lưu ý phỏng vấn chuẩn ATS:
               </p>
               <ul className="list-disc list-inside space-y-1.5 text-slate-400">
@@ -179,11 +179,11 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
             </div>
 
             <div className="bg-gradient-to-br from-orange-500/15 via-amber-500/10 to-transparent p-5 rounded-2xl border border-orange-500/30 flex flex-col gap-3">
-              <h4 className="font-extrabold text-sm text-white">Khởi tạo nhanh phòng họp phỏng vấn</h4>
+              <h4 className="font-extrabold text-sm text-slate-100">Khởi tạo nhanh phòng họp phỏng vấn</h4>
               <p className="text-xs text-slate-300">Tạo liên kết Google Meet / Zoom và gửi thư mời tự động tới ứng viên.</p>
               <button 
                 onClick={() => alert('Đã tạo phòng họp Google Meet và tạo link phỏng vấn tự động!')}
-                className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition-all shadow-md shadow-orange-500/20 flex items-center justify-center gap-2"
+                className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-slate-100 font-bold px-4 py-2.5 rounded-xl text-xs transition-all shadow-md shadow-orange-500/20 flex items-center justify-center gap-2"
               >
                 <Video className="w-4 h-4" />
                 <span>Tạo Link Phỏng Vấn Nhanh</span>
@@ -197,7 +197,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
       {activeTab === 'bank' && (
         <div className="flex flex-col gap-6">
           {/* Add Question Form */}
-          <form onSubmit={handleAddQuestion} className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
+          <form onSubmit={handleAddQuestion} className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
             <h3 className="text-sm font-bold uppercase tracking-wider text-orange-400 flex items-center gap-2">
               <Plus className="w-4 h-4" />
               Thêm Câu Hỏi Mới Vào Ngân Hàng Phỏng Vấn AI
@@ -211,7 +211,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
                   placeholder="Nhập nội dung câu hỏi phỏng vấn cần thêm..."
                   value={newQuestionText}
                   onChange={(e) => setNewQuestionText(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
@@ -219,7 +219,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
                 <select
                   value={customCategory}
                   onChange={(e) => setCustomCategory(e.target.value)}
-                  className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-orange-500 flex-1"
+                  className="bg-[#0d1117] border border-slate-700/60 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-orange-500 flex-1"
                 >
                   <option value="Technical">Technical</option>
                   <option value="System Design">System Design</option>
@@ -230,7 +230,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
 
                 <button
                   type="submit"
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition-colors shrink-0"
+                  className="bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-4 py-2.5 rounded-xl text-xs transition-colors shrink-0"
                 >
                   Thêm
                 </button>
@@ -241,7 +241,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
           {/* Question List */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {questionsBank.map((q) => (
-              <div key={q.id} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col justify-between gap-3">
+              <div key={q.id} className="bg-[#14192a]/80 border border-slate-700/60 rounded-2xl p-5 shadow-lg flex flex-col justify-between gap-3">
                 <div className="flex justify-between items-start gap-2">
                   <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-orange-500/10 text-orange-300 border border-orange-500/20">
                     {q.category}
@@ -253,7 +253,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
                 <p className="text-xs text-slate-200 font-medium leading-relaxed">
                   {q.question}
                 </p>
-                <div className="text-[11px] text-slate-500 border-t border-slate-800/80 pt-2 flex items-center justify-between">
+                <div className="text-[11px] text-slate-500 border-t border-slate-700/60/80 pt-2 flex items-center justify-between">
                   <span>Áp dụng cho: <strong>{q.role}</strong></span>
                   <span className="text-orange-400 font-semibold cursor-pointer hover:underline">Sao chép câu hỏi</span>
                 </div>

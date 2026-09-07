@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { 
   Key, 
   X, 
@@ -64,14 +64,14 @@ function ChangePasswordModal({ isOpen, onClose, user }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0d1117]/80 backdrop-blur-md animate-in fade-in duration-200">
       <div 
-        className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-7"
+        className="relative w-full max-w-md bg-[#14192a] border border-slate-700/60 rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-7"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-800 transition-colors"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-100 p-1.5 rounded-full hover:bg-slate-800 transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -81,7 +81,7 @@ function ChangePasswordModal({ isOpen, onClose, user }) {
             <Key className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg font-extrabold text-white">Đổi Mật Khẩu Cá Nhân</h3>
+            <h3 className="text-lg font-extrabold text-slate-100">Đổi Mật Khẩu Cá Nhân</h3>
             <p className="text-xs text-slate-400">Tài khoản: <span className="text-orange-400 font-semibold">{user?.email}</span></p>
           </div>
         </div>
@@ -109,7 +109,7 @@ function ChangePasswordModal({ isOpen, onClose, user }) {
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
               placeholder="Nhập mật khẩu đang dùng..."
-              className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+              className="w-full bg-[#0d1117]/80 border border-slate-700/60 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
             />
           </div>
 
@@ -121,7 +121,7 @@ function ChangePasswordModal({ isOpen, onClose, user }) {
               onChange={(e) => setNewPassword(e.target.value)}
               required
               placeholder="Tối thiểu 4 ký tự..."
-              className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+              className="w-full bg-[#0d1117]/80 border border-slate-700/60 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
             />
           </div>
 
@@ -133,7 +133,7 @@ function ChangePasswordModal({ isOpen, onClose, user }) {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               placeholder="Nhập lại mật khẩu mới..."
-              className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+              className="w-full bg-[#0d1117]/80 border border-slate-700/60 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
             />
           </div>
 
@@ -159,7 +159,7 @@ function ChangePasswordModal({ isOpen, onClose, user }) {
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
+              className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-slate-100 rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
             >
               {loading ? 'Đang lưu...' : 'Cập Nhật Mật Khẩu'}
             </button>

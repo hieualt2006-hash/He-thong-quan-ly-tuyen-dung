@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { 
   Users, 
   UserPlus, 
@@ -122,13 +122,13 @@ function UserManagementView({ currentUser }) {
   return (
     <div className="flex flex-col gap-6">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900/80 p-6 rounded-3xl border border-slate-800 shadow-xl">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#14192a]/80 p-6 rounded-3xl border border-slate-700/60 shadow-xl">
         <div>
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-xl flex items-center justify-center font-bold">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl font-extrabold text-slate-100 tracking-tight">
               Quản Trị Người Dùng & Cấp Quyền
             </h2>
             <span className="bg-indigo-500/10 text-indigo-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-indigo-500/20">
@@ -142,7 +142,7 @@ function UserManagementView({ currentUser }) {
 
         <button
           onClick={() => { setIsCreateOpen(true); setErrorMsg(''); setSuccessMsg(''); }}
-          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-4 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 active:scale-95 shrink-0"
+          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-slate-100 font-bold px-4 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 active:scale-95 shrink-0"
         >
           <UserPlus className="w-4 h-4" />
           <span>+ Cấp Tài Khoản Mới</span>
@@ -151,17 +151,17 @@ function UserManagementView({ currentUser }) {
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-slate-900/70 border border-slate-800 p-4.5 rounded-2xl flex items-center gap-4">
+        <div className="bg-[#14192a]/70 border border-slate-700/60 p-4.5 rounded-2xl flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
             <Users className="w-6 h-6" />
           </div>
           <div>
             <span className="text-xs text-slate-400 font-medium">Tổng số tài khoản</span>
-            <h4 className="text-2xl font-black text-white mt-0.5">{users.length}</h4>
+            <h4 className="text-2xl font-black text-slate-100 mt-0.5">{users.length}</h4>
           </div>
         </div>
 
-        <div className="bg-slate-900/70 border border-slate-800 p-4.5 rounded-2xl flex items-center gap-4">
+        <div className="bg-[#14192a]/70 border border-slate-700/60 p-4.5 rounded-2xl flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
             <ShieldCheck className="w-6 h-6" />
           </div>
@@ -171,7 +171,7 @@ function UserManagementView({ currentUser }) {
           </div>
         </div>
 
-        <div className="bg-slate-900/70 border border-slate-800 p-4.5 rounded-2xl flex items-center gap-4">
+        <div className="bg-[#14192a]/70 border border-slate-700/60 p-4.5 rounded-2xl flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
             <UserCheck className="w-6 h-6" />
           </div>
@@ -183,9 +183,9 @@ function UserManagementView({ currentUser }) {
       </div>
 
       {/* Filter & Search */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 shadow-xl">
+      <div className="bg-[#14192a]/80 border border-slate-700/60 rounded-3xl p-5 shadow-xl">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-          <h3 className="font-bold text-sm text-white">Danh Sách Thành Viên Quản Trị</h3>
+          <h3 className="font-bold text-sm text-slate-100">Danh Sách Thành Viên Quản Trị</h3>
           <div className="relative w-full sm:w-72">
             <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -193,7 +193,7 @@ function UserManagementView({ currentUser }) {
               placeholder="Tìm theo tên, email, vai trò..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+              className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
             />
           </div>
         </div>
@@ -202,7 +202,7 @@ function UserManagementView({ currentUser }) {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
+              <tr className="border-b border-slate-700/60 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
                 <th className="pb-3 px-3">Thành viên</th>
                 <th className="pb-3 px-3">Email Đăng Nhập</th>
                 <th className="pb-3 px-3">Vai Trò</th>
@@ -210,7 +210,7 @@ function UserManagementView({ currentUser }) {
                 <th className="pb-3 px-3 text-right">Thao Tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-700/50/60">
               {filteredUsers.map((u) => {
                 const isSelf = u.id === currentUser?.id;
                 const isAdmin = u.role === 'ADMIN';
@@ -221,13 +221,13 @@ function UserManagementView({ currentUser }) {
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
                           isAdmin 
-                            ? 'bg-indigo-600 text-white ring-2 ring-indigo-500/30' 
-                            : 'bg-orange-600 text-white ring-2 ring-orange-500/30'
+                            ? 'bg-indigo-600 text-slate-100 ring-2 ring-indigo-500/30' 
+                            : 'bg-orange-600 text-slate-100 ring-2 ring-orange-500/30'
                         }`}>
                           {u.name?.charAt(0) || 'U'}
                         </div>
                         <div>
-                          <div className="font-bold text-white flex items-center gap-1.5">
+                          <div className="font-bold text-slate-100 flex items-center gap-1.5">
                             <span>{u.name}</span>
                             {isSelf && (
                               <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.2 rounded font-semibold">
@@ -280,14 +280,14 @@ function UserManagementView({ currentUser }) {
 
       {/* Modal Cấp Tài Khoản Mới */}
       {isCreateOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0d1117]/80 backdrop-blur-md">
           <div 
-            className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-7"
+            className="relative w-full max-w-md bg-[#14192a] border border-slate-700/60 rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-7"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setIsCreateOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-800"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-100 p-1.5 rounded-full hover:bg-slate-800"
             >
               <X className="w-5 h-5" />
             </button>
@@ -297,7 +297,7 @@ function UserManagementView({ currentUser }) {
                 <UserPlus className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-extrabold text-white">Cấp Tài Khoản Mới</h3>
+                <h3 className="text-lg font-extrabold text-slate-100">Cấp Tài Khoản Mới</h3>
                 <p className="text-xs text-slate-400">Tạo tài khoản quản trị cho HR hoặc Admin</p>
               </div>
             </div>
@@ -325,7 +325,7 @@ function UserManagementView({ currentUser }) {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Ví dụ: Nguyễn Văn A"
                   required
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
@@ -337,7 +337,7 @@ function UserManagementView({ currentUser }) {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="Ví dụ: hr.nguyenvana@smartats.com"
                   required
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
                 />
               </div>
 
@@ -349,7 +349,7 @@ function UserManagementView({ currentUser }) {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   placeholder="Nhập mật khẩu ban đầu..."
                   required
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 font-mono"
+                  className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500 font-mono"
                 />
               </div>
 
@@ -362,7 +362,7 @@ function UserManagementView({ currentUser }) {
                     className={`p-3 rounded-xl border text-left transition-all ${
                       formData.role === 'HR'
                         ? 'bg-orange-500/10 border-orange-500 text-orange-400 font-bold'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                        : 'bg-[#0d1117] border-slate-700/60 text-slate-400 hover:text-slate-100'
                     }`}
                   >
                     <div className="flex items-center gap-1.5 text-xs font-bold">
@@ -378,7 +378,7 @@ function UserManagementView({ currentUser }) {
                     className={`p-3 rounded-xl border text-left transition-all ${
                       formData.role === 'ADMIN'
                         ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400 font-bold'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                        : 'bg-[#0d1117] border-slate-700/60 text-slate-400 hover:text-slate-100'
                     }`}
                   >
                     <div className="flex items-center gap-1.5 text-xs font-bold">
@@ -401,7 +401,7 @@ function UserManagementView({ currentUser }) {
                 <button
                   type="submit"
                   disabled={creating}
-                  className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
+                  className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-slate-100 rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
                 >
                   {creating ? 'Đang tạo...' : 'Tạo & Cấp Tài Khoản'}
                 </button>

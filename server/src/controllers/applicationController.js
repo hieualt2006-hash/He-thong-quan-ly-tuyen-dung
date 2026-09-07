@@ -34,9 +34,16 @@ async function createApplication(req, res) {
     let rawCvText = null;
 
     if (file) {
-      cvPath = `/uploads/${file.filename}`;
-      // Extract raw text from uploaded PDF
-      rawCvText = await extractTextFromPdf(file.path);
+      if (file.buffer) {
+        // Vercel (memory storage): trích xuất text từ buffer trong RAM
+        // Không lưu file vật lý — chỉ lưu rawCvText vào DB
+        rawCvText = await extractTextFromPdf(file.buffer);
+        cvPath = null;
+      } else {
+        // Local (disk storage): lưu file và trích xuất text từ đường dẫn
+        cvPath = `/uploads/${file.filename}`;
+        rawCvText = await extractTextFromPdf(file.path);
+      }
     }
 
     // Find or create Candidate by email

@@ -188,11 +188,8 @@ function AIChatBot({ theme = 'dark' }) {
       {/* Chatbot Window */}
       {isOpen && (
         <div 
-          className={`w-[410px] max-w-[calc(100vw-2rem)] h-[560px] rounded-3xl border shadow-2xl flex flex-col overflow-hidden mb-3 animate-fade-in transition-all ${
-            isLight
-              ? 'bg-white border-slate-200 text-slate-800'
-              : 'bg-slate-900/95 border-slate-800 text-slate-100 backdrop-blur-2xl'
-          }`}
+          className="w-[410px] max-w-[calc(100vw-2rem)] h-[560px] rounded-3xl border shadow-2xl flex flex-col overflow-hidden mb-3 animate-fade-in transition-all"
+          style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)', color: 'var(--text-main)' }}
         >
           {/* Header */}
           <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 p-3.5 text-white flex items-center justify-between shadow-md">
@@ -248,17 +245,20 @@ function AIChatBot({ theme = 'dark' }) {
 
           {/* Optional API Key Input Drawer */}
           {showKeyInput && (
-            <div className="p-2.5 bg-slate-800 border-b border-slate-700 text-xs flex items-center gap-2 animate-fade-in">
+            <div className="p-2.5 border-b text-xs flex items-center gap-2 animate-fade-in"
+              style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)' }}>
               <input 
                 type="password"
                 placeholder="Dán Gemini API Key (tùy chọn)..."
                 value={apiKeyVal}
                 onChange={(e) => setApiKeyVal(e.target.value)}
-                className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-white text-[11px] focus:outline-none focus:border-orange-500"
+                className="flex-1 rounded-lg px-2 py-1 text-[11px] border focus:outline-none"
+                style={{ background: 'var(--bg-app)', borderColor: 'var(--border-main)', color: 'var(--text-heading)', caretColor: 'var(--accent)' }}
               />
               <button
                 onClick={() => handleSaveApiKey(apiKeyVal)}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold"
+                className="text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold"
+                style={{ background: 'var(--accent)' }}
               >
                 Lưu
               </button>
@@ -267,18 +267,16 @@ function AIChatBot({ theme = 'dark' }) {
 
 
           {/* Quick Action Suggestion Chips */}
-          <div className={`p-2 border-b overflow-x-auto flex gap-1.5 no-scrollbar ${
-            isLight ? 'bg-slate-50 border-slate-100' : 'bg-slate-950/70 border-slate-800/80'
-          }`}>
+          <div className="p-2 border-b overflow-x-auto flex gap-1.5 no-scrollbar"
+            style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)' }}>
             {QUICK_SUGGESTIONS.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendMessage(item.text)}
-                className={`text-[10.5px] font-semibold px-2.5 py-1 rounded-xl whitespace-nowrap transition-all duration-200 shrink-0 border ${
-                  isLight
-                    ? 'bg-white hover:bg-orange-50 hover:text-orange-600 border-slate-200 text-slate-700 shadow-sm'
-                    : 'bg-slate-800 hover:bg-orange-500/20 hover:text-orange-300 border-slate-700 text-slate-300'
-                }`}
+                className="text-[10.5px] font-semibold px-2.5 py-1 rounded-xl whitespace-nowrap transition-all duration-200 shrink-0 border"
+                style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)', color: 'var(--text-muted)' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-border)'; e.currentTarget.style.color = 'var(--accent)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-main)'; e.currentTarget.style.color = 'var(--text-muted)'; }}
               >
                 {item.label}
               </button>
@@ -286,24 +284,22 @@ function AIChatBot({ theme = 'dark' }) {
           </div>
 
           {/* Message List */}
-          <div className="flex-1 p-3.5 overflow-y-auto space-y-3.5 text-xs">
+          <div className="flex-1 p-3.5 overflow-y-auto space-y-3.5 text-xs" style={{ background: 'var(--bg-card)' }}>
             {messages.map((msg) => (
               <div 
                 key={msg.id}
                 className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
               >
                 <div 
-                  className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 leading-relaxed ${
-                    msg.sender === 'user'
-                      ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-br-none shadow-md'
-                      : isLight
-                        ? 'bg-slate-100 text-slate-800 rounded-bl-none border border-slate-200/90'
-                        : 'bg-slate-800/90 text-slate-200 rounded-bl-none border border-slate-700/60'
-                  }`}
+                  className="max-w-[88%] rounded-2xl px-3.5 py-2.5 leading-relaxed"
+                  style={msg.sender === 'user'
+                    ? { background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#fff', borderRadius: '18px 18px 4px 18px', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.35)' }
+                    : { background: 'var(--bg-card-subtle)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '18px 18px 18px 4px' }
+                  }
                 >
                   <p className="whitespace-pre-wrap">{msg.text}</p>
                 </div>
-                <span className="text-[9px] text-slate-400 mt-1 px-1 font-mono">{msg.time}</span>
+                <span className="text-[9px] mt-1 px-1 font-mono" style={{ color: 'var(--text-faint)' }}>{msg.time}</span>
               </div>
             ))}
 
@@ -314,25 +310,24 @@ function AIChatBot({ theme = 'dark' }) {
           {/* Input Box */}
           <form 
             onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}
-            className={`p-3 border-t flex items-center gap-2 ${
-              isLight ? 'bg-white border-slate-200' : 'bg-slate-950 border-slate-800'
-            }`}
+            className="p-3 border-t flex items-center gap-2"
+            style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-main)' }}
           >
             <input
               type="text"
               placeholder="Hỏi về vị trí tuyển dụng, lương thưởng, remote, phỏng vấn..."
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              className={`flex-1 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none transition-colors border ${
-                isLight
-                  ? 'bg-slate-100 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-orange-500'
-                  : 'bg-slate-900 border-slate-800 text-white placeholder-slate-500 focus:border-orange-500'
-              }`}
+              className="flex-1 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none transition-colors border"
+              style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)', color: 'var(--text-heading)', caretColor: 'var(--accent)' }}
+              onFocus={e => { e.target.style.borderColor = 'var(--accent-border)'; }}
+              onBlur={e => { e.target.style.borderColor = 'var(--border-main)'; }}
             />
             <button
               type="submit"
               disabled={!inputText.trim()}
-              className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 disabled:opacity-40 text-white p-2.5 rounded-xl transition-all shadow-md shadow-orange-500/20 active:scale-95 shrink-0"
+              className="text-white p-2.5 rounded-xl transition-all active:scale-95 shrink-0 disabled:opacity-40"
+              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.30)' }}
               title="Gửi tin nhắn"
             >
               <Send className="w-4 h-4" />

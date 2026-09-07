@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { 
   Users, 
   Sparkles, 
@@ -19,7 +19,7 @@ import {
 import api from '../services/api';
 
 const PIPELINE_STAGES = [
-  { id: 'Applied', status: 'Applied', title: '1. Mới Nộp (Applied)', color: 'border-slate-700 bg-slate-900/70', badge: 'bg-slate-800 text-slate-300' },
+  { id: 'Applied', status: 'Applied', title: '1. Mới Nộp (Applied)', color: 'border-slate-700 bg-[#14192a]/70', badge: 'bg-slate-800 text-slate-300' },
   { id: 'AI_Screened', status: 'Applied', title: '2. AI Sàng Lọc', color: 'border-amber-500/30 bg-amber-950/20', badge: 'bg-amber-500/10 text-amber-300 border-amber-500/30' },
   { id: 'Interview', status: 'Interview', title: '3. Phỏng Vấn (Interview)', color: 'border-orange-500/30 bg-orange-950/20', badge: 'bg-orange-500/10 text-orange-300 border-orange-500/30' },
   { id: 'Offered', status: 'Offered', title: '4. Đề Xuất (Offered)', color: 'border-indigo-500/30 bg-indigo-950/20', badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' },
@@ -124,10 +124,10 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
   return (
     <div className="flex flex-col gap-6">
       {/* Header & Filter Bar */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#14192a]/80 p-5 rounded-2xl border border-slate-700/60">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-extrabold text-white tracking-tight">Bảng Theo Dõi Tuyển Dụng</h2>
+            <h2 className="text-xl font-extrabold text-slate-100 tracking-tight">Bảng Theo Dõi Tuyển Dụng</h2>
             <span className="bg-orange-500/10 text-orange-400 text-xs font-bold px-2 py-0.5 rounded-full border border-orange-500/20">
               Kéo & Thả Thẻ
             </span>
@@ -144,7 +144,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
               placeholder="Tìm theo tên ứng viên..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
+              className="w-full bg-[#0d1117] border border-slate-700/60 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
             />
           </div>
 
@@ -152,7 +152,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500"
+            className="bg-[#0d1117] border border-slate-700/60 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-orange-500"
           >
             <option value="ALL">Tất cả Phòng Ban</option>
             <option value="Engineering">Engineering</option>
@@ -183,7 +183,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
               }`}
             >
               {/* Stage Header */}
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-700/60/80">
                 <h3 className="font-bold text-xs text-slate-200 tracking-tight">{stage.title}</h3>
                 <span className={`text-[11px] font-extrabold px-2 py-0.5 rounded-full ${stage.badge}`}>
                   {appsInStage.length}
@@ -196,7 +196,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                   <div className={`text-center py-10 text-xs italic border border-dashed rounded-xl transition-colors ${
                     isOver 
                       ? 'border-orange-500/80 bg-orange-500/10 text-orange-300 font-bold' 
-                      : 'border-slate-800/60 text-slate-600'
+                      : 'border-slate-700/60/60 text-slate-600'
                   }`}>
                     {isOver ? '+ Thả hồ sơ vào đây' : 'Trống (0)'}
                   </div>
@@ -211,10 +211,10 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                         onDragStart={(e) => handleDragStart(e, app)}
                         onDragEnd={handleDragEnd}
                         onClick={() => onSelectApplication(app)}
-                        className={`zoho-card bg-slate-900/90 border rounded-xl p-3.5 flex flex-col gap-2.5 cursor-grab active:cursor-grabbing shadow-md group transition-all select-none hover:shadow-lg ${
+                        className={`zoho-card bg-[#14192a]/92 border rounded-xl p-3.5 flex flex-col gap-2.5 cursor-grab active:cursor-grabbing shadow-md group transition-all select-none hover:shadow-lg ${
                           isDragging 
                             ? 'opacity-40 border-dashed border-orange-500 scale-95 ring-2 ring-orange-500/30' 
-                            : 'border-slate-800 hover:border-orange-500/50 hover:translate-y-[-2px]'
+                            : 'border-slate-700/60 hover:border-orange-500/50 hover:translate-y-[-2px]'
                         }`}
                       >
                         {/* Top Candidate Avatar & Score */}
@@ -227,7 +227,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                               {app.candidate?.fullName ? app.candidate.fullName.charAt(0).toUpperCase() : 'U'}
                             </div>
                             <div>
-                              <h4 className="font-bold text-xs text-white group-hover:text-orange-400 transition-colors leading-tight">
+                              <h4 className="font-bold text-xs text-slate-100 group-hover:text-orange-400 transition-colors leading-tight">
                                 {app.candidate?.fullName || 'Ứng viên'}
                               </h4>
                               <span className="text-[10px] text-slate-400 truncate max-w-[100px] block">
@@ -256,7 +256,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                         )}
 
                         {/* Quick Stage Progression Buttons */}
-                        <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+                        <div className="pt-2 border-t border-slate-700/60/80 flex items-center justify-between text-[10px]">
                           <span className="text-slate-500 flex items-center gap-1 font-mono">
                             {app.job?.department?.slice(0, 4)}
                           </span>
@@ -266,7 +266,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                               <button
                                 disabled={isUpdating}
                                 onClick={(e) => handleMoveStage(app.id, 'Interview', e)}
-                                className="bg-orange-500/20 hover:bg-orange-500 text-orange-300 hover:text-white px-2 py-0.5 rounded font-bold transition-colors"
+                                className="bg-orange-500/20 hover:bg-orange-500 text-orange-300 hover:text-slate-100 px-2 py-0.5 rounded font-bold transition-colors"
                               >
                                 Phỏng Vấn →
                               </button>
@@ -275,7 +275,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                               <button
                                 disabled={isUpdating}
                                 onClick={(e) => handleMoveStage(app.id, 'Interview', e)}
-                                className="bg-orange-500/20 hover:bg-orange-500 text-orange-300 hover:text-white px-2 py-0.5 rounded font-bold transition-colors"
+                                className="bg-orange-500/20 hover:bg-orange-500 text-orange-300 hover:text-slate-100 px-2 py-0.5 rounded font-bold transition-colors"
                               >
                                 Mời PV →
                               </button>
@@ -284,7 +284,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                               <button
                                 disabled={isUpdating}
                                 onClick={(e) => handleMoveStage(app.id, 'Offered', e)}
-                                className="bg-indigo-500/20 hover:bg-indigo-500 text-indigo-300 hover:text-white px-2 py-0.5 rounded font-bold transition-colors"
+                                className="bg-indigo-500/20 hover:bg-indigo-500 text-indigo-300 hover:text-slate-100 px-2 py-0.5 rounded font-bold transition-colors"
                               >
                                 Đề Xuất →
                               </button>
@@ -293,7 +293,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                               <button
                                 disabled={isUpdating}
                                 onClick={(e) => handleMoveStage(app.id, 'Hired', e)}
-                                className="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white px-2 py-0.5 rounded font-bold transition-colors"
+                                className="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-slate-100 px-2 py-0.5 rounded font-bold transition-colors"
                               >
                                 Nhận Việc ✓
                               </button>
