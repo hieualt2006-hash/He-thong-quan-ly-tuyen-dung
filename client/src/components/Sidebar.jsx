@@ -56,7 +56,7 @@ function Sidebar({
         <div className="px-4 pt-5 pb-4 border-b flex items-center gap-3" style={{ borderColor: 'var(--c-border)' }}>
           <div
             className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-md"
-            style={{ background: 'linear-gradient(135deg, #f5a623 0%, #e8940f 50%, #7c3aed 100%)' }}
+            style={{ background: '#f5a623' }}
           >
             <Sparkles className="w-4 h-4 text-white" />
           </div>
@@ -117,7 +117,7 @@ function Sidebar({
                       onClick={() => setCurrentView(item.id)}
                       className="nav-item w-full text-left"
                       style={active ? {
-                        background: 'linear-gradient(135deg, rgba(245,166,35,0.18), rgba(245,166,35,0.06))',
+                        background: 'rgba(245,166,35,0.12)',
                         color: 'var(--c-accent)',
                         borderColor: 'var(--c-accent-ring)',
                         fontWeight: 700,
@@ -168,8 +168,8 @@ function Sidebar({
               <div
                 className={`w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-xs shrink-0 ${
                   isAdmin
-                    ? 'bg-gradient-to-tr from-violet-500 to-indigo-600'
-                    : 'bg-gradient-to-tr from-amber-500 to-orange-500'
+                    ? 'bg-indigo-600'
+                    : 'bg-amber-500'
                 }`}
               >
                 {currentUser.name?.charAt(0) || 'U'}

@@ -223,7 +223,7 @@ function PipelineKanbanView({ applications = [], onSelectApplication, onStatusUp
                             <div className="text-slate-600 group-hover:text-slate-400">
                               <GripVertical className="w-3.5 h-3.5" />
                             </div>
-                            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-500/20 border border-orange-500/30 flex items-center justify-center font-bold text-orange-300 text-xs">
+                            <div className="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center font-bold text-orange-300 text-xs">
                               {app.candidate?.fullName ? app.candidate.fullName.charAt(0).toUpperCase() : 'U'}
                             </div>
                             <div>

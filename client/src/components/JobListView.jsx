@@ -72,7 +72,7 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-slate-100 font-bold px-4.5 py-2.5 rounded-2xl text-sm transition-all shadow-lg shadow-orange-500/25 shrink-0 active:scale-95"
+          className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-4.5 py-2.5 rounded-2xl text-sm transition-all shadow-lg shadow-orange-500/25 shrink-0 active:scale-95"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Tạo Tin Tuyển Dụng Mới</span>
@@ -144,7 +144,7 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
                   </button>
                   <button
                     onClick={() => onOpenApplyModal(job)}
-                    className="text-xs font-bold text-slate-100 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 px-4 py-2 rounded-xl transition-all shadow-md shadow-orange-500/20 flex items-center gap-1.5"
+                    className="text-xs font-bold text-slate-100 bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-xl transition-all shadow-md shadow-orange-500/20 flex items-center gap-1.5"
                   >
                     <UserPlus className="w-3.5 h-3.5" />
                     <span>Nộp Hồ Sơ</span>
@@ -249,7 +249,7 @@ function JobListView({ jobs = [], fetchJobs, onSelectJob, onOpenApplyModal }) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-slate-100 font-bold px-5 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-orange-500/25 disabled:opacity-50"
+                  className="bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-5 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-orange-500/25 disabled:opacity-50"
                 >
                   {isSubmitting ? 'Đang tạo...' : 'Xác Nhận Tạo Job'}
                 </button>

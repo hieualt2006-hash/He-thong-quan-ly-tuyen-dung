@@ -567,8 +567,8 @@ const DEFAULT_DEMO_APPLICATIONS = [
             <div className="flex items-center gap-2.5 pl-2 border-l" style={{ borderColor: 'var(--c-border-md)' }}>
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-md ${
                 isAdmin 
-                  ? 'bg-gradient-to-tr from-indigo-500 to-violet-600' 
-                  : 'bg-gradient-to-tr from-amber-500 to-orange-500'
+                  ? 'bg-indigo-600' 
+                  : 'bg-amber-500'
               }`}>
                 {currentUser.name?.charAt(0) || 'U'}
               </div>

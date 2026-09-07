@@ -105,7 +105,7 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
 
           <button
             onClick={() => setIsApplyModalOpen(true)}
-            className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-slate-100 font-bold px-6 py-3 rounded-2xl text-sm transition-all shadow-xl shadow-orange-500/25 shrink-0 active:scale-95"
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-6 py-3 rounded-2xl text-sm transition-all shadow-xl shadow-orange-500/25 shrink-0 active:scale-95"
           >
             <Send className="w-4 h-4" />
             <span>Nộp Hồ Sơ Ngay</span>
@@ -230,7 +230,7 @@ function PublicJobDetailView({ job, onBack, onApplicationSubmitted }) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-slate-100 font-bold px-6 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-orange-500/25 disabled:opacity-50 flex items-center gap-2"
+                  className="bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-6 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-orange-500/25 disabled:opacity-50 flex items-center gap-2"
                 >
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? 'Đang Tải Up & AI Phân Tích...' : 'Gửi Đơn Ứng Tuyển'}</span>

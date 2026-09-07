@@ -185,7 +185,7 @@ function SettingsView({ serverStatus }) {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-slate-100 font-bold px-6 py-3 rounded-2xl text-xs transition-all shadow-xl shadow-orange-500/25 active:scale-95"
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-6 py-3 rounded-2xl text-xs transition-all shadow-xl shadow-orange-500/25 active:scale-95"
           >
             <Save className="w-4 h-4" />
             <span>Lưu Cấu Hình Hệ Thống</span>

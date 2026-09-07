@@ -53,7 +53,7 @@ function CandidatePortalView({
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-md text-white font-black"
-              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706, #6366f1)' }}>
+              style={{ background: '#f59e0b' }}>
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
@@ -91,7 +91,7 @@ function CandidatePortalView({
             <button
               onClick={onOpenLogin}
               className="flex items-center gap-2 text-white font-bold px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm active:scale-95 transition-all"
-              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 12px -2px rgba(245,158,11,0.35)' }}
+              style={{ background: '#f59e0b', boxShadow: '0 2px 12px -2px rgba(245,158,11,0.35)' }}
             >
               <Lock className="w-3.5 h-3.5 text-white" />
               <span className="hidden sm:inline">Đăng nhập HR/Admin</span>
@@ -105,9 +105,9 @@ function CandidatePortalView({
       <section className="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
         {/* Subtle glow orbs */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 65%)' }} />
+          style={{ background: 'transparent' }} />
         <div className="absolute top-1/3 right-10 w-72 h-72 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 65%)' }} />
+          style={{ background: 'transparent' }} />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 border"
@@ -118,7 +118,7 @@ function CandidatePortalView({
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight" style={{ color: 'var(--text-heading)' }}>
             Khám Phá Cơ Hội Nghề Nghiệp <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #f59e0b, #fbbf24, #818cf8)' }}>
+            <span style={{ color: 'var(--accent)' }}>
               Cùng Công Nghệ Đột Phá
             </span>
           </h1>
@@ -261,7 +261,7 @@ function CandidatePortalView({
                 <button
                   onClick={() => onOpenApplyModal(job)}
                   className="flex-1 py-2.5 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 active:scale-95"
-                  style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 10px -2px rgba(245,158,11,0.30)' }}
+                  style={{ background: '#f59e0b', boxShadow: '0 2px 10px -2px rgba(245,158,11,0.30)' }}
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Ứng Tuyển</span>

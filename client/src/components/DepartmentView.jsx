@@ -60,7 +60,7 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-slate-100 font-bold px-4.5 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 shrink-0"
+          className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-4.5 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Thêm Phòng Ban Mới</span>
@@ -76,7 +76,7 @@ function DepartmentView({ jobs = [], onNavigateToJobs }) {
             <div key={dept.id} className="zoho-card bg-[#14192a]/80 border border-slate-700/60/90 rounded-3xl p-6 shadow-xl flex flex-col justify-between gap-5">
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-500/20 to-amber-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400">
+                  <div className="w-10 h-10 rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400">
                     <Building2 className="w-5 h-5" />
                   </div>
                   <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">

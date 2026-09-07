@@ -142,7 +142,7 @@ function UserManagementView({ currentUser }) {
 
         <button
           onClick={() => { setIsCreateOpen(true); setErrorMsg(''); setSuccessMsg(''); }}
-          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-slate-100 font-bold px-4 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 active:scale-95 shrink-0"
+          className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-4 py-2.5 rounded-2xl text-xs transition-all shadow-lg shadow-orange-500/25 active:scale-95 shrink-0"
         >
           <UserPlus className="w-4 h-4" />
           <span>+ Cấp Tài Khoản Mới</span>
@@ -401,7 +401,7 @@ function UserManagementView({ currentUser }) {
                 <button
                   type="submit"
                   disabled={creating}
-                  className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-slate-100 rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
+                  className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-slate-100 rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
                 >
                   {creating ? 'Đang tạo...' : 'Tạo & Cấp Tài Khoản'}
                 </button>

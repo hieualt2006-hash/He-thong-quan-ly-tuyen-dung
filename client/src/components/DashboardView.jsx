@@ -36,14 +36,14 @@ function DashboardView({ jobs = [], applications = [], onNavigate, onOpenCreateJ
       {/* Welcome Hero Banner */}
       <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 shadow-lg border"
         style={{
-          background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-subtle) 100%)',
+          background: 'var(--bg-card)',
           borderColor: 'var(--border-main)',
         }}>
         {/* Subtle glow orbs */}
         <div className="absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
+          style={{ background: 'transparent', transform: 'translate(30%, -30%)' }} />
         <div className="absolute bottom-0 left-1/3 w-56 h-56 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)', transform: 'translateY(40%)' }} />
+          style={{ background: 'transparent', transform: 'translateY(40%)' }} />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="max-w-2xl">
@@ -64,7 +64,7 @@ function DashboardView({ jobs = [], applications = [], onNavigate, onOpenCreateJ
             <button
               onClick={onOpenCreateJob}
               className="flex items-center gap-2 text-white font-bold px-4 py-2.5 rounded-2xl text-xs transition-all active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 4px 16px -4px rgba(245,158,11,0.40)' }}
+              style={{ background: '#f59e0b', boxShadow: '0 4px 16px -4px rgba(245,158,11,0.40)' }}
             >
               <Plus className="w-4 h-4" />
               <span>Đăng Job Mới</span>
@@ -119,10 +119,10 @@ function DashboardView({ jobs = [], applications = [], onNavigate, onOpenCreateJ
       {/* Metrics Cards Grid (KPI Cards) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {[
-          { title: 'Tin Tuyển Dụng', value: totalJobs,       sub: 'Đang mở đăng tuyển',       icon: Briefcase,  gradient: 'linear-gradient(135deg,#f59e0b,#d97706)', badge: 'Active' },
-          { title: 'Đơn Ứng Tuyển', value: totalApps,        sub: 'Đã bóc tách & phân tích',   icon: Users,      gradient: 'linear-gradient(135deg,#818cf8,#6366f1)', badge: 'Total' },
-          { title: 'Mời Phỏng Vấn', value: interviewedApps,  sub: 'Thông qua vòng AI',         icon: Clock,      gradient: 'linear-gradient(135deg,#34d399,#059669)', badge: 'Shortlisted' },
-          { title: 'Đã Tuyển Dụng', value: hiredApps,        sub: 'Ứng viên xuất sắc',         icon: FileCheck2, gradient: 'linear-gradient(135deg,#60a5fa,#2563eb)', badge: 'Hired' }
+          { title: 'Tin Tuyển Dụng', value: totalJobs,       sub: 'Đang mở đăng tuyển',       icon: Briefcase,  gradient: '#f59e0b', badge: 'Active' },
+          { title: 'Đơn Ứng Tuyển', value: totalApps,        sub: 'Đã bóc tách & phân tích',   icon: Users,      gradient: '#6366f1', badge: 'Total' },
+          { title: 'Mời Phỏng Vấn', value: interviewedApps,  sub: 'Thông qua vòng AI',         icon: Clock,      gradient: '#34d399', badge: 'Shortlisted' },
+          { title: 'Đã Tuyển Dụng', value: hiredApps,        sub: 'Ứng viên xuất sắc',         icon: FileCheck2, gradient: '#2563eb', badge: 'Hired' }
         ].map((card, idx) => {
           const Icon = card.icon;
           return (
@@ -175,7 +175,7 @@ function DashboardView({ jobs = [], applications = [], onNavigate, onOpenCreateJ
               </div>
               <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'var(--bg-card-subtle)' }}>
                 <div className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${totalApps > 0 ? (highMatchApps / totalApps) * 100 : 0}%`, background: 'linear-gradient(90deg, #34d399, #10b981)' }} />
+                  style={{ width: `${totalApps > 0 ? (highMatchApps / totalApps) * 100 : 0}%`, background: '#34d399' }} />
               </div>
             </div>
 
@@ -190,7 +190,7 @@ function DashboardView({ jobs = [], applications = [], onNavigate, onOpenCreateJ
               </div>
               <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'var(--bg-card-subtle)' }}>
                 <div className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${totalApps > 0 ? (mediumMatchApps / totalApps) * 100 : 0}%`, background: 'linear-gradient(90deg, #fbbf24, #f59e0b)' }} />
+                  style={{ width: `${totalApps > 0 ? (mediumMatchApps / totalApps) * 100 : 0}%`, background: '#fbbf24' }} />
               </div>
             </div>
 
@@ -205,7 +205,7 @@ function DashboardView({ jobs = [], applications = [], onNavigate, onOpenCreateJ
               </div>
               <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'var(--bg-card-subtle)' }}>
                 <div className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${totalApps > 0 ? (lowMatchApps / totalApps) * 100 : 0}%`, background: 'linear-gradient(90deg, #f87171, #ef4444)' }} />
+                  style={{ width: `${totalApps > 0 ? (lowMatchApps / totalApps) * 100 : 0}%`, background: '#ef4444' }} />
               </div>
             </div>
           </div>

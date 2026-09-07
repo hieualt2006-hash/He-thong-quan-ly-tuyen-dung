@@ -74,7 +74,7 @@ function ApplicationDetailView({ application, onBack, onStatusUpdated }) {
           <span className="text-xs text-slate-400 font-bold px-2 hidden sm:inline">Cập nhật HR:</span>
           {[
             { id: 'Applied', label: 'Applied', color: 'bg-slate-800 hover:bg-slate-700 text-slate-200' },
-            { id: 'Interview', label: 'Mời Phỏng Vấn', color: 'bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-slate-100' },
+            { id: 'Interview', label: 'Mời Phỏng Vấn', color: 'bg-orange-500 hover:bg-orange-600 text-slate-100' },
             { id: 'Hired', label: 'Nhận Việc (Hired)', color: 'bg-emerald-600 hover:bg-emerald-500 text-slate-100' },
             { id: 'Rejected', label: 'Từ Chối', color: 'bg-rose-600 hover:bg-rose-500 text-slate-100' }
           ].map((btn) => (
@@ -97,7 +97,7 @@ function ApplicationDetailView({ application, onBack, onStatusUpdated }) {
         {/* Candidate Profile Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-700/60/80 pb-6">
           <div className="flex items-start gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-500 to-indigo-600 flex items-center justify-center text-slate-100 text-2xl font-extrabold shadow-lg shadow-orange-500/25 shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-orange-500 flex items-center justify-center text-slate-100 text-2xl font-extrabold shadow-lg shadow-orange-500/25 shrink-0">
               {candidate?.fullName ? candidate.fullName.charAt(0).toUpperCase() : 'C'}
             </div>
             <div>

@@ -77,7 +77,7 @@ function ApplicationListView({ applications = [], onSelectApplication, onNavigat
             <button
               onClick={onNavigateToPipeline}
               className="flex items-center gap-1.5 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition-all"
-              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 10px -2px rgba(245,158,11,0.30)' }}
+              style={{ background: '#f59e0b', boxShadow: '0 2px 10px -2px rgba(245,158,11,0.30)' }}
             >
               <Kanban className="w-3.5 h-3.5" />
               <span>Dạng Bảng Theo Dõi</span>

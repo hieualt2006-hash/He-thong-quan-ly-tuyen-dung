@@ -192,7 +192,7 @@ function AIChatBot({ theme = 'dark' }) {
           style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)', color: 'var(--text-main)' }}
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 p-3.5 text-white flex items-center justify-between shadow-md">
+          <div className="bg-orange-500 p-3.5 text-white flex items-center justify-between shadow-md">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center font-bold text-white shadow-inner">
                 <Bot className="w-5 h-5" />
@@ -293,7 +293,7 @@ function AIChatBot({ theme = 'dark' }) {
                 <div 
                   className="max-w-[88%] rounded-2xl px-3.5 py-2.5 leading-relaxed"
                   style={msg.sender === 'user'
-                    ? { background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#fff', borderRadius: '18px 18px 4px 18px', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.35)' }
+                    ? { background: '#f59e0b', color: '#fff', borderRadius: '18px 18px 4px 18px', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.35)' }
                     : { background: 'var(--bg-card-subtle)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '18px 18px 18px 4px' }
                   }
                 >
@@ -327,7 +327,7 @@ function AIChatBot({ theme = 'dark' }) {
               type="submit"
               disabled={!inputText.trim()}
               className="text-white p-2.5 rounded-xl transition-all active:scale-95 shrink-0 disabled:opacity-40"
-              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.30)' }}
+              style={{ background: '#f59e0b', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.30)' }}
               title="Gửi tin nhắn"
             >
               <Send className="w-4 h-4" />
@@ -339,7 +339,7 @@ function AIChatBot({ theme = 'dark' }) {
       {/* Floating Action Button (FAB) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative group flex items-center justify-center w-14 h-14 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white rounded-full shadow-2xl shadow-orange-500/40 hover:scale-110 active:scale-95 transition-all duration-300 border-2 border-white/25"
+        className="relative group flex items-center justify-center w-14 h-14 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-2xl shadow-orange-500/40 hover:scale-110 active:scale-95 transition-all duration-300 border-2 border-white/25"
         title="Trợ lý Tuyển Dụng AI RAG (Google Gemini & text-embedding-004)"
       >
         {/* Online Green Pulsing Indicator */}

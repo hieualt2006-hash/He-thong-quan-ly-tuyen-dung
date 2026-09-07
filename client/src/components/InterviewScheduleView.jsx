@@ -70,7 +70,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
             onClick={() => setActiveTab('schedule')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'schedule'
-                ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-slate-100 shadow-md'
+                ? 'bg-orange-500 text-slate-100 shadow-md'
                 : 'text-slate-400 hover:text-slate-100'
             }`}
           >
@@ -81,7 +81,7 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
             onClick={() => setActiveTab('bank')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'bank'
-                ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-slate-100 shadow-md'
+                ? 'bg-orange-500 text-slate-100 shadow-md'
                 : 'text-slate-400 hover:text-slate-100'
             }`}
           >
@@ -178,12 +178,12 @@ function InterviewScheduleView({ applications = [], onSelectApplication }) {
               </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-orange-500/15 via-amber-500/10 to-transparent p-5 rounded-2xl border border-orange-500/30 flex flex-col gap-3">
+            <div className="bg-orange-500/10 p-5 rounded-2xl border border-orange-500/30 flex flex-col gap-3">
               <h4 className="font-extrabold text-sm text-slate-100">Khởi tạo nhanh phòng họp phỏng vấn</h4>
               <p className="text-xs text-slate-300">Tạo liên kết Google Meet / Zoom và gửi thư mời tự động tới ứng viên.</p>
               <button 
                 onClick={() => alert('Đã tạo phòng họp Google Meet và tạo link phỏng vấn tự động!')}
-                className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-slate-100 font-bold px-4 py-2.5 rounded-xl text-xs transition-all shadow-md shadow-orange-500/20 flex items-center justify-center gap-2"
+                className="bg-orange-500 hover:bg-orange-600 text-slate-100 font-bold px-4 py-2.5 rounded-xl text-xs transition-all shadow-md shadow-orange-500/20 flex items-center justify-center gap-2"
               >
                 <Video className="w-4 h-4" />
                 <span>Tạo Link Phỏng Vấn Nhanh</span>

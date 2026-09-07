@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -64,10 +64,10 @@ function AnalyticsView({ jobs = [], applications = [] }) {
       {/* Top 4 KPI Metric Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { title: 'Điểm AI Match Trung Bình', value: `${avgMatchScore}%`, sub: 'Chất lượng CV đầu vào', icon: BrainCircuit, color: 'from-orange-500 to-amber-600' },
-          { title: 'Tỉ Lệ Trúng Tuyển (Hiring Rate)', value: `${totalApps > 0 ? Math.round((hiredCount / totalApps) * 100) : 0}%`, sub: `${hiredCount} trên tổng số ${totalApps} hồ sơ`, icon: Award, color: 'from-emerald-500 to-teal-600' },
-          { title: 'Tốc Độ Sàng Lọc (Time-to-Screen)', value: '< 3 giây', sub: 'Tự động bởi Gemini AI Flash', icon: Clock, color: 'from-indigo-500 to-purple-600' },
-          { title: 'Vị Trí Đang Mở (Open Jobs)', value: totalJobs, sub: 'Nhu cầu nhân sự các phòng ban', icon: Briefcase, color: 'from-amber-500 to-orange-600' }
+          { title: 'Điểm AI Match Trung Bình', value: `${avgMatchScore}%`, sub: 'Chất lượng CV đầu vào', icon: BrainCircuit, color: 'bg-orange-500' },
+          { title: 'Tỉ Lệ Trúng Tuyển (Hiring Rate)', value: `${totalApps > 0 ? Math.round((hiredCount / totalApps) * 100) : 0}%`, sub: `${hiredCount} trên tổng số ${totalApps} hồ sơ`, icon: Award, color: 'bg-emerald-600' },
+          { title: 'Tốc Độ Sàng Lọc (Time-to-Screen)', value: '< 3 giây', sub: 'Tự động bởi Gemini AI Flash', icon: Clock, color: 'bg-indigo-600' },
+          { title: 'Vị Trí Đang Mở (Open Jobs)', value: totalJobs, sub: 'Nhu cầu nhân sự các phòng ban', icon: Briefcase, color: 'bg-amber-500' }
         ].map((kpi, idx) => {
           const Icon = kpi.icon;
           return (
@@ -78,7 +78,7 @@ function AnalyticsView({ jobs = [], applications = [] }) {
                   <h3 className="text-3xl font-extrabold text-slate-100 mt-2 font-mono">{kpi.value}</h3>
                   <p className="text-xs text-slate-400 mt-1">{kpi.sub}</p>
                 </div>
-                <div className={`p-3 rounded-2xl bg-gradient-to-tr ${kpi.color} text-slate-100 shadow-md shadow-orange-500/10`}>
+                <div className={`p-3 rounded-2xl ${kpi.color} text-slate-100 shadow-md`}>
                   <Icon className="w-5 h-5" />
                 </div>
               </div>
@@ -154,7 +154,7 @@ function AnalyticsView({ jobs = [], applications = [] }) {
                   <span className="text-rose-400 font-mono font-bold">{skill.percent}% thiếu</span>
                 </div>
                 <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-orange-500 to-rose-500 rounded-full" style={{ width: `${skill.percent}%` }} />
+                  <div className="h-full bg-orange-500 rounded-full" style={{ width: `${skill.percent}%` }} />
                 </div>
               </div>
             ))}

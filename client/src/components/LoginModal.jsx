@@ -85,9 +85,9 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
       >
         {/* Ambient glow */}
         <div className="absolute top-0 right-0 w-48 h-48 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
+          style={{ background: 'transparent', transform: 'translate(30%, -30%)' }} />
         <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)', transform: 'translate(-30%, 30%)' }} />
+          style={{ background: 'transparent', transform: 'translate(-30%, 30%)' }} />
 
         {/* Close Button */}
         <button
@@ -103,7 +103,7 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
         {/* Header Icon & Title */}
         <div className="text-center mb-6">
           <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md text-white"
-            style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
+            style={{ background: '#f59e0b' }}>
             <ShieldCheck className="w-7 h-7" />
           </div>
           <h2 className="text-2xl font-black tracking-tight" style={{ color: 'var(--text-heading)' }}>
@@ -179,7 +179,7 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
             type="submit"
             disabled={loading}
             className="w-full mt-2 py-3 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 active:scale-95 transition-all disabled:opacity-50"
-            style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 4px 16px -4px rgba(245,158,11,0.40)' }}
+            style={{ background: '#f59e0b', boxShadow: '0 4px 16px -4px rgba(245,158,11,0.40)' }}
           >
             {loading ? (
               <span>Đang kiểm tra thông tin...</span>

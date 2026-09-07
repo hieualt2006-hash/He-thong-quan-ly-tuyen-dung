@@ -159,7 +159,7 @@ function ChangePasswordModal({ isOpen, onClose, user }) {
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-slate-100 rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
+              className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-slate-100 rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50"
             >
               {loading ? 'Đang lưu...' : 'Cập Nhật Mật Khẩu'}
             </button>
