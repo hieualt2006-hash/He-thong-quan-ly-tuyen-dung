@@ -71,6 +71,7 @@ function CandidatePortalView({
           </div>
 
           {/* Login Button */}
+<<<<<<< HEAD
           <div className="flex items-center gap-2">
             {/* Dark / Light Theme Toggle */}
             {onToggleTheme && (
@@ -98,6 +99,17 @@ function CandidatePortalView({
               <span className="sm:hidden">HR Login</span>
             </button>
           </div>
+=======
+          <button
+            onClick={onOpenLogin}
+            className="flex items-center gap-2 text-white font-bold px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm active:scale-95 transition-all"
+            style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', boxShadow: '0 2px 12px -2px rgba(245,158,11,0.35)' }}
+          >
+            <Lock className="w-3.5 h-3.5 text-white" />
+            <span className="hidden sm:inline">Đăng nhập HR/Admin</span>
+            <span className="sm:hidden">HR Login</span>
+          </button>
+>>>>>>> 34596bc7ed25c980392a6c04a29852facc043252
         </div>
       </header>
 

@@ -370,7 +370,11 @@ const DEFAULT_DEMO_APPLICATIONS = [
   // --- CANDIDATE PUBLIC VIEW (When not logged in or in candidate-portal mode) ---
   if (!currentUser || currentView === 'candidate-portal') {
     return (
+<<<<<<< HEAD
       <div className={`min-h-screen transition-colors duration-300 ${theme === 'light' ? 'light' : ''}`} style={{ background: 'var(--c-bg)', color: 'var(--c-text)' }}>
+=======
+      <div className="min-h-screen" style={{ background: 'var(--c-bg)', color: 'var(--c-text)' }}>
+>>>>>>> 34596bc7ed25c980392a6c04a29852facc043252
         {currentView === 'job-detail' && selectedJob ? (
           <div className="max-w-5xl mx-auto p-4 sm:p-8">
             <PublicJobDetailView 

@@ -10,8 +10,12 @@
     "dev:share": "npm run build --prefix client && concurrently --names \"SERVER,TUNNEL\" --prefix-colors \"green.bold,magenta.bold\" --kill-others-on-fail \"npm start --prefix server\" \"npx localtunnel --port 5000\"",
     "install:all": "npm install && npm install --prefix server && npm install --prefix client",
     "prisma:migrate": "npm run prisma:migrate --prefix server",
+<<<<<<< HEAD
     "prisma:studio": "npm run prisma:studio --prefix server",
     "vercel-build": "npm install --prefix server && npm run prisma:generate --prefix server && npm install --prefix client && npm run build --prefix client"
+=======
+    "prisma:studio": "npm run prisma:studio --prefix server"
+>>>>>>> 34596bc7ed25c980392a6c04a29852facc043252
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
