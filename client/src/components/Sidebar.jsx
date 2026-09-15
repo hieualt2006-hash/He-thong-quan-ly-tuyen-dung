@@ -1,203 +1,200 @@
 import React from 'react';
 import {
-  LayoutDashboard, Briefcase, Users, Sparkles, Server,
-  Building2, Calendar, BarChart3, Sliders, Kanban,
-  ShieldCheck, Key, LogOut, Globe, ExternalLink, ChevronRight
+  Calendar,
+  Sparkles,
+  Key,
+  LogOut,
+  ChevronRight,
+  ShieldCheck,
+  LayoutGrid
 } from 'lucide-react';
+import employeesIcon from '../assets/icons/employees.png';
+import recruitmentIcon from '../assets/icons/recruitment.png';
+import settingsIcon from '../assets/icons/settings.png';
 
 function Sidebar({
-  currentView, setCurrentView, serverStatus, counts = {}, theme = 'dark',
-  currentUser, onOpenChangePassword, onLogout, onViewPublicPortal
+  currentView, 
+  setCurrentView, 
+  serverStatus, 
+  theme = 'dark',
+  currentUser, 
+  onOpenChangePassword, 
+  onLogout
 }) {
   const isAdmin = currentUser?.role === 'ADMIN';
 
-  const navGroups = [
-    {
-      label: 'Tổng Quan',
-      items: [
-        { id: 'dashboard',  label: 'Dashboard',          icon: LayoutDashboard },
-        { id: 'analytics',  label: 'Báo Cáo & Analytics', icon: BarChart3 },
-      ]
-    },
-    {
-      label: 'Tuyển Dụng',
-      items: [
-        { id: 'jobs',         label: 'Tin Tuyển Dụng',      icon: Briefcase,  badge: counts.jobs },
-        { id: 'pipeline',     label: 'Bảng Theo Dõi',       icon: Kanban },
-        { id: 'applications', label: 'Hồ Sơ Ứng Viên',      icon: Users,      badge: counts.apps },
-        { id: 'interviews',   label: 'Lịch Phỏng Vấn',      icon: Calendar },
-      ]
-    },
-    {
-      label: 'Tổ Chức',
-      items: [
-        ...(isAdmin ? [{ id: 'users',       label: 'Quản Lý Tài Khoản', icon: ShieldCheck, tag: 'Admin' }] : []),
-        { id: 'departments', label: 'Cơ Cấu Phòng Ban',    icon: Building2 },
-        { id: 'settings',    label: 'Cài Đặt & Trọng Số',  icon: Sliders },
-      ]
-    }
+  const navItems = [
+    { id: 'calendar',    label: 'Lịch',         icon: Calendar,        desc: 'Lịch làm việc & Phỏng vấn' },
+    { id: 'employees',   label: 'Nhân viên',    iconImg: employeesIcon,   desc: 'Danh sách & Hồ sơ nhân sự' },
+    { id: 'recruitment', label: 'Tuyển dụng',   iconImg: recruitmentIcon, desc: 'Vị trí công việc & Ứng viên' },
+    { id: 'settings',    label: 'Cài đặt',      iconImg: settingsIcon,    desc: 'Hệ thống, phân quyền, email' },
   ];
 
-  const isActive = (id) =>
-    currentView === id ||
-    (currentView === 'job-detail' && id === 'jobs') ||
-    (currentView === 'application-detail' && (id === 'applications' || id === 'pipeline'));
+  const isActive = (id) => currentView === id;
+  const isLight = theme === 'light';
 
   return (
     <aside
-      className="w-60 shrink-0 min-h-screen sticky top-0 z-40 flex flex-col justify-between glass border-r"
-      style={{
-        background: 'var(--c-surface)',
-        borderColor: 'var(--c-border)',
-      }}
+      className={`w-64 shrink-0 min-h-screen sticky top-0 z-40 flex flex-col justify-between border-r transition-colors duration-200 ${
+        isLight
+          ? 'bg-white border-slate-200 text-slate-800'
+          : 'bg-[#131726] border-slate-800 text-slate-100'
+      }`}
     >
-      <div className="overflow-y-auto flex flex-col gap-1">
-        {/* ── Brand ── */}
-        <div className="px-4 pt-5 pb-4 border-b flex items-center gap-3" style={{ borderColor: 'var(--c-border)' }}>
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-md"
-            style={{ background: '#f5a623' }}
-          >
-            <Sparkles className="w-4 h-4 text-white" />
+      <div className="flex flex-col">
+        {/* Brand Header & Quay lại Menu Ứng Dụng */}
+        <div 
+          onClick={() => setCurrentView('home')}
+          title="Bấm để về Màn hình chung 4 ứng dụng"
+          className={`px-5 py-4 border-b flex items-center gap-3 cursor-pointer transition-colors group ${
+            isLight ? 'border-slate-200 hover:bg-slate-50' : 'border-slate-800 hover:bg-slate-800/40'
+          }`}
+        >
+          <div className="w-10 h-10 rounded-xl bg-purple-700 flex items-center justify-center shrink-0 shadow group-hover:scale-105 transition-transform">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-black text-sm tracking-tight" style={{ color: 'var(--c-text-hi)' }}>
-                Smart<span style={{ color: 'var(--c-accent)' }}>ATS</span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <span className={`font-black text-base tracking-tight transition-colors ${
+                isLight ? 'text-slate-900 group-hover:text-purple-700' : 'text-white group-hover:text-purple-300'
+              }`}>
+                Nhóm <span className="text-purple-600">31</span>
               </span>
-              <span
-                className="text-[9px] font-black px-1.5 py-0.5 rounded tracking-wider border uppercase"
-                style={{ background: 'var(--c-accent-dim)', color: 'var(--c-accent)', borderColor: 'var(--c-accent-ring)' }}
-              >
+              <span className={`text-[9px] font-black px-1.5 py-0.5 rounded tracking-wider uppercase border ${
+                isLight 
+                  ? 'bg-purple-100 text-purple-700 border-purple-200' 
+                  : 'bg-purple-950/50 text-purple-300 border-purple-700/40'
+              }`}>
                 {isAdmin ? 'ADMIN' : 'HR'}
               </span>
             </div>
-            <span className="text-[10px] block mt-0.5 font-medium" style={{ color: 'var(--c-text-faint)' }}>
-              AI Recruitment System
+            <span className={`text-[10px] block truncate ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+              Hệ thống quản lý tuyển dụng
             </span>
           </div>
         </div>
 
-        {/* ── Public Portal Button ── */}
-        {onViewPublicPortal && (
-          <div className="px-3 pt-2">
-            <button
-              onClick={onViewPublicPortal}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold border transition-all"
-              style={{ background: 'var(--c-card)', borderColor: 'var(--c-border)', color: 'var(--c-text-lo)' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--c-accent-ring)'; e.currentTarget.style.color = 'var(--c-text-hi)'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.color = 'var(--c-text-lo)'; }}
-            >
-              <span className="flex items-center gap-2">
-                <Globe className="w-3.5 h-3.5" style={{ color: 'var(--c-accent)' }} />
-                Trang Tuyển Dụng (User)
-              </span>
-              <ExternalLink className="w-3 h-3 opacity-50" />
-            </button>
-          </div>
-        )}
+        {/* Nút Quay về màn hình chung 4 ứng dụng (Trang Chủ) */}
+        <div className="px-3 pt-3">
+          <button
+            onClick={() => setCurrentView('home')}
+            className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+              currentView === 'home'
+                ? isLight 
+                  ? 'bg-purple-100 text-purple-800 border-purple-300 shadow-xs'
+                  : 'bg-purple-900/50 text-purple-300 border-purple-600/70 shadow-md'
+                : isLight
+                  ? 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-purple-50 hover:text-purple-700'
+                  : 'bg-[#0e111d] text-slate-300 border-slate-800 hover:border-purple-600/50 hover:text-white'
+            }`}
+          >
+            <LayoutGrid className="w-4 h-4 text-purple-600" />
+            <span>Trang Chủ 4 Ứng Dụng</span>
+          </button>
+        </div>
 
-        {/* ── Nav Groups ── */}
-        <nav className="px-3 py-2 flex flex-col gap-4">
-          {navGroups.map((grp, gi) => (
-            <div key={gi}>
-              <p
-                className="px-3 mb-1 text-[10px] font-black uppercase tracking-widest"
-                style={{ color: 'var(--c-text-faint)' }}
+        {/* Main Navigation */}
+        <nav className="p-3 flex flex-col gap-1.5 mt-2">
+          <p className={`px-3 mb-1 text-[10px] font-black uppercase tracking-widest ${
+            isLight ? 'text-slate-400' : 'text-slate-500'
+          }`}>
+            Ứng Dụng Doanh Nghiệp
+          </p>
+
+          {navItems.map(item => {
+            const Icon = item.icon;
+            const active = isActive(item.id);
+            return (
+              <button
+                key={item.id}
+                onClick={() => setCurrentView(item.id)}
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all cursor-pointer border ${
+                  active 
+                    ? isLight
+                      ? 'bg-purple-50 text-purple-800 border-purple-200 font-bold shadow-xs'
+                      : 'bg-purple-900/40 text-purple-300 border border-purple-700/60 font-bold shadow-md' 
+                    : isLight
+                      ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-transparent'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border-transparent'
+                }`}
               >
-                {grp.label}
-              </p>
-              <div className="flex flex-col gap-0.5">
-                {grp.items.map(item => {
-                  const Icon = item.icon;
-                  const active = isActive(item.id);
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setCurrentView(item.id)}
-                      className="nav-item w-full text-left"
-                      style={active ? {
-                        background: 'rgba(245,166,35,0.12)',
-                        color: 'var(--c-accent)',
-                        borderColor: 'var(--c-accent-ring)',
-                        fontWeight: 700,
-                      } : {}}
-                    >
-                      <Icon
-                        className="w-4 h-4 shrink-0"
-                        style={{ color: active ? 'var(--c-accent)' : 'var(--c-text-faint)' }}
-                      />
-                      <span className="flex-1 truncate text-[13px]">{item.label}</span>
-                      {item.tag && (
-                        <span
-                          className="text-[9px] font-black px-1.5 py-0.5 rounded border ml-auto"
-                          style={{ background: 'rgba(139,92,246,0.12)', color: '#a78bfa', borderColor: 'rgba(139,92,246,0.25)' }}
-                        >
-                          {item.tag}
-                        </span>
-                      )}
-                      {item.badge != null && (
-                        <span
-                          className="text-[10px] font-black px-1.5 py-0.5 rounded-full ml-auto"
-                          style={active
-                            ? { background: 'rgba(245,166,35,0.25)', color: 'var(--c-accent)' }
-                            : { background: 'var(--c-card)', color: 'var(--c-text-lo)' }
-                          }
-                        >
-                          {item.badge}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                  active 
+                    ? 'bg-purple-700 text-white' 
+                    : isLight 
+                      ? 'bg-slate-100 text-slate-600' 
+                      : 'bg-slate-800 text-slate-400'
+                }`}>
+                  {item.iconImg ? (
+                    <img 
+                      src={item.iconImg} 
+                      alt={item.label} 
+                      className="w-3.5 h-3.5 object-contain"
+                      style={{
+                        filter: active 
+                          ? 'brightness(0) invert(1)' 
+                          : isLight 
+                            ? 'none' 
+                            : 'brightness(0) invert(0.7)'
+                      }}
+                    />
+                  ) : (
+                    <Icon className="w-3.5 h-3.5" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className={`block text-xs truncate leading-tight font-bold ${
+                    active 
+                      ? isLight ? 'text-purple-900' : 'text-purple-200' 
+                      : isLight ? 'text-slate-800' : 'text-slate-200'
+                  }`}>
+                    {item.label}
+                  </span>
+                  <span className={`block text-[10px] truncate mt-0.5 ${
+                    isLight ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
+                    {item.desc}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
         </nav>
       </div>
 
-      {/* ── Footer ── */}
-      <div className="p-3 flex flex-col gap-2 border-t" style={{ borderColor: 'var(--c-border)' }}>
-        {/* User card */}
+      {/* Footer Profile & Logout */}
+      <div className={`p-3 border-t flex flex-col gap-2 ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
         {currentUser && (
-          <div
-            className="p-3 rounded-2xl border"
-            style={{ background: 'var(--c-card)', borderColor: 'var(--c-border)' }}
-          >
+          <div className={`p-3 rounded-xl border ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0e111d] border-slate-800'}`}>
             <div className="flex items-center gap-2.5 mb-2.5">
-              <div
-                className={`w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-xs shrink-0 ${
-                  isAdmin
-                    ? 'bg-indigo-600'
-                    : 'bg-amber-500'
-                }`}
-              >
+              <div className="w-8 h-8 rounded-xl bg-purple-700 flex items-center justify-center text-white font-black text-xs shrink-0 shadow">
                 {currentUser.name?.charAt(0) || 'U'}
               </div>
               <div className="overflow-hidden flex-1 min-w-0">
-                <p className="text-xs font-bold truncate leading-tight" style={{ color: 'var(--c-text-hi)' }}>
+                <p className={`text-xs font-bold truncate leading-tight ${isLight ? 'text-slate-800' : 'text-slate-200'}`}>
                   {currentUser.name}
                 </p>
-                <p className="text-[10px] truncate font-mono" style={{ color: 'var(--c-text-faint)' }}>
+                <p className={`text-[10px] truncate font-mono ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                   {currentUser.email}
                 </p>
               </div>
             </div>
 
-            <div className="flex gap-1.5 pt-2 border-t" style={{ borderColor: 'var(--c-border)' }}>
+            <div className={`flex gap-1.5 pt-2 border-t ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
               <button
                 onClick={onOpenChangePassword}
-                className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[10px] font-bold border transition-all ui-btn-ghost"
+                className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[10px] font-bold border transition-all cursor-pointer ${
+                  isLight 
+                    ? 'border-slate-300 bg-white hover:bg-slate-100 text-slate-700' 
+                    : 'border-slate-700 hover:bg-slate-800 text-slate-300'
+                }`}
               >
-                <Key className="w-3 h-3" style={{ color: 'var(--c-accent)' }} />
+                <Key className="w-3 h-3 text-purple-600" />
                 Đổi MK
               </button>
               <button
                 onClick={onLogout}
-                className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[10px] font-bold border transition-all"
-                style={{ background: 'rgba(248,113,113,0.08)', borderColor: 'rgba(248,113,113,0.22)', color: '#f87171' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(248,113,113,0.16)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(248,113,113,0.08)'; }}
+                className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[10px] font-bold bg-rose-500/10 border border-rose-500/20 text-rose-600 hover:bg-rose-500/20 transition-all cursor-pointer"
               >
                 <LogOut className="w-3 h-3" />
                 Đăng xuất
@@ -207,26 +204,13 @@ function Sidebar({
         )}
 
         {/* Server status pill */}
-        <div
-          className="px-3 py-2 rounded-xl border flex items-center justify-between text-[10px] font-semibold"
-          style={{ background: 'var(--c-card)', borderColor: 'var(--c-border)', color: 'var(--c-text-faint)' }}
-        >
-          <span className="flex items-center gap-1.5">
-            <Server className="w-3 h-3" style={{ color: '#34d399' }} />
-            Express + SQLite
-          </span>
-          <span
-            className="flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-black"
-            style={serverStatus === 'online'
-              ? { background: 'rgba(52,211,153,0.10)', color: '#34d399', borderColor: 'rgba(52,211,153,0.28)' }
-              : { background: 'rgba(251,191,36,0.10)', color: '#fbbf24', borderColor: 'rgba(251,191,36,0.28)' }
-            }
-          >
-            <span
-              className={`w-1.5 h-1.5 rounded-full ${serverStatus === 'online' ? 'animate-pulse' : ''}`}
-              style={{ background: serverStatus === 'online' ? '#34d399' : '#fbbf24' }}
-            />
-            {serverStatus === 'online' ? 'Online' : 'Checking…'}
+        <div className={`px-3 py-1.5 rounded-lg border flex items-center justify-between text-[10px] ${
+          isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0e111d] border-slate-800/80'
+        }`}>
+          <span className={isLight ? 'text-slate-600' : 'text-slate-400'}>Hệ thống Nhóm 31</span>
+          <span className="flex items-center gap-1 text-emerald-600 font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Online
           </span>
         </div>
       </div>

@@ -337,3 +337,196 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 .zoho-card:hover { transform: translateY(-1px); }
 .ats-input { outline: none; }
 .status-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 9999px; border: 1px solid transparent; }
+
+/* ============================================================
+   LIGHT THEME OVERRIDES & MONOCHROMATIC SOLID TEXT (NO GRADIENTS)
+   ============================================================ */
+html.light,
+.light {
+  color-scheme: light;
+  background-color: #f1f5f8;
+  color: #0f172a;
+}
+
+/* 1. Component Backgrounds in Light Mode */
+.light .bg-\[\#111422\],
+html.light .bg-\[\#111422\] {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .bg-\[\#161a2b\],
+html.light .bg-\[\#161a2b\] {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.light .bg-\[\#141829\],
+html.light .bg-\[\#141829\] {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+.light .bg-\[\#0e111d\],
+html.light .bg-\[\#0e111d\] {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+.light .bg-\[\#0b0f19\],
+html.light .bg-\[\#0b0f19\] {
+  background-color: #f1f5f9 !important;
+}
+
+.light .bg-\[\#131726\],
+html.light .bg-\[\#131726\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* 2. Monochromatic Solid Text in Light Mode (Zero Gradients) */
+.light .text-slate-100,
+html.light .text-slate-100,
+.light .text-slate-200,
+html.light .text-slate-200 {
+  color: #0f172a !important;
+}
+
+.light .text-slate-300,
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+.light .text-slate-400,
+html.light .text-slate-400 {
+  color: #64748b !important;
+}
+
+.light .text-slate-500,
+html.light .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* 3. Borders in Light Mode */
+.light .border-slate-800,
+html.light .border-slate-800,
+.light .border-slate-800\/80,
+html.light .border-slate-800\/80,
+.light .border-slate-800\/40,
+html.light .border-slate-800\/40,
+.light .border-slate-700,
+html.light .border-slate-700,
+.light .border-slate-700\/60,
+html.light .border-slate-700\/60,
+.light .border-slate-700\/80,
+html.light .border-slate-700\/80,
+.light .divide-slate-800 > :not([hidden]) ~ :not([hidden]),
+html.light .divide-slate-800 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #e2e8f0 !important;
+}
+
+/* 4. Form Inputs & Controls in Light Mode */
+.light input[type="text"],
+html.light input[type="text"],
+.light input[type="email"],
+html.light input[type="email"],
+.light input[type="password"],
+html.light input[type="password"],
+.light input[type="number"],
+html.light input[type="number"],
+.light select,
+html.light select,
+.light textarea,
+html.light textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light input::placeholder,
+html.light input::placeholder,
+.light textarea::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* 5. Hover and Accent Pill Colors */
+.light .hover\:bg-\[\#1f243c\]:hover,
+html.light .hover\:bg-\[\#1f243c\]:hover,
+.light .hover\:bg-slate-800\/60:hover,
+html.light .hover\:bg-slate-800\/60:hover,
+.light .hover\:bg-slate-800\/40:hover,
+html.light .hover\:bg-slate-800\/40:hover,
+.light .hover\:bg-slate-800:hover,
+html.light .hover\:bg-slate-800:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.light .bg-purple-950\/40,
+html.light .bg-purple-950\/40,
+.light .bg-purple-950\/50,
+html.light .bg-purple-950\/50,
+.light .bg-purple-900\/30,
+html.light .bg-purple-900\/30,
+.light .bg-purple-900\/40,
+html.light .bg-purple-900\/40 {
+  background-color: #f3e8ff !important;
+  color: #6b21a8 !important;
+  border-color: #d8b4fe !important;
+}
+
+.light .text-purple-300,
+html.light .text-purple-300,
+.light .text-purple-400,
+html.light .text-purple-400 {
+  color: #7c3aed !important;
+}
+
+/* ============================================================
+   BROWSER AUTOFILL OVERRIDE
+   Xoá màu vàng/xanh lá mà trình duyệt tự thêm vào ô input
+   ============================================================ */
+
+/* Dark theme – nền tối */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #0e111d inset !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  caret-color: #e2e8f0 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Light theme – nền trắng */
+.light input:-webkit-autofill,
+html.light input:-webkit-autofill,
+.light input:-webkit-autofill:hover,
+html.light input:-webkit-autofill:hover,
+.light input:-webkit-autofill:focus,
+html.light input:-webkit-autofill:focus,
+.light select:-webkit-autofill,
+html.light select:-webkit-autofill,
+.light textarea:-webkit-autofill,
+html.light textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #0f172a !important;
+  caret-color: #0f172a !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Firefox autofill (dùng filter thay vì -webkit-box-shadow) */
+input:autofill {
+  filter: none;
+}
+

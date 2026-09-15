@@ -1,0 +1,169 @@
+@model SmartATS.Models.Entities.Application
+@{
+    ViewData["Title"] = "Hồ sơ: " + Model.Candidate.FullName;
+}
+
+<div class="container-fluid py-3">
+    <!-- Breadcrumb & Actions -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="/Pipeline?jobId=@Model.JobId" class="btn btn-outline-secondary btn-sm">
+            ← Quay lại Bảng Kanban
+        </a>
+        <div>
+            <span class="badge bg-primary px-3 py-2 fs-6">Trạng thái: @Model.Status</span>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Giao diện Split Screen -->
+    <div class="row g-3">
+        <!-- CỘT BÊN TRÁI: Trình xem PDF CV -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <span class="fw-semibold">📄 Bản xem trước CV ứng viên</span>
+                    <a href="@Model.CVFilePath" target="_blank" class="btn btn-sm btn-outline-light">
+                        Mở tab mới ↗
+                    </a>
+                </div>
+                <div class="card-body p-0" style="min-height: 750px;">
+                    <iframe src="@Model.CVFilePath" width="100%" height="750px" style="border: none;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- CỘT BÊN PHẢI: Thông tin ứng viên, Lịch sử, Đánh giá và Chatbot AI -->
+        <div class="col-lg-5 d-flex flex-column gap-3">
+            <!-- Thẻ thông tin ứng viên -->
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h4 class="fw-bold text-dark mb-1">@Model.Candidate.FullName</h4>
+                    <p class="text-muted mb-2">
+                        📧 <strong>@Model.Candidate.Email</strong> | 📞 <strong>@(Model.Candidate.Phone ?? "Chưa có")</strong>
+                    </p>
+                    <div class="p-2 bg-light rounded-3">
+                        <span class="text-muted small">Vị trí ứng tuyển:</span>
+                        <div class="fw-bold text-primary">@Model.Job.Title</div>
+                        <span class="text-muted small">Thời gian nộp: @Model.AppliedAt.ToString("HH:mm dd/MM/yyyy")</span>
+                    </div>
+
+                    <!-- Lịch sử ứng tuyển các vị trí khác của ứng viên này (Deduplication CRM view) -->
+                    <div class="mt-3">
+                        <span class="fw-semibold text-muted small">Lịch sử ứng tuyển của ứng viên này:</span>
+                        <ul class="list-group list-group-flush small mt-1">
+                            @foreach (var history in Model.Candidate.Applications)
+                            {
+                                <li class="list-group-item px-0 py-1 d-flex justify-content-between">
+                                    <span>@history.Job.Title</span>
+                                    <span class="badge bg-light text-dark border">@history.Status</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Ghi chú & Đánh giá HR -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold border-bottom">
+                    📝 Đánh giá & Ghi chú phỏng vấn
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/Candidates/SaveNotes">
+                        <input type="hidden" name="applicationId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small">Điểm đánh giá (1 - 5 Sao):</label>
+                            <input type="number" name="rating" min="1" max="5" value="@(Model.Rating ?? 5)" class="form-control form-control-sm" style="width: 100px;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small">Ghi chú chuyên môn:</label>
+                            <textarea name="hrNotes" rows="3" class="form-control form-control-sm" placeholder="Nhập nhận xét của HR / Hiring Manager...">@Model.HRNotes</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-success px-3">
+                            💾 Lưu nhận xét
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tích hợp Chatbot AI Hỗ trợ Tuyển dụng -->
+            <div class="card shadow-sm border-0 flex-grow-1 d-flex flex-column" style="min-height: 320px;">
+                <div class="card-header bg-primary text-white d-flex align-items-center gap-2">
+                    <span class="fs-5">🤖</span>
+                    <span class="fw-bold">AI ATS Copilot (Trợ lý Phỏng vấn)</span>
+                </div>
+                <div class="card-body p-3 overflow-auto flex-grow-1" id="chatWindow" style="max-height: 250px; background-color: #f8fafc;">
+                    <div class="p-2 mb-2 bg-white rounded shadow-sm small border">
+                        👋 Xin chào HR! Tôi là <strong>AI ATS Copilot</strong>. Bạn có thể hỏi tôi:
+                        <ul class="mb-0 ps-3 mt-1">
+                            <li><em>"Gợi ý câu hỏi phỏng vấn ứng viên này"</em></li>
+                            <li><em>"Tóm tắt điểm mạnh của ứng viên"</em></li>
+                            <li><em>"Đánh giá độ phù hợp với JD"</em></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer bg-white p-2">
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="aiInput" class="form-control" placeholder="Hỏi AI về hồ sơ ứng viên này..." />
+                        <button class="btn btn-primary px-3" id="btnSendAi">Gửi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chatWindow = document.getElementById('chatWindow');
+    const aiInput = document.getElementById('aiInput');
+    const btnSend = document.getElementById('btnSendAi');
+
+    function sendAiMessage() {
+        const query = aiInput.value.trim();
+        if (!query) return;
+
+        // Render tin nhắn của HR
+        chatWindow.innerHTML += `
+            <div class="d-flex justify-content-end mb-2">
+                <div class="p-2 bg-primary text-white rounded-3 small text-break" style="max-width: 80%;">
+                    ${query}
+                </div>
+            </div>
+        `;
+        aiInput.value = '';
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+
+        // Call API
+        fetch('/api/ai-assistant/query', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId: @Model.Id, userMessage: query })
+        })
+        .then(res => res.json())
+        .then(data => {
+            chatWindow.innerHTML += `
+                <div class="d-flex justify-content-start mb-2">
+                    <div class="p-2 bg-white border rounded-3 small text-break shadow-sm" style="max-width: 85%; white-space: pre-line;">
+                        ${data.reply}
+                    </div>
+                </div>
+            `;
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        })
+        .catch(err => {
+            console.error("Lỗi AI API:", err);
+        });
+    }
+
+    btnSend.addEventListener('click', sendAiMessage);
+    aiInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendAiMessage();
+    });
+</script>

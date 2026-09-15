@@ -1,0 +1,116 @@
+@model IEnumerable<SmartATS.Models.Entities.Application>
+@using SmartATS.Models.Enums
+
+@{
+    ViewData["Title"] = "Pipeline Tuyển Dụng";
+    var jobs = ViewBag.Jobs as List<SmartATS.Models.Entities.Job>;
+    int selectedJobId = ViewBag.SelectedJobId;
+}
+
+<!-- Alert thông báo khi kích hoạt Magic link -->
+<div id="magicLinkAlert" class="alert alert-success alert-dismissible fade show d-none shadow-sm mb-4 border-0" role="alert" style="border-left: 4px solid #10b981 !important;">
+    <div class="d-flex align-items-center">
+        <i class="bi bi-check-circle-fill text-success fs-4 me-3"></i>
+        <div id="magicLinkAlertContent" class="mb-0"></div>
+    </div>
+    <button type="button" class="btn-close mt-1" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <p class="text-muted mb-0">Kéo thả thẻ ứng viên để thay đổi trạng thái và tự động gửi lời mời phỏng vấn.</p>
+    </div>
+    <form method="get" class="d-flex align-items-center gap-2">
+        <label class="form-label mb-0 fw-semibold text-secondary">Lọc theo Vị trí:</label>
+        <select name="jobId" class="form-select form-select-sm shadow-sm rounded-pill px-3" onchange="this.form.submit()" style="min-width: 250px;">
+            @foreach (var j in jobs ?? new())
+            {
+                <option value="@j.Id" selected="@(j.Id == selectedJobId)">@j.Title</option>
+            }
+        </select>
+    </form>
+</div>
+
+<div class="kanban-container">
+    @{
+        var columns = new[]
+        {
+            new { Status = ApplicationStatus.NewApplied, Title = "Mới nộp", Color = "#64748b", BadgeClass = "badge-soft-secondary" },
+            new { Status = ApplicationStatus.Screened,   Title = "Đã lọc CV", Color = "#0ea5e9", BadgeClass = "badge-soft-info" },
+            new { Status = ApplicationStatus.Interview,  Title = "Phỏng vấn", Color = "#3b82f6", BadgeClass = "badge-soft-primary" },
+            new { Status = ApplicationStatus.Confirmed,  Title = "Đã xác nhận PV", Color = "#10b981", BadgeClass = "badge-soft-success" },
+            new { Status = ApplicationStatus.Offer,      Title = "Gửi Offer", Color = "#f59e0b", BadgeClass = "badge-soft-warning" },
+            new { Status = ApplicationStatus.Rejected,   Title = "Từ chối", Color = "#ef4444", BadgeClass = "badge-soft-danger" }
+        };
+    }
+
+    @foreach (var col in columns)
+    {
+        <div class="kanban-column">
+            <div class="kanban-header" style="border-top-color: @col.Color;">
+                <span>@col.Title</span>
+                <span class="badge @col.BadgeClass rounded-pill fw-bold px-2 py-1">
+                    @Model.Count(a => a.Status == col.Status)
+                </span>
+            </div>
+            <div class="kanban-body" data-status="@((int)col.Status)">
+                @foreach (var app in Model.Where(a => a.Status == col.Status))
+                {
+                    <div class="kanban-card" data-id="@app.Id">
+                        <div class="kanban-card-title">@app.Candidate.FullName</div>
+                        <div class="kanban-card-meta">
+                            <div><i class="bi bi-envelope me-1"></i> @app.Candidate.Email</div>
+                            @if (!string.IsNullOrEmpty(app.Candidate.Phone))
+                            {
+                                <div class="mt-1"><i class="bi bi-telephone me-1"></i> @app.Candidate.Phone</div>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                            <a href="/Candidates/Detail/@app.Id" class="btn btn-sm btn-light text-primary fw-medium rounded-pill px-3 py-1" style="font-size: 0.8rem;">
+                                Xem chi tiết
+                            </a>
+                            <span class="text-muted" style="font-size: 0.75rem;"><i class="bi bi-clock me-1"></i> @app.AppliedAt.ToString("dd/MM")</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        document.querySelectorAll('.kanban-body').forEach(column => {
+            new Sortable(column, {
+                group: 'kanban-pipeline',
+                animation: 200,
+                ghostClass: 'kanban-ghost',
+                delay: 50, // Prevents accidental drag when just clicking
+                delayOnTouchOnly: true,
+                onEnd: function (evt) {
+                    const appId = evt.item.getAttribute('data-id');
+                    const newStatus = evt.to.getAttribute('data-status');
+                    
+                    if(evt.from === evt.to) return; // No change
+
+                    fetch('/Pipeline/UpdateStatus', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `applicationId=${appId}&newStatus=${newStatus}`
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.magicLink) {
+                            const alertBox = document.getElementById('magicLinkAlert');
+                            const alertContent = document.getElementById('magicLinkAlertContent');
+                            alertBox.classList.remove('d-none');
+                            alertContent.innerHTML = `Đã tự động giả lập gửi email tới <strong>${data.candidateName}</strong>.<br/>Magic Link xác nhận tham gia: <a href="${data.magicLink}" target="_blank" class="fw-bold text-decoration-underline text-success">${data.magicLink}</a>`;
+                        }
+                    })
+                    .catch(err => console.error("Lỗi cập nhật:", err));
+                }
+            });
+        });
+    </script>
+}

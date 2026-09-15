@@ -13,8 +13,46 @@ model User {
   email     String   @unique
   name      String
   password  String
-  role      String   @default("HR") // "ADMIN" or "HR"
+  role      String   @default("HR") // "ADMIN", "HR", "INTERVIEWER"
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
   createdAt DateTime @default(now())
+}
+
+model Company {
+  id          String  @id @default(uuid())
+  name        String
+  ownerName   String
+  email       String  @unique
+  phone       String?
+  country     String  @default("Việt Nam")
+  language    String  @default("Tiếng Việt")
+  size        String  @default("1 - 5 nhân viên")
+  purpose     String  @default("Sử dụng cho công ty của tôi")
+  logoUrl     String?
+  address     String?
+  users       User[]
+  employees   Employee[]
+  createdAt   DateTime @default(now())
+}
+
+model Employee {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  phone      String?
+  position   String   // Chức danh / Vị trí công việc
+  department String   // Phòng ban
+  managerId  String?  // Quản lý trực tiếp (FK tự tham chiếu)
+  manager    Employee? @relation("ManagerRelation", fields: [managerId], references: [id])
+  reports    Employee[] @relation("ManagerRelation")
+  avatarUrl  String?
+  workAddress String?
+  workSchedule String? // JSON string: {"mon": true, "tue": true, ...}
+  status     String   @default("active") // "active", "inactive"
+  companyId  String
+  company    Company  @relation(fields: [companyId], references: [id])
+  createdAt  DateTime @default(now())
 }
 
 model Job {
@@ -24,8 +62,10 @@ model Job {
   description  String
   requirements String
   salaryRange  String
-  status       String        @default("Open")
+  status       String        @default("Open") // "Open", "Closed", "Draft"
+  toRecruit    Int           @default(1)
   applications Application[]
+  createdAt    DateTime      @default(now())
 }
 
 model Candidate {
@@ -50,6 +90,7 @@ model Application {
   missingSkills String?
   status        String     @default("Applied")
   questions     Question[]
+  appliedAt     DateTime   @default(now())
 }
 
 model Question {
@@ -58,4 +99,28 @@ model Question {
   application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   questionText  String
   category      String?
+}
+
+model RecruitmentStage {
+  id       String @id @default(uuid())
+  name     String
+  order    Int
+  color    String @default("#6366f1")
+}
+
+model EmailTemplate {
+  id      String @id @default(uuid())
+  type    String @unique // "interview_invite", "rejection", "offer"
+  subject String
+  body    String
+}
+
+model SmtpConfig {
+  id       String  @id @default(uuid())
+  host     String
+  port     Int     @default(587)
+  username String
+  password String
+  useTls   Boolean @default(true)
+  fromName String  @default("SmartATS")
 }

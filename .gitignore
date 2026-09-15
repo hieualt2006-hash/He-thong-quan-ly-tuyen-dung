@@ -4,5 +4,11 @@ node_modules
 .env
 dist
 dev.db
+smart_ats.db
+*.db
+*.db-journal
+bin/
+obj/
 uploads/*
 !uploads/.gitkeep
+

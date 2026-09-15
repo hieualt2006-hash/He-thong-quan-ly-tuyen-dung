@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7fa;
+    color: #334155;
+}
+
+/* Sidebar & Navbar */
+.sidebar {
+    width: 260px;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    z-index: 1000;
+}
+
+.main-content {
+    margin-left: 260px;
+    min-height: 100vh;
+}
+
+.top-navbar {
+    background: #ffffff;
+    height: 70px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.nav-link {
+    color: #64748b;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 8px;
+    margin: 4px 16px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+/* Kanban Board */
+.kanban-container {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    height: calc(100vh - 180px);
+}
+
+.kanban-column {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    width: 320px;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e2e8f0;
+}
+
+.kanban-header {
+    padding: 16px;
+    border-bottom: 2px solid;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background: #ffffff;
+}
+
+.kanban-body {
+    padding: 12px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.kanban-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kanban-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-color: #cbd5e1;
+}
+
+.kanban-card:active {
+    cursor: grabbing;
+}
+
+.kanban-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.kanban-card-meta {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.kanban-ghost {
+    opacity: 0.4;
+    background-color: #e2e8f0;
+}
+
+/* Chatbot UI */
+.chat-container {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    padding: 16px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-weight: 600;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background: #f8fafc;
+}
+
+.chat-msg {
+    margin-bottom: 12px;
+    max-width: 85%;
+}
+
+.chat-msg.bot {
+    align-self: flex-start;
+}
+
+.chat-msg.bot .bubble {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    border-radius: 12px 12px 12px 0;
+}
+
+.chat-msg.user {
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.chat-msg.user .bubble {
+    background: #2563eb;
+    color: white;
+    border-radius: 12px 12px 0 12px;
+}
+
+.bubble {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.chat-input {
+    padding: 12px;
+    border-top: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; 
+}
+
+/* Utils */
+.badge-soft-primary { background-color: #eff6ff; color: #2563eb; }
+.badge-soft-success { background-color: #f0fdf4; color: #16a34a; }
+.badge-soft-warning { background-color: #fefce8; color: #ca8a04; }
+.badge-soft-danger { background-color: #fef2f2; color: #dc2626; }
+.badge-soft-info { background-color: #ecfeff; color: #0891b2; }
+.badge-soft-secondary { background-color: #f1f5f9; color: #475569; }
