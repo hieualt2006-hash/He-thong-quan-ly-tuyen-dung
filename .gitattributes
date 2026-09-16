@@ -1,0 +1,31 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Shell scripts must always use LF line endings (for Linux/Fedora)
+*.sh text eol=lf
+
+# Windows batch files use CRLF
+*.bat text eol=crlf
+
+# JSON, JS, JSX, CSS, HTML - normalize to LF
+*.json text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.prisma text eol=lf
+
+# Binary files - no conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.svg binary
+*.woff binary
+*.woff2 binary

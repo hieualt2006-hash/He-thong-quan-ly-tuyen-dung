@@ -66,7 +66,7 @@ const SELECT_OPTIONS = {
   purposes: ['Sử dụng cho công ty của tôi', 'Dùng thử / Demo', 'Dự án cá nhân', 'Mục đích học tập']
 };
 
-export default function LandingView({ onRegisterSuccess, onOpenLogin }) {
+export default function LandingView({ onRegisterSuccess, onOpenLogin, theme = 'light', onToggleTheme }) {
   const [form, setForm] = useState({
     ownerName: '',
     companyName: '',
@@ -83,14 +83,11 @@ export default function LandingView({ onRegisterSuccess, onOpenLogin }) {
   const [error, setError] = useState('');
   const [showCelebration, setShowCelebration] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem('ats_theme') || 'light');
 
   const isDark = theme === 'dark';
 
   const toggleTheme = () => {
-    const next = isDark ? 'light' : 'dark';
-    setTheme(next);
-    localStorage.setItem('ats_theme', next);
+    if (onToggleTheme) onToggleTheme();
   };
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });

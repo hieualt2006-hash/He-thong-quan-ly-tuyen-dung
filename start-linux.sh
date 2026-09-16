@@ -94,8 +94,26 @@ else
 fi
 
 # ─── Chạy server và client đồng thời ───────────────────────
+# Tạo file .env cho server nếu chưa có
+if [ ! -f "server/.env" ]; then
+    echo "📝 Tạo file server/.env mặc định (SQLite)..."
+    cat > "server/.env" << 'EOF'
+PORT=5000
+DATABASE_URL="file:./dev.db"
+EOF
+    echo "   -> Đã tạo server/.env với SQLite"
+    echo ""
+fi
+
+# Khởi tạo database SQLite nếu chưa có
+if [ ! -f "server/dev.db" ]; then
+    echo "🗄️  Khởi tạo database SQLite lần đầu..."
+    cd server && npx prisma db push --accept-data-loss 2>/dev/null || true
+    cd "$SCRIPT_DIR"
+    echo ""
+fi
+
 echo "🚀 Khởi động Smart ATS Pro..."
 echo ""
 npm run dev
-
 

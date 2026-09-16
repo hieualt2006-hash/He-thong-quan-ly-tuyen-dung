@@ -189,10 +189,12 @@ function App() {
   // =========================================================================
   if (!currentUser) {
     return (
-      <div className="min-h-screen relative font-sans">
+      <div className={`min-h-screen relative font-sans ${theme === 'light' ? 'light' : ''}`}>
         <LandingView 
           onRegisterSuccess={handleRegisterSuccess}
           onOpenLogin={() => setIsLoginModalOpen(true)}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
 
         {/* Modal Đăng nhập tài khoản công ty */}

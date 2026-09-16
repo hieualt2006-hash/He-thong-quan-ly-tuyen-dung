@@ -189,7 +189,7 @@ function AIChatBot({ theme = 'dark' }) {
       {isOpen && (
         <div 
           className="w-[410px] max-w-[calc(100vw-2rem)] h-[560px] rounded-3xl border shadow-2xl flex flex-col overflow-hidden mb-3 animate-fade-in transition-all"
-          style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)', color: 'var(--text-main)' }}
+          style={{ background: 'var(--c-card)', borderColor: 'var(--c-border-md)', color: 'var(--c-text)' }}
         >
           {/* Header */}
           <div className="bg-orange-500 p-3.5 text-white flex items-center justify-between shadow-md">
@@ -246,14 +246,14 @@ function AIChatBot({ theme = 'dark' }) {
           {/* Optional API Key Input Drawer */}
           {showKeyInput && (
             <div className="p-2.5 border-b text-xs flex items-center gap-2 animate-fade-in"
-              style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)' }}>
+              style={{ background: 'var(--c-surface)', borderColor: 'var(--c-border)' }}>
               <input 
                 type="password"
                 placeholder="Dán Gemini API Key (tùy chọn)..."
                 value={apiKeyVal}
                 onChange={(e) => setApiKeyVal(e.target.value)}
                 className="flex-1 rounded-lg px-2 py-1 text-[11px] border focus:outline-none"
-                style={{ background: 'var(--bg-app)', borderColor: 'var(--border-main)', color: 'var(--text-heading)', caretColor: 'var(--accent)' }}
+                style={{ background: 'var(--c-bg)', borderColor: 'var(--c-border-md)', color: 'var(--c-text-hi)', caretColor: 'var(--c-accent)' }}
               />
               <button
                 onClick={() => handleSaveApiKey(apiKeyVal)}
@@ -268,15 +268,15 @@ function AIChatBot({ theme = 'dark' }) {
 
           {/* Quick Action Suggestion Chips */}
           <div className="p-2 border-b overflow-x-auto flex gap-1.5 no-scrollbar"
-            style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-subtle)' }}>
+            style={{ background: 'var(--c-surface)', borderColor: 'var(--c-border)' }}>
             {QUICK_SUGGESTIONS.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendMessage(item.text)}
                 className="text-[10.5px] font-semibold px-2.5 py-1 rounded-xl whitespace-nowrap transition-all duration-200 shrink-0 border"
-                style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)', color: 'var(--text-muted)' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-border)'; e.currentTarget.style.color = 'var(--accent)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-main)'; e.currentTarget.style.color = 'var(--text-muted)'; }}
+                style={{ background: 'var(--c-card)', borderColor: 'var(--c-border-md)', color: 'var(--c-text-lo)' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--c-accent)'; e.currentTarget.style.color = 'var(--c-accent)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--c-border-md)'; e.currentTarget.style.color = 'var(--c-text-lo)'; }}
               >
                 {item.label}
               </button>
@@ -284,7 +284,7 @@ function AIChatBot({ theme = 'dark' }) {
           </div>
 
           {/* Message List */}
-          <div className="flex-1 p-3.5 overflow-y-auto space-y-3.5 text-xs" style={{ background: 'var(--bg-card)' }}>
+          <div className="flex-1 p-3.5 overflow-y-auto space-y-3.5 text-xs" style={{ background: 'var(--c-card)' }}>
             {messages.map((msg) => (
               <div 
                 key={msg.id}
@@ -294,12 +294,12 @@ function AIChatBot({ theme = 'dark' }) {
                   className="max-w-[88%] rounded-2xl px-3.5 py-2.5 leading-relaxed"
                   style={msg.sender === 'user'
                     ? { background: '#f59e0b', color: '#fff', borderRadius: '18px 18px 4px 18px', boxShadow: '0 2px 8px -2px rgba(245,158,11,0.35)' }
-                    : { background: 'var(--bg-card-subtle)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '18px 18px 18px 4px' }
+                    : { background: 'var(--c-surface)', color: 'var(--c-text)', border: '1px solid var(--c-border)', borderRadius: '18px 18px 18px 4px' }
                   }
                 >
                   <p className="whitespace-pre-wrap">{msg.text}</p>
                 </div>
-                <span className="text-[9px] mt-1 px-1 font-mono" style={{ color: 'var(--text-faint)' }}>{msg.time}</span>
+                <span className="text-[9px] mt-1 px-1 font-mono" style={{ color: 'var(--c-text-lo)' }}>{msg.time}</span>
               </div>
             ))}
 
@@ -311,7 +311,7 @@ function AIChatBot({ theme = 'dark' }) {
           <form 
             onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}
             className="p-3 border-t flex items-center gap-2"
-            style={{ background: 'var(--bg-card-subtle)', borderColor: 'var(--border-main)' }}
+            style={{ background: 'var(--c-surface)', borderColor: 'var(--c-border-md)' }}
           >
             <input
               type="text"
@@ -319,9 +319,9 @@ function AIChatBot({ theme = 'dark' }) {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               className="flex-1 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none transition-colors border"
-              style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)', color: 'var(--text-heading)', caretColor: 'var(--accent)' }}
-              onFocus={e => { e.target.style.borderColor = 'var(--accent-border)'; }}
-              onBlur={e => { e.target.style.borderColor = 'var(--border-main)'; }}
+              style={{ background: 'var(--c-card)', borderColor: 'var(--c-border-md)', color: 'var(--c-text-hi)', caretColor: 'var(--c-accent)' }}
+              onFocus={e => { e.target.style.borderColor = 'var(--c-accent)'; }}
+              onBlur={e => { e.target.style.borderColor = 'var(--c-border-md)'; }}
             />
             <button
               type="submit"
