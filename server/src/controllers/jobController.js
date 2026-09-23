@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { broadcast } = require('../sse');
 
 // Seed initial default jobs if database is empty
 async function seedDefaultJobs() {
@@ -8,47 +9,56 @@ async function seedDefaultJobs() {
     if (count === 0) {
       const job1 = await prisma.job.create({
         data: {
-          title: 'Senior Node.js Backend Engineer',
-          department: 'Engineering',
-          salaryRange: '$2,000 - $3,500',
-          description: 'Chịu trách nhiệm thiết kế và phát triển RESTful API / Microservices hiệu năng cao, tối ưu cơ sở dữ liệu và tích hợp các module AI.',
-          requirements: 'Node.js, Express, PostgreSQL, Docker, Redis, REST API, Microservices',
-          status: 'Open'
+          id: 'job-1',
+          title: 'Chief Executive Officer',
+          department: 'Management',
+          salaryRange: '$3,000 - $5,000',
+          description: 'Điều hành chiến lược toàn diện của công ty.',
+          requirements: '10+ năm kinh nghiệm quản trị cấp cao.',
+          status: 'Open',
+          toRecruit: 1
         }
       });
 
       const job2 = await prisma.job.create({
         data: {
-          title: 'AI / Machine Learning Engineer',
-          department: 'AI Lab',
-          salaryRange: '$2,500 - $4,200',
-          description: 'Nghiên cứu, phát triển và tối ưu các pipeline AI, tích hợp mô hình ngôn ngữ lớn (LLM - Gemini / GPT), phân tích CV và tự động sinh câu hỏi phỏng vấn.',
-          requirements: 'Python, PyTorch, LangChain, Gemini API, NLP, Vector Database, RAG',
-          status: 'Open'
+          id: 'job-2',
+          title: 'Consultant',
+          department: 'Management',
+          salaryRange: '$1,500 - $2,500',
+          description: 'Tư vấn giải pháp chuyển đổi số và quản trị doanh nghiệp.',
+          requirements: 'Kỹ năng giao tiếp và thuyết trình xuất sắc.',
+          status: 'Open',
+          toRecruit: 5
         }
       });
 
       const job3 = await prisma.job.create({
         data: {
-          title: 'Senior Frontend Developer (React / Vite)',
-          department: 'Product & Design',
+          id: 'job-3',
+          title: 'Experienced Developer',
+          department: 'Research & Development',
           salaryRange: '$1,800 - $3,000',
-          description: 'Xây dựng giao diện Dashboard, Kanban Pipeline tương tác cao, thiết kế hệ thống Design System chuẩn UX/UI và tối ưu hoá tốc độ tải trang.',
-          requirements: 'React, TypeScript, Tailwind CSS, Vite, Redux/Zustand, WebSocket, Responsive UI',
-          status: 'Open'
+          description: 'Phát triển các module hệ thống ERP và tích hợp AI.',
+          requirements: 'React, Node.js, PostgreSQL/SQLite, AI integration.',
+          status: 'Open',
+          toRecruit: 5
         }
       });
 
       const job4 = await prisma.job.create({
         data: {
-          title: 'Chuyên Viên Tuyển Dụng Cao Cấp (Senior HR Recruiter)',
-          department: 'HR & Operations',
-          salaryRange: '$1,200 - $2,200',
-          description: 'Tìm kiếm và săn đón nhân tài công nghệ, sàng lọc hồ sơ, điều phối quy trình phỏng vấn và phát triển nguồn nhân lực chất lượng cao.',
-          requirements: '3+ năm kinh nghiệm tuyển dụng IT/Tech, Kỹ năng phỏng vấn, Giao tiếp tiếng Anh tốt',
-          status: 'Open'
+          id: 'job-4',
+          title: 'chạy bộ',
+          department: 'Research & Development',
+          salaryRange: 'Thỏa thuận',
+          description: 'Vận động viên rèn luyện sức khỏe thể chất công ty.',
+          requirements: 'Tinh thần thể thao và dẻo dai.',
+          status: 'Open',
+          toRecruit: 1
         }
       });
+
 
       // Sample candidates & applications
       const cand1 = await prisma.candidate.create({
@@ -86,7 +96,7 @@ seedDefaultJobs();
 async function getAllJobs(req, res) {
   try {
     const jobs = await prisma.job.findMany({
-      orderBy: { id: 'desc' },
+      orderBy: { createdAt: 'desc' },
       include: {
         _count: {
           select: { applications: true }
@@ -109,7 +119,7 @@ async function getAllJobs(req, res) {
  */
 async function createJob(req, res) {
   try {
-    const { title, department, description, requirements, salaryRange, status } = req.body;
+    const { id, title, department, description, requirements, salaryRange, status, toRecruit, email } = req.body;
 
     if (!title || !department || !description || !requirements) {
       return res.status(400).json({
@@ -118,16 +128,34 @@ async function createJob(req, res) {
       });
     }
 
+    const defaultEmail = email || `${title.toLowerCase().replace(/[^a-z0-9]/g, '')}@nhom20.com`;
+
+    const jobData = {
+      title,
+      department,
+      description,
+      requirements,
+      salaryRange: salaryRange || 'Thỏa thuận',
+      status: status || 'Open',
+      toRecruit: toRecruit ? parseInt(toRecruit, 10) : 1,
+      email: defaultEmail
+    };
+
+    if (id) {
+      jobData.id = id;
+    }
+
     const newJob = await prisma.job.create({
-      data: {
-        title,
-        department,
-        description,
-        requirements,
-        salaryRange: salaryRange || 'Thỏa thuận',
-        status: status || 'Open'
+      data: jobData,
+      include: {
+        _count: {
+          select: { applications: true }
+        }
       }
     });
+
+    // Broadcast real-time event to all connected clients
+    broadcast('JobCreated', newJob);
 
     res.status(201).json({
       success: true,
@@ -139,6 +167,102 @@ async function createJob(req, res) {
     res.status(500).json({ success: false, message: 'Lỗi server khi tạo job mới', error: error.message });
   }
 }
+
+/**
+ * PUT /api/jobs/:id - Update an existing job posting
+ */
+async function updateJob(req, res) {
+  try {
+    const { id } = req.params;
+    const { title, department, description, requirements, salaryRange, status, toRecruit, email } = req.body;
+
+    const existing = await prisma.job.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy vị trí tuyển dụng' });
+    }
+
+    const updateData = {};
+    if (title !== undefined) updateData.title = title;
+    if (department !== undefined) updateData.department = department;
+    if (description !== undefined) updateData.description = description;
+    if (requirements !== undefined) updateData.requirements = requirements;
+    if (salaryRange !== undefined) updateData.salaryRange = salaryRange;
+    if (status !== undefined) updateData.status = status;
+    if (toRecruit !== undefined) updateData.toRecruit = parseInt(toRecruit, 10) || 1;
+    if (email !== undefined) updateData.email = email;
+
+    const updatedJob = await prisma.job.update({
+      where: { id },
+      data: updateData,
+      include: {
+        _count: {
+          select: { applications: true }
+        }
+      }
+    });
+
+    // Broadcast real-time event to all connected clients
+    broadcast('JobUpdated', updatedJob);
+
+    res.json({
+      success: true,
+      message: 'Cập nhật vị trí tuyển dụng thành công',
+      data: updatedJob
+    });
+  } catch (error) {
+    console.error('Error updating job:', error);
+    res.status(500).json({ success: false, message: 'Lỗi server khi cập nhật job', error: error.message });
+  }
+}
+
+/**
+ * DELETE /api/jobs/:id - Delete a job posting
+ */
+async function deleteJob(req, res) {
+  try {
+    const { id } = req.params;
+    const titleQuery = req.query.title || req.body?.title;
+
+    // Search by ID or by exact/partial Title
+    let existing = await prisma.job.findUnique({ where: { id } });
+    if (!existing) {
+      const orConditions = [
+        { id },
+        { title: { equals: id } }
+      ];
+      if (titleQuery) {
+        orConditions.push({ title: { equals: titleQuery } });
+      }
+      existing = await prisma.job.findFirst({
+        where: {
+          OR: orConditions
+        }
+      });
+    }
+
+    if (existing) {
+      await prisma.job.delete({
+        where: { id: existing.id }
+      });
+
+      // Broadcast real-time deletion event with both ID and Title
+      broadcast('JobDeleted', { id: existing.id, title: existing.title });
+    } else {
+      // Even if not found in database, still broadcast so any active client tab cleans it up
+      broadcast('JobDeleted', { id, title: titleQuery || id });
+    }
+
+    res.json({
+      success: true,
+      message: 'Đã xóa vị trí tuyển dụng thành công',
+      data: { id: existing ? existing.id : id, title: existing ? existing.title : titleQuery }
+    });
+  } catch (error) {
+    console.error('Error deleting job:', error);
+    res.status(500).json({ success: false, message: 'Lỗi server khi xóa job', error: error.message });
+  }
+}
+
 
 /**
  * GET /api/jobs/:id - Get job details by ID along with list of applications
@@ -156,6 +280,9 @@ async function getJobById(req, res) {
             questions: true
           },
           orderBy: { matchScore: 'desc' }
+        },
+        _count: {
+          select: { applications: true }
         }
       }
     });
@@ -180,5 +307,8 @@ async function getJobById(req, res) {
 module.exports = {
   getAllJobs,
   createJob,
+  updateJob,
+  deleteJob,
   getJobById
 };
+

@@ -58,7 +58,7 @@ function Sidebar({
               <span className={`font-black text-base tracking-tight transition-colors ${
                 isLight ? 'text-slate-900 group-hover:text-purple-700' : 'text-white group-hover:text-purple-300'
               }`}>
-                Nhóm <span className="text-purple-600">31</span>
+                Nhóm <span className="text-purple-600">20</span>
               </span>
               <span className={`text-[9px] font-black px-1.5 py-0.5 rounded tracking-wider uppercase border ${
                 isLight 
@@ -207,7 +207,7 @@ function Sidebar({
         <div className={`px-3 py-1.5 rounded-lg border flex items-center justify-between text-[10px] ${
           isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#0e111d] border-slate-800/80'
         }`}>
-          <span className={isLight ? 'text-slate-600' : 'text-slate-400'}>Hệ thống Nhóm 31</span>
+          <span className={isLight ? 'text-slate-600' : 'text-slate-400'}>Hệ thống Nhóm 20</span>
           <span className="flex items-center gap-1 text-emerald-600 font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Online

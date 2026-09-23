@@ -27,12 +27,12 @@ export default function SettingsView({ currentUser, serverStatus }) {
       if (saved) return JSON.parse(saved);
     } catch {}
     return {
-      name: 'Nhóm 31',
+      name: 'Nhóm 20',
       logoUrl: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80',
       address: 'Tầng 8, Toà nhà Innovation Center, Cầu Giấy, Hà Nội',
-      email: 'contact@nhom31.com',
+      email: 'contact@nhom20.com',
       phone: '024 7788 9900',
-      website: 'https://nhom31.com',
+      website: 'https://nhom20.com',
       taxCode: '0109988776'
     };
   });
@@ -44,9 +44,9 @@ export default function SettingsView({ currentUser, serverStatus }) {
       if (saved) return JSON.parse(saved);
     } catch {}
     return [
-      { id: '1', name: 'Hieu Trung', email: 'admin@nhom31.com', role: 'ADMIN', status: 'active' },
-      { id: '2', name: 'Trần Thị Bích', email: 'recruiter@nhom31.com', role: 'HR', status: 'active' },
-      { id: '3', name: 'Lê Minh Đức (Tech Lead)', email: 'interviewer@nhom31.com', role: 'INTERVIEWER', status: 'active' }
+      { id: '1', name: 'Hieu Trung', email: 'admin@nhom20.com', role: 'ADMIN', status: 'active' },
+      { id: '2', name: 'Trần Thị Bích', email: 'recruiter@nhom20.com', role: 'HR', status: 'active' },
+      { id: '3', name: 'Lê Minh Đức (Tech Lead)', email: 'interviewer@nhom20.com', role: 'INTERVIEWER', status: 'active' }
     ];
   });
   const [newUser, setNewUser] = useState({ name: '', email: '', role: 'HR' });
@@ -75,9 +75,9 @@ export default function SettingsView({ currentUser, serverStatus }) {
     return {
       host: 'smtp.gmail.com',
       port: 587,
-      username: 'recruitment@nhom31.com',
+      username: 'recruitment@nhom20.com',
       password: '••••••••••••••••',
-      fromName: 'Ban Tuyển Dụng Nhóm 31',
+      fromName: 'Ban Tuyển Dụng Nhóm 20',
       useTls: true
     };
   });
@@ -172,7 +172,7 @@ Trân trọng chào đón bạn gia nhập đội ngũ {Company_Name}!`
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-black text-slate-100 tracking-tight">Cài Đặt Hệ Thống</h2>
             <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-900/40 text-purple-300 border border-purple-700/50">
-              Phiên Bản Nhóm 31
+              Phiên Bản Nhóm 20
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">

@@ -285,7 +285,7 @@ export default function CalendarView({ currentUser, theme, isLight: propIsLight 
           duration: 1,
           type: 'meeting',
           color: '#4285f4',
-          location: 'Google Meet (meet.google.com/sync-nhom31)',
+          location: 'Google Meet (meet.google.com/sync-nhom20)',
           participants: ['hieu.trung@company.com', 'team-recruitment@company.com']
         }
       ]);

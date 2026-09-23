@@ -34,7 +34,7 @@ const INITIAL_EMPLOYEES = [
     department: 'Quản trị', 
     status: 'active', 
     avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80', 
-    workAddress: 'Nhóm 31, Việt Nam', 
+    workAddress: 'Nhóm 20, Việt Nam', 
     workLocation: 'Toà nhà Innovation, Tầng 5',
     tags: ['Consultant', 'Demo'],
     manager: { id: '2', name: 'Michael Williams', position: 'Chief Executive Officer', avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80' }, 
@@ -50,7 +50,7 @@ const INITIAL_EMPLOYEES = [
     department: 'Quản trị', 
     status: 'active', 
     avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80', 
-    workAddress: 'Nhóm 31, Việt Nam', 
+    workAddress: 'Nhóm 20, Việt Nam', 
     workLocation: 'Văn phòng Tổng Giám Đốc',
     tags: ['Employee', 'Demo'],
     manager: null, 
@@ -66,7 +66,7 @@ const INITIAL_EMPLOYEES = [
     department: 'Research & Development', 
     status: 'active', 
     avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80', 
-    workAddress: 'Nhóm 31, Việt Nam', 
+    workAddress: 'Nhóm 20, Việt Nam', 
     workLocation: 'VD: Toà 2, Từ xa...',
     tags: ['Employee', 'Demo'],
     manager: { id: '2', name: 'Michael Williams', position: 'Chief Executive Officer', avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80' }, 
@@ -285,7 +285,7 @@ export default function EmployeesView() {
                     <div className="flex flex-col gap-2">
                       <div>
                         <span className="text-slate-400 block mb-0.5">Địa chỉ làm việc</span>
-                        <span className="font-semibold text-slate-200">{emp.workAddress || 'Nhóm 31, Việt Nam'}</span>
+                        <span className="font-semibold text-slate-200">{emp.workAddress || 'Nhóm 20, Việt Nam'}</span>
                       </div>
                       <div className="pt-2 border-t border-slate-800/60">
                         <span className="text-slate-400 block mb-0.5">Vị trí làm việc</span>
@@ -567,7 +567,7 @@ export default function EmployeesView() {
                 department: fd.get('department'),
                 status: 'active',
                 avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-                workAddress: 'Nhóm 31, Việt Nam',
+                workAddress: 'Nhóm 20, Việt Nam',
                 workLocation: 'Toà nhà chính',
                 tags: ['Employee'],
                 manager: { name: 'Michael Williams', position: 'CEO', avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80' },

@@ -13,14 +13,19 @@ const PORT = process.env.PORT || 5000;
 
 // Configure CORS
 app.use(cors({
-  origin: '*',
+  origin: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Request Logger
+app.use((req, res, next) => {
+  console.log(`🌐 [HTTP] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Serve static uploads folder for viewing CV PDF files
 const uploadsPath = path.join(__dirname, '../uploads');
@@ -34,6 +39,7 @@ const authRoutes = require('./routes/authRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
+const publicRoutes = require('./routes/publicRoutes');
 
 // Health Check API
 app.get('/api/health', async (req, res) => {
@@ -49,6 +55,7 @@ app.get('/api/health', async (req, res) => {
 });
 
 // API Endpoints
+app.use('/api/public', publicRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/chat', chatRoutes);
@@ -56,6 +63,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/company', companyRoutes);
 app.use('/api/settings', settingsRoutes);
+
 
 // Serve Frontend Client Production Build (React SPA Fallback with Anti-Cache headers)
 const clientDistPath = path.join(__dirname, '../../client/dist');

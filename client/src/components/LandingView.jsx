@@ -46,7 +46,7 @@ function FullscreenCelebration({ show }) {
           🎉 Chúc Mừng Bạn!
         </h2>
         <p className="text-sm font-semibold text-purple-300 mb-2">
-          Doanh nghiệp đã được khởi tạo thành công trên hệ thống Nhóm 31!
+          Doanh nghiệp đã được khởi tạo thành công trên hệ thống Nhóm 20!
         </p>
         <p className="text-xs text-slate-400">
           Đang chuyển hướng bạn đến màn hình làm việc...
@@ -193,7 +193,7 @@ export default function LandingView({ onRegisterSuccess, onOpenLogin, theme = 'l
             </div>
             <div>
               <span className={`font-black text-lg tracking-tight ${logoText}`}>
-                Nhóm <span className="text-purple-600">31</span>
+                Nhóm <span className="text-purple-600">20</span>
               </span>
               <span className="text-[10px] text-slate-500 block -mt-1 font-medium">
                 Hệ thống quản lý tuyển dụng

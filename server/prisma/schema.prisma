@@ -64,6 +64,7 @@ model Job {
   salaryRange  String
   status       String        @default("Open") // "Open", "Closed", "Draft"
   toRecruit    Int           @default(1)
+  email        String?       // Email nhận hồ sơ ứng tuyển
   applications Application[]
   createdAt    DateTime      @default(now())
 }

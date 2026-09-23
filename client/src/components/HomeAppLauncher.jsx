@@ -86,14 +86,14 @@ export default function HomeAppLauncher({
       <header className={`px-6 py-4 flex items-center justify-between border-b transition-colors duration-200 z-10 ${
         isLight ? 'bg-white border-slate-200 shadow-xs' : 'bg-[#131726] border-slate-800'
       }`}>
-        {/* Left: Brand Logo & Company - Nhóm 31 */}
+        {/* Left: Brand Logo & Company - Nhóm 20 */}
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-purple-700 flex items-center justify-center shadow">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <div>
             <span className={`font-black text-base tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
-              Nhóm <span className="text-purple-600">31</span>
+              Nhóm <span className="text-purple-600">20</span>
             </span>
             <span className={`text-[10px] block -mt-0.5 font-medium ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
               Hệ thống quản lý tuyển dụng
@@ -121,7 +121,7 @@ export default function HomeAppLauncher({
           {/* Company Name & User Badge */}
           <div className={`flex items-center gap-2.5 pl-2 border-l ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
             <span className={`font-semibold hidden md:inline ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
-              Nhóm 31
+              Nhóm 20
             </span>
             <div 
               onClick={onOpenChangePassword}
@@ -171,7 +171,7 @@ export default function HomeAppLauncher({
 
       {/* Subtle bottom tagline */}
       <footer className={`py-4 text-center text-[11px] z-10 ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
-        <span>Hệ thống Quản lý Tuyển dụng & Nhân sự • Nhóm 31</span>
+        <span>Hệ thống Quản lý Tuyển dụng & Nhân sự • Nhóm 20</span>
       </footer>
     </div>
   );

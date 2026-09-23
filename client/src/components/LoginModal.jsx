@@ -25,23 +25,23 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
   // Danh sách tài khoản công ty có sẵn (Demo 1-Click)
   const DEMO_ACCOUNTS = [
     {
-      id: 'admin-nhom31',
-      company: 'Nhóm 31',
+      id: 'admin-nhom20',
+      company: 'Nhóm 20',
       role: 'ADMIN',
       roleLabel: 'Quản trị viên (Admin)',
       name: 'Admin',
-      email: 'admin@nhom31.com',
+      email: 'admin@nhom20.com',
 
       password: 'Admin@123',
       color: '#7c3aed'
     },
     {
-      id: 'hr-nhom31',
-      company: 'Nhóm 31',
+      id: 'hr-nhom20',
+      company: 'Nhóm 20',
       role: 'HR',
       roleLabel: 'Chuyên viên tuyển dụng (HR)',
       name: 'Trần Thị Bích (HR)',
-      email: 'recruiter@nhom31.com',
+      email: 'recruiter@nhom20.com',
       password: 'Admin@123',
       color: '#0ea5e9'
     }
@@ -111,7 +111,7 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
           email: cleanEmail,
           name: 'Admin',
           role: 'ADMIN',
-          company: 'Nhóm 31'
+          company: 'Nhóm 20'
         }, 'ats_token_admin_demo');
 
         onClose();
@@ -150,7 +150,7 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
             Đăng Nhập Tài Khoản Công Ty
           </h2>
           <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-            Đăng nhập vào không gian làm việc doanh nghiệp Nhóm 31 để quản lý nhân sự, lịch họp và tuyển dụng
+            Đăng nhập vào không gian làm việc doanh nghiệp Nhóm 20 để quản lý nhân sự, lịch họp và tuyển dụng
           </p>
         </div>
 
@@ -175,7 +175,7 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@nhom31.com hoặc email công ty của bạn"
+                placeholder="admin@nhom20.com hoặc email công ty của bạn"
                 required
                 className="w-full rounded-xl pl-10 pr-4 py-2.5 bg-[#0e111d] border border-slate-700 text-slate-100 placeholder-slate-500 outline-none focus:border-purple-500 transition-all"
               />

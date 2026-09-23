@@ -16,10 +16,17 @@ export const api = axios.create({
   baseURL: getBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
-    'Bypass-Tunnel-Reminder': 'true',
-    'ngrok-skip-browser-warning': 'true',
   },
   timeout: 20000,
+});
+
+// Request Interceptor to attach auth token
+api.interceptors.request.use((config) => {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('ats_token') : null;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 

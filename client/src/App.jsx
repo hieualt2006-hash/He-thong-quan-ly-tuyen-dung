@@ -6,7 +6,9 @@ import EmployeesView from './components/EmployeesView';
 import RecruitmentView from './components/RecruitmentView';
 import SettingsView from './components/SettingsView';
 import LandingView from './components/LandingView';
+import PublicApplyPage from './components/PublicApplyPage';
 import LoginModal from './components/LoginModal';
+
 import ChangePasswordModal from './components/ChangePasswordModal';
 import AIChatBot from './components/AIChatBot';
 import api from './services/api';
@@ -32,8 +34,9 @@ function App() {
   // Current active view - DEFAULT TO 'home' (Màn hình chung với 4 chức năng) sau khi đăng ký hoặc đăng nhập
   const [currentView, setCurrentView] = useState(() => {
     const hash = window.location.hash.replace('#', '');
-    if (hash && ['home', 'calendar', 'employees', 'recruitment', 'settings'].includes(hash)) {
-      return hash;
+    const rawRoute = hash.split('?')[0];
+    if (rawRoute && ['home', 'calendar', 'employees', 'recruitment', 'settings', 'apply'].includes(rawRoute)) {
+      return rawRoute;
     }
     return 'home';
   });
@@ -72,7 +75,7 @@ function App() {
     },
     {
       id: 3,
-      title: 'Hệ thống Nhóm 31 đã sẵn sàng',
+      title: 'Hệ thống Nhóm 20 đã sẵn sàng',
       desc: 'Đồng bộ dữ liệu nhân sự, lịch làm việc và phòng ban hoàn tất.',
       time: 'Hôm nay',
       view: 'home',
@@ -89,19 +92,25 @@ function App() {
     }
   }, []);
 
-  // Listen to browser Back and Forward navigation
+  // Listen to browser Back, Forward, and Hash navigation
   useEffect(() => {
-    const handlePopState = (event) => {
-      if (event.state && event.state.view) {
+    const handleUrlChange = (event) => {
+      if (event?.state && event.state.view) {
         setCurrentView(event.state.view);
       } else {
         const hash = window.location.hash.replace('#', '');
-        setCurrentView(hash || 'home');
+        const rawRoute = hash.split('?')[0];
+        setCurrentView(rawRoute || 'home');
       }
     };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
   }, []);
+
 
   // Check Server Health
   const checkHealth = async () => {
@@ -124,7 +133,7 @@ function App() {
     const activeUser = user || {
       id: 'admin-1',
       name: 'Admin',
-      email: 'admin@nhom31.com',
+      email: 'admin@nhom20.com',
       role: 'ADMIN'
 
     };
@@ -180,14 +189,38 @@ function App() {
       case 'employees': return 'Quản Lý Nhân Sự & Tổ Chức';
       case 'recruitment': return 'Quy Trình Tuyển Dụng & Vị Trí';
       case 'settings': return 'Cài Đặt Hệ Thống & Doanh Nghiệp';
-      default: return 'Hệ Thống Nhóm 31';
+      default: return 'Hệ Thống Nhóm 20';
     }
   };
+
+  // =========================================================================
+  // GIAO DIỆN CÔNG KHAI NỘP HỒ SƠ ỨNG TUYỂN (Public Candidate Portal)
+  // Khách vãng lai / Ứng viên không cần đăng nhập vẫn truy cập được qua #apply
+  // =========================================================================
+  const isApplyRoute = currentView === 'apply' || (typeof window !== 'undefined' && window.location.hash.startsWith('#apply'));
+
+  if (isApplyRoute) {
+    return (
+      <PublicApplyPage 
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        onNavigateHome={() => {
+          if (currentUser) {
+            navigateTo('home');
+          } else {
+            window.location.hash = '';
+            setCurrentView('home');
+          }
+        }}
+      />
+    );
+  }
 
   // =========================================================================
   // GIAO DIỆN BAN ĐẦU KHI CHƯA ĐĂNG NHẬP / CHƯA TẠO CÔNG TY (Ảnh 1)
   // =========================================================================
   if (!currentUser) {
+
     return (
       <div className={`min-h-screen relative font-sans ${theme === 'light' ? 'light' : ''}`}>
         <LandingView 
