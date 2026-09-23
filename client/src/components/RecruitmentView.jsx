@@ -272,16 +272,54 @@ function JobFormModal({ job, onClose, onSave, theme }) {
   );
 }
 
+const STORAGE_KEY_JOBS = 'smart_ats_jobs_v1';
+const STORAGE_KEY_APPS = 'smart_ats_applications_v1';
+
 export default function RecruitmentView({ jobs: propJobs, applications: propApps, theme }) {
   const isLight = theme === 'light';
-  const [jobs, setJobs] = useState(propJobs?.length ? propJobs : INITIAL_DEMO_JOBS);
-  const [applications, setApplications] = useState(propApps?.length ? propApps : INITIAL_DEMO_APPLICATIONS);
+  const [jobs, setJobs] = useState(() => {
+    if (propJobs?.length) return propJobs;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_JOBS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_DEMO_JOBS;
+  });
+
+  const [applications, setApplications] = useState(() => {
+    if (propApps?.length) return propApps;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_APPS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (e) {}
+    return INITIAL_DEMO_APPLICATIONS;
+  });
+
   const [search, setSearch] = useState('');
   const [selectedDept, setSelectedDept] = useState('Tất cả');
   const [showModal, setShowModal] = useState(false);
   const [editJob, setEditJob] = useState(null);
   const [selectedJobApplications, setSelectedJobApplications] = useState(null);
   const [copiedPublicLink, setCopiedPublicLink] = useState(false);
+
+  // Sync state changes to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobs));
+    } catch (e) {}
+  }, [jobs]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_APPS, JSON.stringify(applications));
+    } catch (e) {}
+  }, [applications]);
 
   // 1. Fetch live jobs from backend API on mount & on tab focus
   useEffect(() => {
@@ -297,7 +335,7 @@ export default function RecruitmentView({ jobs: propJobs, applications: propApps
           setJobs(normalized);
         }
       } catch (err) {
-        console.warn('RecruitmentView: could not load jobs from API, keeping initial data:', err);
+        console.warn('RecruitmentView: could not load jobs from API, keeping current local data:', err);
       }
     };
     loadJobs();
@@ -443,47 +481,77 @@ export default function RecruitmentView({ jobs: propJobs, applications: propApps
   };
 
   const handleSave = async (data, id) => {
-    try {
-      if (id) {
-        // Edit job
+    if (id) {
+      // 1. Optimistic Edit
+      const normalized = {
+        ...data,
+        id,
+        email: data.email || (data.title ? `${data.title.toLowerCase().replace(/[^a-z0-9]/g, '')}@nhom20.com` : 'recruitment@nhom20.com')
+      };
+      setJobs((prev) => {
+        const next = prev.map((j) => (j.id === id ? { ...j, ...normalized } : j));
+        try { localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+
+      // 2. Background API sync
+      try {
         const res = await api.put(`/jobs/${id}`, data);
-        const saved = res?.data || data;
-        const normalized = {
-          ...saved,
-          email: saved.email || (saved.title ? `${saved.title.toLowerCase().replace(/[^a-z0-9]/g, '')}@nhom20.com` : 'recruitment@nhom20.com')
-        };
-        setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, ...normalized } : j)));
-      } else {
-        // Create job
+        if (res?.data) {
+          const fromServer = {
+            ...res.data,
+            email: res.data.email || normalized.email
+          };
+          setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, ...fromServer } : j)));
+        }
+      } catch (err) {
+        console.warn('Backend PUT API error (kept local edit):', err?.message || err);
+      }
+    } else {
+      // 1. Optimistic Create
+      const newId = `job-${Date.now()}`;
+      const normalized = {
+        id: newId,
+        starred: false,
+        toRecruit: 1,
+        status: 'Open',
+        salaryRange: 'Thỏa thuận',
+        ...data,
+        email: data.email || (data.title ? `${data.title.toLowerCase().replace(/[^a-z0-9]/g, '')}@nhom20.com` : 'recruitment@nhom20.com')
+      };
+
+      setJobs((prev) => {
+        const normTitle = (normalized.title || '').trim().toLowerCase();
+        const alreadyExists = prev.some(
+          (j) => j.id === normalized.id || (normTitle && (j.title || '').trim().toLowerCase() === normTitle)
+        );
+        const next = alreadyExists
+          ? prev.map((j) => (j.id === normalized.id || (normTitle && (j.title || '').trim().toLowerCase() === normTitle)) ? { ...j, ...normalized } : j)
+          : [normalized, ...prev];
+        try { localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+
+      // 2. Background API sync
+      try {
         const res = await api.post('/jobs', data);
-        const saved = res?.data || {
-          id: `job-${Date.now()}`,
-          starred: false,
-          ...data
-        };
-        const normalized = {
-          ...saved,
-          email: saved.email || (saved.title ? `${saved.title.toLowerCase().replace(/[^a-z0-9]/g, '')}@nhom20.com` : 'recruitment@nhom20.com')
-        };
-        // Avoid duplicate entry if SSE JobCreated event has already arrived
-        setJobs((prev) => {
-          const normTitle = (normalized.title || '').trim().toLowerCase();
-          const alreadyExists = prev.some(
-            (j) => j.id === normalized.id || (normTitle && (j.title || '').trim().toLowerCase() === normTitle)
-          );
-          if (alreadyExists) {
+        if (res?.data) {
+          const fromServer = {
+            ...res.data,
+            email: res.data.email || normalized.email
+          };
+          setJobs((prev) => {
+            const normTitle = (fromServer.title || '').trim().toLowerCase();
             return prev.map((j) =>
-              (j.id === normalized.id || (normTitle && (j.title || '').trim().toLowerCase() === normTitle))
-                ? { ...j, ...normalized }
+              (j.id === newId || (normTitle && (j.title || '').trim().toLowerCase() === normTitle))
+                ? { ...j, ...fromServer }
                 : j
             );
-          }
-          return [normalized, ...prev];
-        });
+          });
+        }
+      } catch (err) {
+        console.warn('Backend POST API error (kept local creation):', err?.message || err);
       }
-    } catch (err) {
-      console.error('API save error:', err);
-      alert('Lỗi lưu vị trí tuyển dụng: ' + (err.message || 'Không thể kết nối máy chủ'));
     }
   };
 
@@ -494,16 +562,23 @@ export default function RecruitmentView({ jobs: propJobs, applications: propApps
 
     if (!window.confirm(`Bạn có chắc chắn muốn xóa vị trí tuyển dụng "${title || 'này'}"?`)) return;
 
-    try {
-      console.log('Sending DELETE request for job:', { id, title });
-      const res = await api.delete(`/jobs/${id}?title=${encodeURIComponent(title)}`);
-      console.log('Delete response from server:', res);
+    // 1. Optimistically delete immediately so UI updates instantly
+    setJobs((prev) => {
+      const next = prev.filter((j) => j.id !== id && (!title || j.title !== title));
+      try { localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(next)); } catch (e) {}
+      return next;
+    });
+    setApplications((prev) => {
+      const next = prev.filter((a) => a.jobId !== id);
+      try { localStorage.setItem(STORAGE_KEY_APPS, JSON.stringify(next)); } catch (e) {}
+      return next;
+    });
 
-      setJobs((prev) => prev.filter((j) => j.id !== id && (!title || j.title !== title)));
-      setApplications((prev) => prev.filter((a) => a.jobId !== id));
+    // 2. Background API sync
+    try {
+      await api.delete(`/jobs/${id}?title=${encodeURIComponent(title)}`);
     } catch (err) {
-      console.error('API delete error:', err);
-      alert('Lỗi máy chủ khi xoá vị trí tuyển dụng: ' + (err.message || 'Không thể xoá'));
+      console.warn('Backend DELETE API error (offline or Vercel static demo, kept local delete):', err?.message || err);
     }
   };
 
